@@ -1,185 +1,239 @@
-# YouWare Challenge: Terminal-YouWare Hybrid Workflow Strategy
+# Improved Prompt: YouWare Challenge Hybrid Workflow
 
-> **Enhanced Prompt** | Generated: 2025-12-19
-> **Original Context**: YouWare Challenge participation with terminal-based development preference
+**Original**: "Study YouWare docs, participate in challenge, code in terminal instead of YouWare, sync via JSON..."
+**Category**: `research` + `brainstorming`
+**Score**: 3/10 → 9/10 (+6)
+**Generated**: 2025-12-19T00:00:00Z
 
 ---
 
-## Improved Prompt
+## Copy This Prompt
 
-```
-/sc-recommend --ultrathink --seq --brainstorm --research --task-manage --mcq
+```xml
+<task>
+Design and validate a hybrid development workflow for the YouWare Challenge ($10k prizes, Dec 16-23, 2025) where Claude Code terminal acts as the "brain" (architecture, code generation, version control) and YouWare acts as the "worker" (execution, deployment, YouBase integration).
 
-## OBJECTIVE
-Design an optimized hybrid workflow for the YouWare Challenge (Dec 16-23, 2025, $10k prizes) that leverages terminal-based development as the "brain" while using YouWare as the "execution worker."
+Go beyond basic analysis to create a fully-featured, actionable workflow specification with concrete sync mechanisms.
+</task>
 
-## CONTEXT & CONSTRAINTS
-
-### Challenge Requirements
+<context>
+## Challenge Overview
 - **Timeline**: December 16-23, 2025
-- **Platform**: Must use YouWare (youware.com)
-- **Deliverable**: Functional web app (YouBase integration preferred)
-- **Submission**: Publish to Contra Community under #YouWareChallenge
+- **Platform**: YouWare (youware.com) - required
+- **Deliverable**: Functional web app with YouBase integration preferred
+- **Submission**: Contra Community under #YouWareChallenge
 
-### Scoring Criteria (30pts max)
+## Scoring (35pts max)
 | Criterion | Points |
 |-----------|--------|
-| Target audience solution fit | 5 |
+| Target audience fit | 5 |
 | Design quality | 5 |
 | Functionality | 5 |
-| Fresh/unique idea | 5 |
-| **BONUS**: Tag 2-3 people on X/LinkedIn | 5 |
-| **BONUS**: Expert YouBase 1.0 usage | 5 |
-| **BONUS**: Social post with @YouWareAI + #YouWareChallenge | 5 |
+| Unique idea | 5 |
+| BONUS: Tag 2-3 on social | 5 |
+| BONUS: Expert YouBase usage | 5 |
+| BONUS: Social post @YouWareAI | 5 |
 
-### Technical Constraint
+## Technical Constraint
 YouWare locks code editing to their platform. Pro plan enables codebase download.
 
-## RESEARCH PHASE
+## Core Hypothesis
+Terminal generates code + JSON change manifests → YouWare executes prompts to apply changes → Sync via Pro download/upload cycle.
+</context>
 
-### Primary Documentation (Study in Order)
+<constraints>
+- Must use YouWare platform for final submission
+- Cannot directly edit YouWare code from terminal
+- Sync latency should be < 2 minutes per cycle
+- Must demonstrate YouBase expertise for bonus points
+- Project must be functional, not just mockup
+</constraints>
+
+<research_sources>
+Study these URLs in order (use ref-read-url):
 1. https://docs.youware.com/introduction/quickstartguide
 2. https://docs.youware.com/features/ide-plugin
 3. https://docs.youware.com/prompting/prompting
 4. https://docs.youware.com/youbase/introduction
 
-### Research Questions
-- What are YouWare's prompting best practices?
-- How does YouBase work and what makes "expert usage"?
-- What sync/export capabilities exist in Pro plan?
-- Are there API endpoints or CLI tools?
+Search queries (use exa-web-search):
+- "YouWare API endpoints"
+- "YouWare CLI tools"
+- "YouWare export import workflow"
+- "YouBase database operations tutorial"
+</research_sources>
 
-## WORKFLOW HYPOTHESIS
+<execution_phases>
+## Phase 1: Pre-Research Clarification
+Use oak-mcq-ask skill with these questions:
+- Q1: What project idea? (AI tool / SaaS / Dashboard / Landing page)
+- Q2: YouWare Pro plan status? (Yes / No / Will purchase)
+- Q3: Tech stack preference? (React / Next.js / Vue / Other)
+- Q4: Daily time commitment? (2h / 4h / 8h / Full-time)
 
-### Proposed Architecture
+## Phase 2: Deep Research (Parallel)
+Batch these tool calls together:
+- ref-read-url for all 4 documentation URLs
+- exa-web-search for API/CLI/export queries
+- exa-code-context for YouBase implementation patterns
+
+## Phase 3: Sequential Analysis
+Use sequential-thinking with 10 thought steps:
+1. Analyze YouWare platform capabilities
+2. Identify sync bottlenecks
+3. Design JSON manifest schema
+4. Map terminal actions to YouWare prompts
+5. Define version control strategy
+6. Plan YouBase integration approach
+7. Evaluate risk factors
+8. Design fallback mechanisms
+9. Create timeline milestones
+10. Synthesize final workflow
+
+## Phase 4: Post-Research Validation
+Use oak-mcq-ask skill:
+- Q1: Primary workflow approach? (JSON manifest / Direct prompts / Hybrid)
+- Q2: Sync frequency? (Per-file / Per-feature / Daily batch)
+- Q3: Priority? (Speed / Reliability / Simplicity)
+
+## Phase 5: Deliverables
+Generate these artifacts:
+1. Workflow diagram (ASCII)
+2. JSON manifest schema specification
+3. YouWare prompt templates
+4. Risk mitigation matrix
+5. 7-day implementation timeline
+</execution_phases>
+
+<output_format>
+## Expected Output Structure
+
+### 1. Feasibility Assessment
+- Viability score (1-10) with rationale
+- Blocking issues identified
+- Workarounds proposed
+
+### 2. Workflow Specification
 ```
-┌─────────────────────────────────────────────────────────┐
-│ TERMINAL (Brain)                                        │
-│ - Architecture decisions                                │
-│ - Code generation with Claude                           │
-│ - Version control (local git)                           │
-│ - JSON change manifests                                 │
-└──────────────────────┬──────────────────────────────────┘
-                       │ Sync via Pro Download
-                       ▼
-┌─────────────────────────────────────────────────────────┐
-│ YOUWARE (Worker)                                        │
-│ - Execute prompts from terminal                         │
-│ - Apply JSON-described changes                          │
-│ - Handle YouWare-specific features                      │
-│ - Final deployment                                      │
-└─────────────────────────────────────────────────────────┘
+TERMINAL                    YOUWARE
+────────                    ───────
+1. Generate code        →   4. Receive prompt
+2. Create manifest      →   5. Apply changes
+3. Push to sync         →   6. Deploy/test
+       ↑                         ↓
+       └──── 7. Download updated code ────┘
 ```
 
-### JSON Change Manifest Format (Proposed)
+### 3. JSON Manifest Schema
 ```json
 {
-  "version": "1.0.0",
-  "timestamp": "ISO-8601",
-  "changes": [
-    {
-      "type": "create|modify|delete",
-      "path": "relative/file/path",
-      "content": "full content or diff",
-      "prompt": "YouWare-optimized prompt to apply this change"
-    }
-  ],
-  "dependencies": [],
-  "youbase_operations": []
+  "version": "string",
+  "changes": [{"type": "enum", "path": "string", "prompt": "string"}],
+  "youbase": {"tables": [], "queries": []}
 }
 ```
 
-## EXECUTION PHASES
+### 4. Risk Matrix
+| Risk | Probability | Impact | Mitigation |
+|------|-------------|--------|------------|
 
-### Phase 1: Pre-Research MCQ Clarification
-Use `oak-mcq-ask` to clarify:
-1. What project idea are you considering? (affects YouBase strategy)
-2. Do you have YouWare Pro plan already?
-3. What's your primary tech stack preference?
-4. Time commitment per day for this challenge?
+### 5. Project Ideas (YouBase-optimized)
+Top 3 ideas with YouBase bonus potential
+</output_format>
 
-### Phase 2: Deep Research
-Using: `exa-web-search`, `ref-search-documentation`, `ref-read-url`
-- Scrape all 4 documentation URLs
-- Search for "YouWare API", "YouWare CLI", "YouWare export"
-- Find community examples of YouBase implementations
+<execution_principles>
+## Codex Principles (Apply These)
+- **End-to-end**: Complete the full analysis, don't stop at "it depends"
+- **Batch everything**: Read all 4 URLs in parallel, run all searches together
+- **Think first**: Plan all tool calls before executing any
+- **No preambles**: Start with findings, not "I'll analyze..."
+- **Reconcile TODOs**: Mark each phase Done/Blocked/Cancelled
 
-### Phase 3: Strategy Brainstorming
-Using: `sequential-thinking` with 8-12 thought steps
-- Evaluate sync frequency options
-- Design prompt templates for YouWare execution
-- Identify bottleneck risks and mitigations
-
-### Phase 4: Post-Research MCQ Validation
-Use `oak-mcq-ask` to validate:
-1. Which workflow approach seems most viable?
-2. What's the acceptable latency for sync cycles?
-3. Should we optimize for speed or reliability?
-
-### Phase 5: Implementation Planning
-- Create detailed task breakdown
-- Define milestones for Dec 16-23 timeline
-- Set up local development environment
-
-## TOOLS TO USE
-
-### MCP Skills
-- `sequential-thinking___sequentialthinking` - Multi-step reasoning
-- `oak-mcq-ask` - Clarifying questions before/after research
-
-### Research Tools
-- `exa-web-search` - AI-native web search for YouWare info
-- `ref-search-documentation` - Documentation search
-- `ref-read-url` - Fetch URL content
-
-### Droids
-- `deep-research-agent` - Comprehensive research phase
-- `requirements-analyst` - Transform ideas into specs
-- `system-architect` - Design the hybrid workflow
-
-## SUCCESS METRICS
-1. Sync cycle < 2 minutes
-2. Zero manual copy-paste between environments
-3. Full YouBase integration demonstrated
-4. Project submitted before Dec 23 deadline
-
-## OUTPUT REQUESTED
-1. Feasibility assessment of terminal-YouWare hybrid approach
-2. Recommended workflow with specific steps
-3. Risk analysis with mitigations
-4. Alternative approaches if primary fails
-5. Project idea suggestions optimized for YouBase bonus points
+## Claude Enhancements (Apply These)
+- Use sequential-thinking for the 10-step analysis
+- Include motivation for key recommendations ("because...")
+- Provide multishot examples for prompt templates
+</execution_principles>
 ```
 
 ---
 
-## Enhancement Rationale
+## Suggested Command
 
-### Structural Improvements
-1. **Clear Objective Statement**: Moved from scattered thoughts to focused goal
-2. **Tabular Scoring**: Made evaluation criteria scannable
-3. **Visual Architecture**: ASCII diagram clarifies brain/worker concept
-4. **Phased Execution**: Sequential phases prevent context overload
+```bash
+/sc-recommend --ultrathink --seq --research --brainstorm --task-manage --mcq
+```
 
-### Technical Enhancements
-1. **JSON Manifest Spec**: Concretized the vague "JSON to make changes" idea
-2. **Tool Mapping**: Assigned specific MCP skills to each phase
-3. **Success Metrics**: Added measurable outcomes
+**Flags explained**:
+- `--ultrathink`: Critical architecture decision requiring deep analysis
+- `--seq`: 10+ reasoning steps needed
+- `--research`: 4 URLs + web searches required
+- `--brainstorm`: Exploring novel workflow approach
+- `--task-manage`: Multi-phase execution
+- `--mcq`: User clarification before/after research
 
-### Flag Optimization
-- **Removed redundant flags**: `--eli5`, `--oak`, `--introspect`, `--tldr`, `--human`, `--exa`, `--ref` (these are implicit or tool-specific)
-- **Retained essential flags**: `--ultrathink`, `--seq`, `--brainstorm`, `--research`, `--task-manage`, `--mcq`
+**Removed flags** (redundant or implicit):
+- `--eli5`, `--tldr`: Output format already specified
+- `--human`, `--oak`: Personal preferences, not execution modifiers
+- `--introspect`: Not needed for external research
+- `--exa`, `--ref`: Tool selection, not behavioral flags
+- `--improve-prompt`: Already improved
 
-### Grammar & Clarity Fixes
-- "challange" → "challenge"
-- "resaerch" → "research"
-- "versin" → "version"
-- "guidenacnde" → "guidance"
-- "badically" → "basically"
-- Removed filler words ("like", "but like")
+---
 
-### Added Value
-- Specific MCQ questions for before/after research
-- Timeline-aware planning (Dec 16-23)
-- YouBase bonus strategy
-- Fallback approaches
+## Recommendations
+
+### Suggested Droids
+| Droid | Purpose |
+|-------|---------|
+| `deep-research-agent` | Phase 2: Comprehensive documentation scraping |
+| `requirements-analyst` | Phase 3: Transform findings into specs |
+| `system-architect` | Phase 3: Design sync architecture |
+
+### Suggested Skills
+| Skill | Phase | Purpose |
+|-------|-------|---------|
+| `oak-mcq-ask` | 1, 4 | Clarifying questions |
+| `sequential-thinking___sequentialthinking` | 3 | 10-step analysis |
+| `exa-web-search` | 2 | AI-native web search |
+| `ref-read-url` | 2 | Fetch documentation |
+| `ref-search-documentation` | 2 | Search docs |
+
+### Suggested Modes
+| Mode | Trigger | Benefit |
+|------|---------|---------|
+| Deep Research | `--research` | Systematic URL analysis |
+| Brainstorming | `--brainstorm` | Requirements discovery |
+| Task Management | `--task-manage` | Phase tracking |
+| Sequential Thinking | `--seq` | Multi-step reasoning |
+
+---
+
+## Transformation Analysis
+
+### Anti-Patterns Fixed
+- [x] Preambles ("I want to...", "I'm thinking about...") → Direct task statement
+- [x] Vague output ("What do you think?") → Explicit output format
+- [x] Typos (challange, resaerch, versin) → Corrected
+- [x] Filler words ("like", "but like", "basically") → Removed
+- [x] Unstructured tool list → Mapped to phases
+- [x] Missing constraints → Added sync latency, platform requirements
+- [x] No success metrics → Added measurable outcomes
+
+### Structure Improvements
+- [x] Added XML tags: `<task>`, `<context>`, `<constraints>`, `<execution_phases>`, `<output_format>`
+- [x] Created tabular scoring criteria
+- [x] Defined 5 execution phases
+- [x] Specified exact tool-to-phase mapping
+- [x] Added execution principles from Codex Guide
+- [x] Included multishot-ready prompt template format
+
+### Scoring Breakdown
+| Dimension | Before | After | Delta |
+|-----------|--------|-------|-------|
+| Clarity | 2 | 9 | +7 |
+| Structure | 1 | 10 | +9 |
+| Context | 4 | 9 | +5 |
+| Actionability | 3 | 9 | +6 |
+| Specificity | 5 | 9 | +4 |
+| **Total** | **3/10** | **9/10** | **+6** |
