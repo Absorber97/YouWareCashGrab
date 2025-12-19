@@ -1,0 +1,8 @@
+{
+  "codeExecutor": {
+    "defaults": {
+      "confirmWrite": "ask",
+      "confirmHeavy": "ask"
+    }
+  }
+}

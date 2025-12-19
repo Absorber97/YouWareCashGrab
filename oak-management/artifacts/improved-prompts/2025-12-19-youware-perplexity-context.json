@@ -1,0 +1,285 @@
+{
+  "meta": {
+    "purpose": "Comprehensive context for Perplexity AI to brainstorm YouWare Challenge project ideas",
+    "instructions": "Paste this entire JSON into Perplexity Pro, then ask it to brainstorm fresh ideas based on this context",
+    "created": "2025-12-19"
+  },
+
+  "creator_profile": {
+    "name": "Oak",
+    "role": "AI Reliability Engineer & Full-Stack Developer",
+    "situation": {
+      "current": "F1 OPT student, 56 days to secure H1B job by Feb 2026",
+      "location": "Bay Area",
+      "time_commitment": "Full-time available for this challenge"
+    },
+    "core_narrative": "I reduced AI hallucinations from 24% to <3% through dual-gate verification",
+    "past_wins": [
+      {
+        "project": "youtube-digest-hub",
+        "achievement": "Craft Winter Challenge Mini Award",
+        "what_worked": "Transform passive video consumption into active productivity"
+      },
+      {
+        "project": "EcoSmartLoop",
+        "achievement": "78% engagement vs 12% industry baseline",
+        "what_worked": "SCAN. LEARN. EARN. IMPACT. - gamification + real environmental impact"
+      }
+    ],
+    "expertise": [
+      "220+ MCP skills system architecture",
+      "UOCE context orchestration (67-95% token reduction)",
+      "Dual-gate AI verification architecture"
+    ]
+  },
+
+  "design_philosophy": {
+    "identity": "Apple + Chibi",
+    "meaning": "Aspirational simplicity (Apple) with warm humble persona (Chibi)",
+    "core_principles": [
+      "Zero friction, zero setup",
+      "Absolutely magical experiences",
+      "Visible transformation (before → after)",
+      "Solo-developer authenticity (no 'we', pinky promise tone)"
+    ],
+    "motion_rules": {
+      "use": "Motion.dev (motion/react)",
+      "never_use": "framer-motion",
+      "style": "Functional 150ms ease-out crossfades, no decorative micro-animations"
+    },
+    "visual_obsessions": [
+      "Galaxy/cluster views",
+      "Life mapped as universe",
+      "Spatial data visualization",
+      "Apple-level polish"
+    ]
+  },
+
+  "technical_stack": {
+    "frontend": ["React 19", "Next.js", "Tailwind CSS", "shadcn/ui"],
+    "animation": "Motion.dev exclusively (never framer-motion)",
+    "backend": "Supabase + PostgreSQL",
+    "ai_tools": ["Claude", "Gemini", "pgvector for embeddings"],
+    "deployment": "Vercel"
+  },
+
+  "challenge_details": {
+    "name": "YouWare x Contra Hackathon",
+    "prize": "$10,000 grand prize",
+    "timeline": {
+      "start": "Dec 16, 2025",
+      "end": "Dec 23, 2025",
+      "duration": "7 days"
+    },
+    "platform": {
+      "name": "YouWare",
+      "description": "Vibe coding platform for AI-powered app creation",
+      "users": "400K+ creators"
+    },
+    "required_integration": {
+      "YouBase": {
+        "Auth": "User authentication",
+        "Database": "Data storage",
+        "Storage": "File/asset storage",
+        "Secrets": "API key management"
+      },
+      "note": "Using all 4 modules maximizes YouBase Expert scoring"
+    },
+    "scoring_rubric": {
+      "target_audience_fit": 5,
+      "design_quality": 5,
+      "functionality": 5,
+      "unique_idea": 5,
+      "youbase_expert_usage": 5,
+      "social_bonus": 5,
+      "tag_friends_bonus": 5,
+      "total_possible": 35
+    },
+    "judge_profile": "AI enthusiasts, developers, vibe coding advocates"
+  },
+
+  "rejected_ideas": {
+    "explicitly_rejected": [
+      "TrustScore - AI output verification tool",
+      "AI Wrapped - year-in-review data visualization",
+      "Prompt Galaxy - conversation history as galaxy visualization",
+      "TrendScope - content creator trend radar",
+      "ApplyCheck - job application verifier",
+      "ContextCraft - token optimization visualizer",
+      "Motion Forge - AI animation generator",
+      "Code Universe - codebase as ecosystem visualization",
+      "Clip Catalyst - short-form content ideation tool",
+      "Learn Stack - consumption to learning graph",
+      "Trend Pulse - trend catching system",
+      "Any MCP/skill showcase tools",
+      "Generic productivity dashboards",
+      "Data visualization utilities",
+      "AI verification/fact-checking tools"
+    ],
+    "patterns_to_avoid": [
+      "UTILITY-focused apps",
+      "TOOL mentality",
+      "FEATURE-first thinking",
+      "Generic productivity",
+      "Developer-only audience",
+      "Technical showcases without soul",
+      "Data dashboards",
+      "Content creator tools"
+    ],
+    "why_rejected": "These feel like TOOLS not EXPERIENCES. They solve problems but don't create FEELINGS."
+  },
+
+  "what_excites_me": {
+    "app_types": [
+      "COMPANIONS not tools",
+      "EXPERIENCES not utilities",
+      "FEELINGS not features",
+      "TRANSFORMATION not productivity"
+    ],
+    "emotional_qualities": [
+      "Makes you feel something real",
+      "Creates sense of wonder",
+      "Builds genuine connection",
+      "Feels alive, not static",
+      "Absolutely magical to use"
+    ],
+    "successful_patterns_from_my_work": {
+      "youtube_digest_hub": "Transform passive video consumption into active productivity - VISIBLE TRANSFORMATION",
+      "ecosmartloop": "SCAN. LEARN. EARN. IMPACT. - gamification creates engagement + real world impact",
+      "craft_timeline_graph_vision": "Your life, mapped and celebrated as a galaxy - SPATIAL VISUALIZATION of meaning"
+    }
+  },
+
+  "categories_already_explored": {
+    "experience_first": [
+      {
+        "name": "Chibi",
+        "concept": "AI companion with personality, lives with you, grows over time",
+        "source": "My own Apple+Chibi philosophy"
+      },
+      {
+        "name": "Breath",
+        "concept": "Living ambient art, screen as evolving visual experience",
+        "source": "Refik Anadol inspiration"
+      }
+    ],
+    "meaning_transformation": [
+      {
+        "name": "Future Self",
+        "concept": "Talk to AI persona of who you'll become based on your goals",
+        "source": "Motivation from within, not external"
+      },
+      {
+        "name": "Letters from Strangers",
+        "concept": "Anonymous encouragement, AI-facilitated human connection",
+        "source": "Genuine connection need in isolating digital world"
+      }
+    ],
+    "creative_expression": [
+      {
+        "name": "Story Weaver",
+        "concept": "Collaborative fiction with AI, visual story presentation",
+        "source": "Imagination made visible"
+      },
+      {
+        "name": "Sound Palette",
+        "concept": "Describe sounds you want, AI generates custom ambient",
+        "source": "Personalized sonic environments"
+      }
+    ],
+    "fresh_ideas_generated": [
+      {
+        "name": "Constellation",
+        "concept": "Your relationships visualized as stars in personal galaxy",
+        "appeal": "Galaxy obsession + personal meaning"
+      },
+      {
+        "name": "Bloom",
+        "concept": "Daily gratitude grows into visual garden over time",
+        "appeal": "Cumulative transformation visible"
+      },
+      {
+        "name": "Echo",
+        "concept": "Send messages to future self, AI-timed delivery",
+        "appeal": "Hope and anticipation"
+      },
+      {
+        "name": "Drift",
+        "concept": "AI-generated dream journeys based on mood",
+        "appeal": "Pure experience, awe-inducing"
+      },
+      {
+        "name": "Ember",
+        "concept": "Photos come alive with subtle AI animation",
+        "appeal": "Memories that breathe"
+      }
+    ],
+    "note": "These have been considered but NOT selected yet. Looking for more options."
+  },
+
+  "research_completed": {
+    "hackathon_winners_patterns": [
+      "Alzheimer's care app - emotional impact wins over technical complexity",
+      "$100K travel app (Unicorn Mafia) - solving real problems beautifully",
+      "Speech AI projects at AssemblyAI hackathon - accessibility focus"
+    ],
+    "viral_apps_patterns": [
+      "Feel - app that makes you cry/feel joy on demand (pure emotion)",
+      "Refik Anadol - immersive AI art installations (awe and wonder)",
+      "ARTECHOUSE 'World of AI-magination' - accessible wonder"
+    ],
+    "sticky_daily_apps": [
+      "Saner.AI - 'Your Jarvis is here' (ADHD companion, not tool)",
+      "Mem - 'AI Thought Partner' (companion framing)",
+      "Oura Advisor - AI health companion (personal, ongoing)",
+      "HabitKit - built in public to $15K/mo (engagement + sharing)"
+    ],
+    "key_insight": "Best apps are COMPANIONS not tools. They create FEELINGS not features. Emotional resonance > technical impressiveness."
+  },
+
+  "constraints": {
+    "time": "7 days to build (Dec 16-23)",
+    "must_use": "YouBase (all 4 modules for maximum points)",
+    "must_appeal_to": "AI enthusiasts and YouWare judges",
+    "must_be": "Shareable for social bonus points",
+    "should_have": "Viral screenshot potential",
+    "buildable_with": "React 19, Next.js, Motion.dev, Supabase, Claude/Gemini APIs"
+  },
+
+  "what_i_truly_want": {
+    "feeling": "Something I'd be PROUD to show in my portfolio",
+    "experience": "Absolutely magical, zero friction from first touch",
+    "impact": "Makes people feel something real, not just use something useful",
+    "uniqueness": "Nothing quite like this exists",
+    "alignment": "Reflects my Apple+Chibi soul - aspirational yet warm"
+  },
+
+  "prompt_for_perplexity": {
+    "task": "Based on all the context above, brainstorm 10-15 FRESH project ideas that I have NOT already considered. Focus on EXPERIENCES over utilities, COMPANIONS over tools, FEELINGS over features.",
+    "output_format": {
+      "per_idea": [
+        "Name: Catchy, memorable",
+        "Tagline: One-sentence hook",
+        "Core Experience: What does it FEEL like to use?",
+        "The Magic: What makes it absolutely magical?",
+        "YouBase Integration: How each module is used naturally",
+        "7-Day Feasibility: Why this can be built in time",
+        "Viral Potential: How/why people would share",
+        "Why Oak Would Love This: Connection to philosophy",
+        "Differentiation: Why nothing like this exists"
+      ],
+      "also_include": [
+        "3 wildcard ideas that are unconventional",
+        "1 'if betting everything on one idea' recommendation with reasoning"
+      ]
+    },
+    "critical_instructions": [
+      "Do NOT suggest anything similar to rejected_ideas",
+      "Do NOT repeat ideas in categories_already_explored",
+      "Focus on EMOTION over function",
+      "Think COMPANION over tool",
+      "Consider my galaxy/visualization obsession",
+      "Remember: I want to feel PROUD of what I build"
+    ]
+  }
+}
