@@ -1,0 +1,277 @@
+{
+  "session": {
+    "id": "youware-challenge-research-2025-12-19",
+    "date": "2025-12-19",
+    "project": "YouWare Challenge",
+    "prize": "$10,000",
+    "timeline": {
+      "hackathon_start": "2025-12-16",
+      "hackathon_end": "2025-12-23",
+      "days_remaining": 4
+    }
+  },
+
+  "research_findings": {
+    "platform_capabilities": {
+      "ide_plugin": {
+        "reality": "ONE-WAY PUBLISH ONLY",
+        "creates_new_project": true,
+        "bidirectional_sync": false,
+        "update_existing": false,
+        "source": "https://docs.youware.com/features/ide-plugin"
+      },
+      "upload_code": {
+        "reality": "Imports code INTO YouWare",
+        "separate_feature": true,
+        "source": "https://docs.youware.com/features/upload-code"
+      },
+      "download_code": {
+        "reality": "Pro Plan only",
+        "oak_has_access": true,
+        "source": "https://docs.youware.com/billing/plans-pricing"
+      },
+      "youbase": {
+        "reality": "Cloud-only, no local emulator",
+        "modules": ["Auth", "Database", "Storage", "Secrets"],
+        "must_deploy_to_test": true,
+        "source": "https://docs.youware.com/youbase/introduction"
+      },
+      "mcp_server": {
+        "exists": true,
+        "marketplace": true,
+        "name": "Yourware MCP",
+        "not_explored_yet": true
+      }
+    },
+    "verified_by_testing": {
+      "dummy_test_app_created": true,
+      "location": "/Users/oak/Downloads/Core/Competition/YouWare/dummy-test-app/",
+      "stack": "Vite + React + TypeScript",
+      "build_successful": true
+    }
+  },
+
+  "failed_approaches": [
+    {
+      "approach": "Bidirectional sync via IDE Plugin",
+      "expectation": "Edit locally, sync to YouWare, edit in YouWare, sync back",
+      "reality": "IDE Plugin only publishes as NEW project",
+      "lesson": "Cannot use IDE Plugin for version updates"
+    },
+    {
+      "approach": "Local YouBase testing",
+      "expectation": "Test Auth/DB/Storage locally before deploy",
+      "reality": "YouBase is cloud-only",
+      "lesson": "Must deploy to YouWare to test any YouBase feature"
+    },
+    {
+      "approach": "Git-style sync workflow",
+      "expectation": "Push/pull between local and YouWare",
+      "reality": "No such mechanism exists",
+      "lesson": "YouWare is not git-integrated"
+    }
+  ],
+
+  "confirmed_strategy": {
+    "name": "Dual Development Workflow",
+    "rationale": [
+      "ONE YouWare project stays active (judges see engagement)",
+      "YouBase stays connected (same project = same backend)",
+      "Local dev with Claude Code (Oak's strength)",
+      "Prompts sync changes (shows AI prompting mastery)"
+    ],
+    "workflow_diagram": "YouWare (Main) <-- Prompt Sync --> Local (Claude Code)",
+    "steps": [
+      "1. Create project in YouWare with detailed prompt",
+      "2. YouWare generates scaffold + YouBase integration",
+      "3. Download code (Pro Plan)",
+      "4. Develop locally in Claude Code",
+      "5. After each feature, create prompt describing changes",
+      "6. Feed prompt to YouWare AI in SAME project",
+      "7. Verify versions match",
+      "8. Test YouBase on cloud",
+      "9. Repeat until complete"
+    ]
+  },
+
+  "scoring_strategy": {
+    "total_points": 35,
+    "breakdown": {
+      "target_audience_fit": {
+        "points": 5,
+        "strategy": "Non-developers, emotional appeal, general audience"
+      },
+      "design_quality": {
+        "points": 5,
+        "strategy": "Apple + Chibi aesthetic, polished UI"
+      },
+      "functionality": {
+        "points": 5,
+        "strategy": "Zero friction, everything works perfectly"
+      },
+      "unique_idea": {
+        "points": 5,
+        "strategy": "Nothing like it exists, emotionally resonant"
+      },
+      "youbase_expert_usage": {
+        "points": 5,
+        "strategy": "Use ALL 4 modules: Auth, Database, Storage, Secrets",
+        "critical": true
+      },
+      "social_bonus": {
+        "points": 5,
+        "strategy": "Share on social media"
+      },
+      "tag_friends": {
+        "points": 5,
+        "strategy": "Tag friends in post"
+      }
+    }
+  },
+
+  "oak_preferences": {
+    "development": {
+      "preferred_environment": "Claude Code (terminal)",
+      "not_preferred": "GUI IDEs for primary work",
+      "rationale": "Thinks of local as 'brain'"
+    },
+    "technical_stack": {
+      "frontend": "React 19",
+      "animation": "Motion.dev",
+      "never_use": "framer-motion",
+      "styling": ["Tailwind CSS", "shadcn/ui"],
+      "backend": "YouBase (for this challenge)"
+    },
+    "design_philosophy": {
+      "name": "Apple + Chibi",
+      "apple_aspect": "Aspirational simplicity",
+      "chibi_aspect": "Warm humble persona",
+      "ux_obsession": "Zero friction",
+      "experience_goal": "Absolutely magical"
+    },
+    "rejected_approaches": [
+      "Utility-focused apps",
+      "Tool mentality",
+      "Feature-first thinking",
+      "Generic productivity",
+      "Developer-only audience",
+      "Data visualization utilities"
+    ],
+    "what_oak_wants": [
+      "Something to be PROUD to show",
+      "Makes people FEEL something real",
+      "Unique - nothing like it exists",
+      "Reflects personal soul"
+    ]
+  },
+
+  "idea_candidates": {
+    "partially_accepted": [
+      {
+        "name": "Constellation",
+        "concept": "Relationships as stars in personal galaxy"
+      },
+      {
+        "name": "Bloom",
+        "concept": "Gratitude as growing garden"
+      },
+      {
+        "name": "Echo",
+        "concept": "Messages to future self"
+      },
+      {
+        "name": "Drift",
+        "concept": "AI-generated dream journeys"
+      },
+      {
+        "name": "Ember",
+        "concept": "Photos that come alive as memories"
+      }
+    ],
+    "status": "Need final selection",
+    "next_step": "Brainstorm with scoring criteria in mind"
+  },
+
+  "file_references": {
+    "project_root": "/Users/oak/Downloads/Core/Competition/YouWare/",
+    "strategy_doc": "oak-management/YOUWARE_WORKFLOW_STRATEGY.md",
+    "session_memory": "oak-management/SESSION_MEMORY_2025-12-19.json",
+    "test_app": "dummy-test-app/",
+    "research_artifacts": "oak-management/artifacts/research/",
+    "improved_prompts": "oak-management/artifacts/improved-prompts/",
+    "github_repo": "https://github.com/Absorber97/YouWareCashGrab"
+  },
+
+  "git_commits": [
+    {
+      "hash": "39cc939",
+      "message": "feat: Initialize dummy-test-app with Vite, React, and TypeScript setup"
+    },
+    {
+      "hash": "9dd9348",
+      "message": "Update JSON artifacts for improved search prompts and add comprehensive research documentation for YouWare CLI workflows"
+    },
+    {
+      "hash": "8cd6e10",
+      "message": "Add new JSON artifacts for immersive art exhibits, AI personal assistants, and productivity tools for 2025"
+    },
+    {
+      "hash": "de63041",
+      "message": "Restructure prompt with Claude Code optimized format"
+    },
+    {
+      "hash": "e8a692e",
+      "message": "Initial commit: YouWare Challenge hybrid workflow strategy"
+    }
+  ],
+
+  "core_memory_entries": [
+    {
+      "id": "cmjdhkzhi000fnw1i5kj0h0v7",
+      "title": "Oak YouWare Challenge Strategy Dec 2025",
+      "type": "decision"
+    },
+    {
+      "id": "cmjdhl975000hnw1izc6oiido",
+      "title": "Oak Design Philosophy and Preferences",
+      "type": "learning"
+    }
+  ],
+
+  "docs_fetched": [
+    "https://docs.youware.com/features/ide-plugin",
+    "https://docs.youware.com/features/upload-code",
+    "https://docs.youware.com/youbase/introduction",
+    "https://docs.youware.com/billing/plans-pricing",
+    "https://docs.youware.com/introduction/quickstartguide",
+    "https://i.youware.com/ide-extension"
+  ],
+
+  "future_recommendations": {
+    "do_not_repeat": [
+      "Don't assume IDE Plugin supports sync",
+      "Don't try to test YouBase locally",
+      "Don't expect git-style version control"
+    ],
+    "remember": [
+      "Dual development is the only viable workflow",
+      "Must use all 4 YouBase modules for max points",
+      "Oak prefers Claude Code over GUI IDEs",
+      "Never use framer-motion, always Motion.dev",
+      "Apple + Chibi aesthetic is core identity"
+    ],
+    "next_session_start": [
+      "Review this JSON first",
+      "Pick final app idea",
+      "Create initial YouWare project",
+      "Download and set up local dev"
+    ]
+  },
+
+  "metadata": {
+    "created_by": "Droid",
+    "created_at": "2025-12-19T22:50:00Z",
+    "last_updated": "2025-12-19T22:50:00Z",
+    "version": "1.0"
+  }
+}
