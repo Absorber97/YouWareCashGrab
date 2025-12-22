@@ -1,0 +1,314 @@
+{
+  "meta": {
+    "sessionId": "clarity-implementation-strategy-2025-12-22",
+    "generatedAt": "2025-12-22T20:30:00Z",
+    "purpose": "LLM-friendly implementation strategy for Clarity YouWare Challenge",
+    "version": "1.0",
+    "loadCommand": "Load this JSON to continue Clarity YouWare implementation with full context",
+    "relatedFiles": {
+      "missionBrief": "oak-management/resources/mission/CLARITY-MISSION-BRIEF.md",
+      "missionJson": "oak-management/resources/mission/clarity-youware-mission-2025-12-22.json",
+      "guidelines": "oak-management/resources/youware-challenge-guidelines.json",
+      "originalClarity": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
+      "youbaseExport": "oak-management/resources/database_export_20251222_191130/"
+    }
+  },
+
+  "challenge": {
+    "name": "YouWare Challenge",
+    "platform": "Contra",
+    "prizePool": "$10,000",
+    "grandPrize": "$5,000 + 100k YouWare credits",
+    "deadline": "2025-12-24T08:00:00Z",
+    "daysRemaining": 2,
+    "projectedScore": "33-35/35"
+  },
+
+  "appDefinition": {
+    "name": "Clarity",
+    "tagline": "Feel your productivity",
+    "concept": "First productivity app connecting mood directly to tasks",
+    "uniqueValue": "Task-tied mood logging with at-moment reflection capture"
+  },
+
+  "coreStrategy": {
+    "name": "Scaffold → Mock → Migrate",
+    "insight": "Don't sync two codebases. Get scaffold once, develop with mocks, migrate once at the end.",
+    "reasoning": [
+      "YouBase is cloud-only - every test requires deployment",
+      "Mocks enable 12+ hours of uninterrupted local development",
+      "Same interface for mock and real - swap with one config change",
+      "Fallback available if YouBase has issues"
+    ],
+    "workflow": {
+      "step1": "Get YouBase scaffold (auth config, API patterns)",
+      "step2": "Develop locally with mock provider (fast)",
+      "step3": "Migrate finished code to YouWare (one-time)",
+      "step4": "Test YouBase in deployed app"
+    }
+  },
+
+  "phases": {
+    "phase1": {
+      "name": "Foundation",
+      "hours": 4,
+      "tasks": [
+        "Set up local project structure",
+        "Copy reusable components from original Clarity",
+        "Create DataProvider interface (abstraction layer)",
+        "Implement MockProvider (localStorage)",
+        "Adapt useUnifiedData hook to use provider"
+      ],
+      "outcome": "Calendar + Kanban work with mock data"
+    },
+    "phase2": {
+      "name": "Mood Features",
+      "hours": 6,
+      "tasks": [
+        "Build mood picker component (5 tier-1 moods)",
+        "Build completion celebration modal",
+        "Add mood border coloring to calendar events",
+        "Add mood emoji badges to kanban cards",
+        "Test full mood flow with mocks"
+      ],
+      "outcome": "Core differentiator complete"
+    },
+    "phase3": {
+      "name": "YouBase Migration",
+      "hours": 4,
+      "tasks": [
+        "Create tasks + preferences tables in YouWare",
+        "Enable Google OAuth in YouBase config",
+        "Implement YouBaseProvider (same interface)",
+        "Switch NEXT_PUBLIC_USE_MOCK=false",
+        "Test auth + CRUD in deployed app"
+      ],
+      "outcome": "Real backend working"
+    },
+    "phase4": {
+      "name": "Polish",
+      "hours": 4,
+      "tasks": [
+        "Add demo data for judges",
+        "Implement skyscape gradient (if time)",
+        "Implement week soul card (if time)",
+        "Submit to Contra",
+        "Social media post for bonus points"
+      ],
+      "outcome": "Submission complete"
+    }
+  },
+
+  "youbaseAnalysis": {
+    "currentState": {
+      "emailPassword": "ENABLED",
+      "googleOAuth": "NOT ENABLED - needs setup",
+      "anonymous": "DISABLED",
+      "customTables": "NONE - need to create"
+    },
+    "existingTables": [
+      "es_system__auth_user",
+      "es_system__auth_account",
+      "es_system__auth_session",
+      "es_system__auth_config",
+      "es_system__auth_verification"
+    ],
+    "schemaPattern": {
+      "database": "SQLite",
+      "timestamps": "Unix milliseconds: (cast(unixepoch('subsecond') * 1000 as integer))",
+      "foreignKeys": "FOREIGN KEY (user_id) REFERENCES es_system__auth_user(id)"
+    }
+  },
+
+  "requiredSchema": {
+    "tasks": {
+      "sql": "CREATE TABLE tasks (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT DEFAULT 'todo', priority TEXT DEFAULT 'medium', due_date TEXT, due_time TEXT, anticipated_mood TEXT, completed_mood TEXT, reflection_note TEXT, reflection_photo TEXT, order_index REAL, completed_at INTEGER, created_at INTEGER DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)), updated_at INTEGER DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)), FOREIGN KEY (user_id) REFERENCES es_system__auth_user(id) ON DELETE CASCADE);",
+      "fields": [
+        "id", "user_id", "title", "description", "status", "priority",
+        "due_date", "due_time", "anticipated_mood", "completed_mood",
+        "reflection_note", "reflection_photo", "order_index",
+        "completed_at", "created_at", "updated_at"
+      ]
+    },
+    "userPreferences": {
+      "sql": "CREATE TABLE user_preferences (user_id TEXT PRIMARY KEY, emoji_set TEXT DEFAULT 'default', custom_emojis TEXT, color_palette TEXT DEFAULT 'vibrant', visualization_intensity TEXT DEFAULT 'balanced', reflection_depth TEXT DEFAULT 'optional', created_at INTEGER DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)), updated_at INTEGER DEFAULT (cast(unixepoch('subsecond') * 1000 as integer)), FOREIGN KEY (user_id) REFERENCES es_system__auth_user(id) ON DELETE CASCADE);",
+      "fields": [
+        "user_id", "emoji_set", "custom_emojis", "color_palette",
+        "visualization_intensity", "reflection_depth", "created_at", "updated_at"
+      ]
+    }
+  },
+
+  "dataProviderArchitecture": {
+    "switchPattern": {
+      "code": "const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true'; export const dataProvider = USE_MOCK ? mockProvider : youbaseProvider;",
+      "envLocal": "NEXT_PUBLIC_USE_MOCK=true",
+      "envProduction": "NEXT_PUBLIC_USE_MOCK=false"
+    },
+    "types": {
+      "MoodType": ["energized", "calm", "tense", "drained", "curious"],
+      "CompletionMoodType": ["proud", "relieved", "satisfied", "meh", "exhausted"],
+      "StatusType": ["backlog", "todo", "in-progress", "done"],
+      "PriorityType": ["high", "medium", "low"]
+    },
+    "interface": {
+      "auth": ["login(email, password)", "loginWithGoogle()", "logout()", "getCurrentUser()", "onAuthStateChange(callback)"],
+      "tasks": ["list()", "get(id)", "create(task)", "update(id, updates)", "delete(id)"],
+      "preferences": ["get()", "update(prefs)"]
+    }
+  },
+
+  "codeReuse": {
+    "estimatedReuse": "60%",
+    "keepAsIs": [
+      { "component": "Schedule-X calendar", "file": "components/clarity/calendar/schedule-calendar.tsx" },
+      { "component": "dnd-kit kanban", "file": "components/clarity/board/kanban-board.tsx" },
+      { "component": "Camera-pan transitions", "file": "app/clarity/template.tsx" },
+      { "component": "Glassmorphic UI", "file": "design tokens and styles" },
+      { "component": "Motion animations", "file": "spring configs" },
+      { "component": "BottomNav", "file": "components/clarity/ui/bottom-nav.tsx" }
+    ],
+    "adapt": [
+      { "component": "useUnifiedData hook", "change": "Replace API calls with provider", "file": "lib/clarity/hooks/use-unified-data.ts" },
+      { "component": "CaptureModal", "change": "Add mood picker", "file": "components/clarity/capture/create-item-modal.tsx" },
+      { "component": "TaskCard", "change": "Add mood badge", "file": "components/clarity/board/task-card.tsx" },
+      { "component": "Storage helpers", "change": "Adapt for new schema", "file": "lib/clarity/storage.ts" }
+    ],
+    "replace": [
+      { "component": "Craft API client", "replaceWith": "DataProvider abstraction" }
+    ]
+  },
+
+  "moodSystem": {
+    "tier1Moods": [
+      { "id": "energized", "emoji": "🔥", "label": "Energized", "color": "#FFB347" },
+      { "id": "calm", "emoji": "😌", "label": "Calm", "color": "#98D8AA" },
+      { "id": "tense", "emoji": "😰", "label": "Tense", "color": "#FF6B6B" },
+      { "id": "drained", "emoji": "😴", "label": "Drained", "color": "#9CA3AF" },
+      { "id": "curious", "emoji": "🤔", "label": "Curious", "color": "#A78BFA" }
+    ],
+    "completionMoods": [
+      { "id": "proud", "emoji": "🎉", "label": "Proud" },
+      { "id": "relieved", "emoji": "😮‍💨", "label": "Relieved" },
+      { "id": "satisfied", "emoji": "😊", "label": "Satisfied" },
+      { "id": "meh", "emoji": "😐", "label": "Meh" },
+      { "id": "exhausted", "emoji": "😫", "label": "Exhausted" }
+    ],
+    "threePillars": [
+      { "name": "ANTICIPATE", "when": "Task creation", "question": "How do I feel about this?" },
+      { "name": "EXPERIENCE", "when": "During task", "method": "Visual feedback (borders, badges, skyscape)" },
+      { "name": "REFLECT", "when": "Task completion", "question": "How did that feel?" }
+    ]
+  },
+
+  "priorityMatrix": {
+    "P0_mustHave": [
+      "Data provider abstraction",
+      "Mock provider (localStorage)",
+      "Calendar with mood borders",
+      "Kanban with mood badges",
+      "Mood picker in task creation",
+      "Completion celebration modal",
+      "YouBase Auth (Email + Google)",
+      "YouBase Database CRUD"
+    ],
+    "P1_shouldHave": [
+      "Energy forecast header",
+      "Week soul card",
+      "Emoji/color customization",
+      "Skyscape gradient overlay"
+    ],
+    "P2_niceToHave": [
+      "Month heatmap grid",
+      "Stacked area chart"
+    ],
+    "P3_stretch": [
+      "Radar balance chart",
+      "Photo attachments",
+      "AI-generated insights"
+    ]
+  },
+
+  "technicalStack": {
+    "frontend": "Next.js (App Router)",
+    "language": "TypeScript (strict)",
+    "styling": "Tailwind CSS + glassmorphic tokens",
+    "animation": "Motion.dev",
+    "animationWarning": "NEVER use framer-motion",
+    "calendar": "Schedule-X",
+    "kanban": "dnd-kit",
+    "charts": "shadcn/ui + Recharts",
+    "icons": "@hugeicons-pro/core-solid-rounded",
+    "backend": "YouBase (Auth + Database + Storage)"
+  },
+
+  "fileStructure": {
+    "app": {
+      "layout.tsx": "Providers, video background, BottomNav",
+      "template.tsx": "Camera-pan page transitions",
+      "page.tsx": "Redirect to /calendar",
+      "calendar/page.tsx": "Schedule-X calendar view",
+      "board/page.tsx": "Kanban board view",
+      "settings/page.tsx": "Preferences and customization"
+    },
+    "components": {
+      "calendar/": ["schedule-calendar.tsx"],
+      "board/": ["kanban-board.tsx", "column.tsx", "task-card.tsx"],
+      "mood/": ["mood-picker.tsx", "completion-celebration.tsx", "mood-badge.tsx"],
+      "capture/": ["create-item-modal.tsx"],
+      "ui/": ["bottom-nav.tsx", "glassmorphic-card.tsx"]
+    },
+    "lib": {
+      "data/": ["types.ts", "provider.ts", "mock-provider.ts", "youbase-provider.ts", "index.ts"],
+      "hooks/": ["use-unified-data.ts"],
+      "mood/": ["constants.ts", "utils.ts"],
+      "contexts/": ["auth-context.tsx", "capture-context.tsx", "tab-transition-context.tsx"]
+    }
+  },
+
+  "youwareMigrationPrompts": {
+    "createSchema": "Add these database tables to my YouBase:\n\nCREATE TABLE tasks (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT DEFAULT 'todo', priority TEXT DEFAULT 'medium', due_date TEXT, due_time TEXT, anticipated_mood TEXT, completed_mood TEXT, reflection_note TEXT, order_index REAL, completed_at INTEGER, created_at INTEGER, updated_at INTEGER);\n\nCREATE TABLE user_preferences (user_id TEXT PRIMARY KEY, emoji_set TEXT DEFAULT 'default', color_palette TEXT DEFAULT 'vibrant', visualization_intensity TEXT DEFAULT 'balanced');\n\nAlso enable Google OAuth in the auth config.",
+    "uploadCode": "I'm uploading my Clarity app code. Please:\n1. Wire the auth components to YouBase Auth\n2. Wire the data provider to YouBase Database\n3. Ensure all CRUD operations work with the tasks table\n4. Add proper error handling for auth flows"
+  },
+
+  "riskMitigation": {
+    "youbaseIssues": "Mock provider as fallback - app still works",
+    "timePressure": "P0 only on Day 1; P1+ if time permits",
+    "oauthComplexity": "Test early in Phase 3; email fallback available",
+    "integrationBugs": "4 hours buffer in Phase 4 for testing and fixes"
+  },
+
+  "successCriteria": {
+    "minimumViable": [
+      "Calendar + Kanban working",
+      "Mood picker on tasks",
+      "Completion celebration",
+      "YouBase Auth (email)",
+      "YouBase Database CRUD"
+    ],
+    "fullVision": [
+      "Google OAuth",
+      "Energy forecast",
+      "Week soul card",
+      "Skyscape gradient",
+      "Customization options",
+      "Demo data",
+      "Social post for bonus points"
+    ]
+  },
+
+  "serenaMemories": [
+    "clarity-youware-mission-2025-12-22",
+    "clarity-youbase-migration-strategy",
+    "clarity-implementation-strategy-2025-12-22"
+  ],
+
+  "nextSteps": [
+    "1. Create local project structure",
+    "2. Copy reusable components from original Clarity",
+    "3. Implement data provider abstraction (types.ts, provider.ts)",
+    "4. Build mock provider (mock-provider.ts)",
+    "5. Adapt useUnifiedData hook",
+    "6. Start Phase 1 implementation"
+  ]
+}

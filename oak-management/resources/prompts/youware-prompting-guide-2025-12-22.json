@@ -1,0 +1,159 @@
+{
+  "meta": {
+    "source": "https://docs.youware.com/prompting/prompting",
+    "title": "Prompting 102: The Art of Conversation with AI",
+    "fetchedAt": "2025-12-22",
+    "purpose": "LLM-friendly reference for crafting effective YouWare prompts",
+    "loadCommand": "Load this JSON when crafting prompts for YouWare AI"
+  },
+
+  "corePhilosophy": {
+    "mindset": "You are the art director, not the mechanic",
+    "principle": "The best way to talk to an AI is just to talk to it - clearly and simply",
+    "analogy": {
+      "wrong": "Use a 2-inch filbert brush with 70% cadmium yellow and 30% titanium white",
+      "right": "I want a painting of a quiet, misty morning by a lake. The feeling should be peaceful, a little lonely, but hopeful."
+    },
+    "keyInsight": "The AI is a brilliant but very literal artist. Your idea is the masterpiece. Your words are the direction."
+  },
+
+  "threeGoldenRules": {
+    "rule1": {
+      "name": "Start with the Feeling, Not the Features",
+      "description": "Describe the vibe before listing features. The AI translates feelings into design choices.",
+      "question": "How do you want people to FEEL when they arrive?",
+      "examples": [
+        {
+          "mechanic": "I need a website with a header, a three-column layout, and a footer.",
+          "artDirector": "I want to create a website that feels like a cozy, rainy-day bookstore. It should be warm, inviting, and a little bit nostalgic."
+        },
+        {
+          "mechanic": "Make a landing page for a fitness app.",
+          "artDirector": "The vibe should be energetic and motivating, but not intimidating. Think bright colors, bold fonts, and a feeling of momentum, like you're just about to start a race."
+        },
+        {
+          "mechanic": "I need a portfolio for my photography.",
+          "artDirector": "The website should feel like a quiet, minimalist art gallery. Lots of white space, elegant fonts, and nothing to distract from the photos themselves."
+        }
+      ],
+      "benefit": "When you start with the feeling, you give the AI a creative compass. It will automatically make hundreds of small, correct decisions."
+    },
+    "rule2": {
+      "name": "Tell a Story, from Beginning to End",
+      "description": "Think in terms of chapters, not sections or components.",
+      "chapters": [
+        {
+          "chapter": 1,
+          "name": "The Hook",
+          "purpose": "Grand opening that captures attention and sets the scene"
+        },
+        {
+          "chapter": 2,
+          "name": "The Why",
+          "purpose": "Why should they care? Tell about yourself, product, or idea"
+        },
+        {
+          "chapter": 3,
+          "name": "The Proof",
+          "purpose": "Show, don't just tell. Gallery, testimonials, examples"
+        },
+        {
+          "chapter": 4,
+          "name": "The Invitation",
+          "purpose": "What do you want them to do? Contact, buy, read"
+        }
+      ],
+      "examplePrompt": "Let's build this website like a story. **First, for the beginning,** I want to welcome visitors with a huge, beautiful photo that fills the screen. Over the photo, it should say 'Handcrafted Sourdough, Baked with Love.' **Next,** I want to tell them a little about me. A short chapter with a picture of me in my kitchen and a paragraph about why I started baking. **After that,** let's show them the goods. A beautiful gallery of my best breads and pastries. **Finally, at the end of the story,** I want a simple way for them to place an order.",
+      "benefit": "This narrative approach gives the AI context, flow, and purpose."
+    },
+    "rule3": {
+      "name": "Sculpt, Don't Command",
+      "description": "Your first result is a lump of clay. Refine piece by piece through conversation.",
+      "principles": [
+        "Don't start over - build on what's there",
+        "Be conversational - 'That's a good start, but...' or 'I like that, can we try...'",
+        "Focus on one thing at a time - don't try to fix everything at once"
+      ],
+      "exampleConversation": [
+        "Okay, I see the first version. I like it, but the main title feels a bit cold and modern.",
+        "Can you change the font of the main title to something that looks more like handwriting? Something warm and personal.",
+        "Perfect! Now, the background is pure white, which feels a little stark. Can we change it to a creamy, off-white color to make it feel cozier?",
+        "Yes, that's much better. The whole page feels warmer now. Thank you."
+      ],
+      "benefit": "This iterative, back-and-forth dialogue is the true secret to prompt engineering. It's patient, creative, and collaborative."
+    }
+  },
+
+  "liveExample": {
+    "project": "The Green Nook (fictional plant shop)",
+    "prompts": [
+      {
+        "phase": "The Feeling",
+        "prompt": "I want to create a website for a small, local plant shop called 'The Green Nook.' The feeling should be lush, peaceful, and organic. Imagine walking into a sun-drenched greenhouse filled with plants. The design should feel natural and earthy, not slick or corporate."
+      },
+      {
+        "phase": "The Story",
+        "prompt": "Okay, for the story of the page: **Chapter 1 (The Welcome):** Let's start with a beautiful, full-width image of lush green leaves, with the words 'The Green Nook' in a friendly, elegant font. **Chapter 2 (Our Philosophy):** Below that, a short section with the headline 'Bring Nature Home' and a paragraph about how we believe plants make spaces happier and healthier. **Chapter 3 (Our Favorites):** Next, a simple grid showing off three of our most popular plants, each with a picture and its name. **Chapter 4 (Visit Us):** Finally, a section with our shop's address, opening hours, and a simple map."
+      },
+      {
+        "phase": "The Sculpture",
+        "prompt": "This is a beautiful start! The overall vibe is perfect. Let's refine a few things.\n1. The green you used for the text is a bit too bright. Can you change it to a deeper, more natural forest green?\n2. In the 'Our Favorites' section, can you add a soft, subtle shadow behind each plant picture to make them 'pop' a little more?\n3. The font for the main headlines is nice, but could we try one that's a little more rounded and soft?"
+      }
+    ]
+  },
+
+  "promptTemplates": {
+    "initialVibe": {
+      "template": "I want to create [TYPE] for [PURPOSE]. The feeling should be [ADJECTIVE], [ADJECTIVE], and [ADJECTIVE]. Imagine [SENSORY ANALOGY]. The design should feel [POSITIVE QUALITY], not [NEGATIVE QUALITY].",
+      "example": "I want to create a productivity app for busy professionals. The feeling should be calm, focused, and empowering. Imagine a minimalist workspace with morning light streaming in. The design should feel peaceful, not overwhelming."
+    },
+    "storyStructure": {
+      "template": "Let's build this [TYPE] like a story. **First, for the beginning,** [HOOK]. **Next,** [WHY/ABOUT]. **After that,** [PROOF/GALLERY]. **Finally,** [INVITATION/CTA].",
+      "example": "Let's build this app like a story. **First, for the beginning,** welcome users with a calming gradient and the tagline 'Feel your productivity.' **Next,** show them today's tasks with an energy forecast. **After that,** let them see their emotional patterns over the week. **Finally,** invite them to add their first task."
+    },
+    "refinement": {
+      "template": "This is a [POSITIVE ADJECTIVE] start! The [ASPECT] is perfect. Let's refine a few things:\n1. The [ELEMENT] feels [ISSUE]. Can you [SPECIFIC CHANGE]?\n2. In the [SECTION], can you [SPECIFIC ENHANCEMENT]?\n3. The [ELEMENT] is nice, but could we try [ALTERNATIVE]?",
+      "example": "This is a beautiful start! The overall vibe is perfect. Let's refine a few things:\n1. The mood picker feels too clinical. Can you make the emoji options feel more playful?\n2. In the calendar view, can you add subtle color borders based on task mood?\n3. The completion celebration is nice, but could we try something with more confetti and joy?"
+    }
+  },
+
+  "antiPatterns": {
+    "avoid": [
+      "Speaking in jargon (atomic components, CTAs, user journeys)",
+      "Listing technical specifications without emotional context",
+      "Trying to fix everything at once",
+      "Starting over instead of sculpting",
+      "Thinking you need to speak the AI's language"
+    ],
+    "instead": [
+      "Use simple, human language",
+      "Start with how you want people to feel",
+      "Refine one thing at a time",
+      "Build on what's there",
+      "Be the art director, not the mechanic"
+    ]
+  },
+
+  "clarityPromptExamples": {
+    "initialPrompt": {
+      "vibe": "I want to create Clarity, an emotional productivity app. The feeling should be calm, focused, and self-aware. Imagine a peaceful morning where you know exactly what to do and how you feel about it. The design should feel warm and supportive, not cold and corporate.",
+      "story": "Let's build this app like a story. **First,** welcome users with their daily energy forecast - a beautiful header showing today's emotional composition. **Next,** show them their calendar with tasks color-coded by anticipated mood. **After that,** let them complete tasks with a celebration that captures how they actually felt. **Finally,** reveal insights about their emotional patterns over time."
+    },
+    "refinements": [
+      "The mood picker is good, but I want it to feel more playful. Can we use fun emojis like 🔥 for energized and 😌 for calm? Just 5 quick options.",
+      "The calendar borders are nice, but the colors are too saturated. Can you make them more subtle - like a soft glow rather than a bold line?",
+      "The completion celebration works, but it feels too quick. Can you add a moment of pause - maybe some confetti and a warm message before asking how they feel?",
+      "The weekly view is functional, but I want it to tell a story. Can you add a 'Week Soul Card' that summarizes the emotional journey with a mini chart?"
+    ],
+    "youbaseIntegration": "Now let's add the backend. I want users to sign in with Google or email. Store their tasks with mood fields in the database. When they complete a task, save their reflection. Use YouBase for all of this - Auth for login, Database for tasks and preferences."
+  },
+
+  "keyTakeaways": [
+    "You are the artist, the AI is your brush",
+    "Start with feeling, not features",
+    "Tell a story with chapters, not list sections",
+    "Sculpt iteratively, don't command once",
+    "Be conversational and patient",
+    "Your ideas are the only prerequisite"
+  ]
+}
