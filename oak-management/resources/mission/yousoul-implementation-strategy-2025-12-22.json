@@ -3,13 +3,13 @@
     "sessionId": "yousoul-implementation-strategy-2025-12-22",
     "generatedAt": "2025-12-22T20:30:00Z",
     "purpose": "LLM-friendly implementation strategy for YouSoul YouWare Challenge",
-    "version": "1.0",
+    "version": "2.0",
     "loadCommand": "Load this JSON to continue YouSoul YouWare implementation with full context",
     "relatedFiles": {
-      "missionBrief": "oak-management/resources/mission/CLARITY-MISSION-BRIEF.md",
+      "missionBrief": "oak-management/resources/mission/YOUSOUL-MISSION-BRIEF.md",
       "missionJson": "oak-management/resources/mission/yousoul-youware-mission-2025-12-22.json",
       "guidelines": "oak-management/resources/youware-challenge-guidelines.json",
-      "originalYouSoul": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/yousoul-documentation/yousoul-context.json",
+      "claritySource": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
       "youbaseExport": "oak-management/resources/database_export_20251222_191130/"
     }
   },
@@ -41,11 +41,59 @@
       "Fallback available if YouBase has issues"
     ],
     "workflow": {
-      "step1": "Get YouBase scaffold (auth config, API patterns)",
-      "step2": "Develop locally with mock provider (fast)",
-      "step3": "Migrate finished code to YouWare (one-time)",
-      "step4": "Test YouBase in deployed app"
+      "step1": "Attach clarity-context.json + mission JSON to YouWare prompt",
+      "step2": "Get YouBase scaffold (auth config, API patterns)",
+      "step3": "Use GitHub MCP to fetch/push code between local and repo",
+      "step4": "Develop locally with mock provider (fast)",
+      "step5": "Push finished code to GitHub → Upload to YouWare",
+      "step6": "Test YouBase in deployed app"
     }
+  },
+
+  "accelerators": {
+    "githubMCP": {
+      "description": "Use GitHub MCP to speed up code retrieval and creation",
+      "capabilities": [
+        "github-get-file-contents - Fetch original Clarity components directly",
+        "github-create-or-update-file - Push code to YouWare repo",
+        "github-search-code - Find specific patterns in codebase",
+        "github-list-commits - Track changes"
+      ],
+      "sourceRepo": "Absorber97/YouWareCashGrab",
+      "claritySourcePath": "/Users/oak/Downloads/Core/Dev/Craft/",
+      "workflow": "Fetch Clarity components via GitHub MCP → Adapt locally → Push to YouWare repo"
+    },
+    "fileAttachments": {
+      "description": "Attach key files directly to YouWare prompts for faster scaffold generation",
+      "attachableFiles": [
+        {
+          "file": "clarity-context.json",
+          "purpose": "Full architectural context for YouWare AI",
+          "path": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json"
+        },
+        {
+          "file": "yousoul-youware-mission.json",
+          "purpose": "App definition, mood system, priorities",
+          "path": "oak-management/resources/mission/yousoul-youware-mission-2025-12-22.json"
+        },
+        {
+          "file": "charts-and-mood-system.json",
+          "purpose": "Visualization specs and mood constants",
+          "path": "oak-management/resources/charts-and-mood-system.json"
+        }
+      ],
+      "promptStrategy": "Attach files + concise prompt = better YouWare scaffold"
+    }
+  },
+
+  "youwarePromptWithAttachments": {
+    "instructions": "In YouWare, attach these files before prompting:",
+    "attachments": [
+      "clarity-context.json (full architecture)",
+      "yousoul-youware-mission-2025-12-22.json (app definition)",
+      "charts-and-mood-system.json (visualizations)"
+    ],
+    "prompt": "Build YouSoul based on the attached context files. It's an emotional productivity app with calendar and kanban views. Use YouBase for Auth (Email + Google) and Database (tasks with mood fields). The attached clarity-context.json has the exact component patterns to follow."
   },
 
   "phases": {
