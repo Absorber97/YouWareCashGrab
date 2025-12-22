@@ -1,0 +1,185 @@
+{
+  "$schema": "action-plan-v3",
+  "metadata": {
+    "name": "YouSoul Final Implementation Plan",
+    "version": "3.0.0",
+    "created": "2025-12-22T14:00:00Z",
+    "deadline": "2025-12-24T08:00:00Z",
+    "hoursRemaining": 42,
+    "strategy": "Upgrade existing working app with professional libraries"
+  },
+
+  "keyInsight": {
+    "statement": "Next.js IS React - components port directly",
+    "implications": [
+      "Remove 'use client' directive (not needed in Vite)",
+      "Replace next/link with state-based navigation (already done)",
+      "Copy component logic directly from Clarity source"
+    ]
+  },
+
+  "currentState": {
+    "appStatus": "FUNCTIONAL",
+    "buildStatus": "PASSING",
+    "completedFeatures": [
+      "Camera-pan page transitions",
+      "TabTransitionContext + CaptureContext",
+      "BottomNav with spring indicator",
+      "Basic CalendarView (day/week/month)",
+      "Basic KanbanBoard (HTML5 drag)",
+      "CreateItemModal with MoodPicker",
+      "CompletionCelebration with confetti",
+      "MoodBadge component",
+      "Aurora background",
+      "YouBase API integration"
+    ],
+    "dependenciesInstalled": [
+      "@schedule-x/react",
+      "@schedule-x/calendar",
+      "@schedule-x/drag-and-drop",
+      "@schedule-x/resize",
+      "@schedule-x/calendar-controls",
+      "@schedule-x/events-service",
+      "@dnd-kit/core",
+      "@dnd-kit/sortable",
+      "@dnd-kit/utilities",
+      "motion",
+      "temporal-polyfill"
+    ]
+  },
+
+  "actions": [
+    {
+      "id": "action-1",
+      "name": "Create ScheduleCalendar Component",
+      "duration": "2 hours",
+      "priority": "HIGH",
+      "status": "pending",
+      "description": "Port Clarity's Schedule-X calendar to YouSoul",
+      "sourceFile": "/Users/oak/Downloads/Core/Dev/Craft/craftie/components/clarity/calendar/schedule-calendar.tsx",
+      "targetFile": "src/components/ScheduleCalendar.tsx",
+      "steps": [
+        "Copy schedule-calendar.tsx (1046 lines)",
+        "Remove 'use client' directive",
+        "Update imports (motion/react works, keep it)",
+        "Replace Craft API calls with tasksStore",
+        "Add custom theme CSS for dark mode",
+        "Wire to App.tsx as calendar view replacement"
+      ],
+      "criticalNotes": [
+        "MUST import 'temporal-polyfill/global' BEFORE @schedule-x/*",
+        "Use ZonedDateTime for timed events, PlainDate for all-day",
+        "Add mood-colored left border on events"
+      ]
+    },
+    {
+      "id": "action-2",
+      "name": "Upgrade KanbanBoard with dnd-kit",
+      "duration": "1.5 hours",
+      "priority": "HIGH",
+      "status": "pending",
+      "description": "Replace HTML5 drag with dnd-kit for smooth physics",
+      "sourceFiles": [
+        "/Users/oak/Downloads/Core/Dev/Craft/craftie/components/clarity/board/kanban-board.tsx",
+        "/Users/oak/Downloads/Core/Dev/Craft/craftie/components/clarity/board/column.tsx",
+        "/Users/oak/Downloads/Core/Dev/Craft/craftie/components/clarity/board/task-card.tsx"
+      ],
+      "targetFiles": [
+        "src/components/KanbanBoard.tsx (replace)",
+        "src/components/Column.tsx (new)",
+        "src/components/TaskCard.tsx (new)"
+      ],
+      "steps": [
+        "Create Column.tsx with SortableContext",
+        "Create TaskCard.tsx with useSortable",
+        "Update KanbanBoard.tsx with DndContext + DragOverlay",
+        "Keep CompletionCelebration trigger on Done drop",
+        "Keep MoodBadge integration"
+      ]
+    },
+    {
+      "id": "action-3",
+      "name": "Add Calendar Styles",
+      "duration": "30 minutes",
+      "priority": "MEDIUM",
+      "status": "pending",
+      "description": "Custom Schedule-X theme matching YouSoul dark UI",
+      "targetFile": "src/styles/schedule-x-theme.css",
+      "steps": [
+        "Copy Clarity's Schedule-X theme CSS",
+        "Adjust accent color to match YouSoul (orange/pink gradient)",
+        "Ensure dark mode consistency",
+        "Import in main.tsx or App.tsx"
+      ]
+    },
+    {
+      "id": "action-4",
+      "name": "Create Calendar Events Hook",
+      "duration": "30 minutes",
+      "priority": "HIGH",
+      "status": "pending",
+      "description": "Transform tasks to Schedule-X event format",
+      "targetFile": "src/hooks/use-calendar-events.ts",
+      "steps": [
+        "Create hook that transforms Task[] to CalendarEvent[]",
+        "Map dueDate + dueTime to start/end",
+        "Handle all-day vs timed events",
+        "Add mood color to event border"
+      ]
+    },
+    {
+      "id": "action-5",
+      "name": "Final Polish & Testing",
+      "duration": "1 hour",
+      "priority": "HIGH",
+      "status": "pending",
+      "description": "Test full user flow and fix any issues",
+      "testCases": [
+        "Create task with mood in modal",
+        "See task in calendar with mood border",
+        "Drag task in calendar to reschedule",
+        "Switch to board view",
+        "Drag task to Done column",
+        "CompletionCelebration appears",
+        "Select completed mood + note",
+        "Task persists with both moods"
+      ]
+    },
+    {
+      "id": "action-6",
+      "name": "Build & Deploy",
+      "duration": "30 minutes",
+      "priority": "HIGH",
+      "status": "pending",
+      "description": "Build production bundle and deploy to YouWare",
+      "steps": [
+        "pnpm build",
+        "Verify no build errors",
+        "Deploy to YouWare platform",
+        "Test deployed version",
+        "Submit to #YouWareChallenge"
+      ]
+    }
+  ],
+
+  "totalEstimatedTime": "5.5 hours",
+  "timeBuffer": "36.5 hours",
+  "riskLevel": "LOW",
+
+  "alternativePath": {
+    "condition": "If Schedule-X integration takes too long",
+    "action": "Ship with current CalendarView (functional, less polished)",
+    "rationale": "Better to ship a working app than miss deadline"
+  },
+
+  "successCriteria": [
+    "Schedule-X calendar with drag-drop",
+    "dnd-kit Kanban with spring physics",
+    "Mood picker in task creation",
+    "Mood-colored borders on events",
+    "CompletionCelebration on task done",
+    "Full CRUD via YouBase API",
+    "Dark glassmorphic UI",
+    "Smooth camera-pan transitions"
+  ]
+}

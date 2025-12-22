@@ -3,8 +3,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import Aurora from './components/Aurora';
 import Header from './components/Header';
 import WelcomeHeader from './components/WelcomeHeader';
-import CalendarView from './components/CalendarView';
-import KanbanBoard from './components/KanbanBoard';
+import ScheduleCalendar from './components/ScheduleCalendar';
+import KanbanBoardDndKit from './components/KanbanBoardDndKit';
 import SettingsPage from './components/SettingsPage';
 import BottomNav from './components/BottomNav';
 import FadeContent from './components/FadeContent';
@@ -105,7 +105,9 @@ function MainAppContent() {
                   <WelcomeHeader />
                 </FadeContent>
                 <FadeContent blur duration={600} delay={200}>
-                  <CalendarView onTaskClick={(task) => openCapture(task)} />
+                  <div className="h-[600px]">
+                    <ScheduleCalendar view="week" />
+                  </div>
                 </FadeContent>
               </>
             )}
@@ -116,7 +118,7 @@ function MainAppContent() {
                   <WelcomeHeader />
                 </FadeContent>
                 <FadeContent blur duration={600} delay={200}>
-                  <KanbanBoard />
+                  <KanbanBoardDndKit />
                 </FadeContent>
               </>
             )}
