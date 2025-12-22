@@ -1,0 +1,889 @@
+{
+  "$schema": "workflow-plan-v1",
+  "metadata": {
+    "name": "YouSoul Foundation Implementation",
+    "version": "1.0.0",
+    "created": "2025-12-22T20:00:00Z",
+    "deadline": "2025-12-24T08:00:00Z",
+    "hoursRemaining": 36,
+    "author": "Factory Droid",
+    "strategy": "Scaffold → Mock → Migrate"
+  },
+
+  "sourceAnalysis": {
+    "snapshot": "oak-management/resources/snapshots/v1/source_code",
+    "architecture": {
+      "type": "Vite + React SPA",
+      "entryPoint": "src/main.tsx",
+      "mainApp": "src/App.tsx",
+      "stateManagement": "Zustand (persist middleware)",
+      "apiClient": "@edgespark/client",
+      "styling": "Tailwind CSS",
+      "animation": "framer-motion (⚠️ MUST MIGRATE to motion/react)"
+    },
+    "existingComponents": [
+      "Aurora.tsx - Ambient background effect",
+      "BottomNav.tsx - Tab navigation",
+      "CalendarView.tsx - Calendar component",
+      "KanbanBoard.tsx - Kanban board",
+      "GlassCard.tsx - Glassmorphic card",
+      "FadeContent.tsx - Content fade animation",
+      "Header.tsx - Page header",
+      "WelcomeHeader.tsx - Welcome section",
+      "MoodBadge.tsx - Mood indicator badge",
+      "SettingsPage.tsx - User preferences",
+      "LoginPage.tsx - Auth page"
+    ],
+    "existingStores": [
+      "authStore.ts - User authentication state",
+      "tasksStore.ts - Task CRUD operations",
+      "preferencesStore.ts - User preferences"
+    ],
+    "existingTypes": {
+      "task.ts": {
+        "AnticipatedMood": ["energized", "calm", "tense", "drained", "curious"],
+        "CompletedMood": ["proud", "relieved", "satisfied", "meh", "exhausted"],
+        "TaskStatus": ["backlog", "todo", "in-progress", "done"],
+        "Priority": ["high", "medium", "low"],
+        "MOOD_CONFIG": "Complete with emojis, colors, and Tailwind classes"
+      }
+    },
+    "backend": {
+      "framework": "Hono on EdgeSpark",
+      "endpoints": [
+        "GET /api/public/health",
+        "GET /api/me",
+        "GET /api/tasks",
+        "GET /api/tasks/:id",
+        "POST /api/tasks",
+        "PATCH /api/tasks/:id",
+        "DELETE /api/tasks/:id",
+        "POST /api/tasks/reorder",
+        "GET /api/preferences",
+        "PUT /api/preferences",
+        "POST /api/reflections/upload-url",
+        "GET /api/reflections/download-url"
+      ],
+      "database": {
+        "tables": ["tasks", "user_preferences", "es_system__auth_user"],
+        "indexes": ["tasks_due_date_idx", "tasks_status_idx", "tasks_user_id_idx", "tasks_user_status_idx"]
+      }
+    }
+  },
+
+  "targetStack": {
+    "framework": "Next.js 15 (App Router)",
+    "language": "TypeScript (strict)",
+    "animation": "motion/react (Motion.dev) - NEVER framer-motion",
+    "calendar": "Schedule-X",
+    "kanban": "dnd-kit",
+    "components": "shadcn/ui",
+    "styling": "Tailwind CSS 4",
+    "icons": "@hugeicons-pro/core-solid-rounded",
+    "backend": "YouBase (EdgeSpark)",
+    "stateManagement": "Zustand (can reuse)"
+  },
+
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Project Initialization",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "Create Next.js 15 project with proper configuration",
+      "steps": [
+        {
+          "id": "0.1",
+          "name": "Create Next.js project",
+          "command": "npx create-next-app@latest yousoul --typescript --tailwind --eslint --app --src-dir --import-alias '@/*'",
+          "output": "yousoul/"
+        },
+        {
+          "id": "0.2",
+          "name": "Install core dependencies",
+          "command": "cd yousoul && pnpm add motion zustand @edgespark/client zod clsx",
+          "note": "motion (NOT framer-motion)"
+        },
+        {
+          "id": "0.3",
+          "name": "Install UI dependencies",
+          "command": "cd yousoul && pnpm add @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities @schedule-x/react lucide-react",
+          "note": "Schedule-X for calendar, dnd-kit for kanban"
+        },
+        {
+          "id": "0.4",
+          "name": "Configure TypeScript strict mode",
+          "file": "yousoul/tsconfig.json",
+          "changes": { "strict": true, "noUncheckedIndexedAccess": true }
+        },
+        {
+          "id": "0.5",
+          "name": "Setup shadcn/ui",
+          "command": "cd yousoul && npx shadcn@latest init -y"
+        }
+      ],
+      "deliverables": ["yousoul/ project directory", "package.json with correct deps", "tsconfig.json strict mode"]
+    },
+    {
+      "id": "phase-1",
+      "name": "Types & Core Structure",
+      "duration": "45 min",
+      "status": "pending",
+      "description": "Port type definitions and establish core architecture",
+      "dependencies": ["phase-0"],
+      "steps": [
+        {
+          "id": "1.1",
+          "name": "Create types directory",
+          "files": [
+            {
+              "path": "src/types/mood.ts",
+              "content": "Port from source_code/src/types/task.ts - AnticipatedMood, CompletedMood, MOOD_CONFIG, COMPLETED_MOOD_CONFIG"
+            },
+            {
+              "path": "src/types/task.ts",
+              "content": "Port Task interface with mood fields, TaskStatus, Priority"
+            },
+            {
+              "path": "src/types/user.ts",
+              "content": "User, UserPreferences interfaces"
+            },
+            {
+              "path": "src/types/index.ts",
+              "content": "Re-export all types"
+            }
+          ]
+        },
+        {
+          "id": "1.2",
+          "name": "Create lib directory structure",
+          "directories": [
+            "src/lib/providers/",
+            "src/lib/hooks/",
+            "src/lib/utils/",
+            "src/lib/motion/"
+          ]
+        },
+        {
+          "id": "1.3",
+          "name": "Create motion config",
+          "file": "src/lib/motion/config.ts",
+          "content": "Spring configs, easing curves from yousoul-youware-context.json animations section"
+        },
+        {
+          "id": "1.4",
+          "name": "Create utility functions",
+          "file": "src/lib/utils/cn.ts",
+          "content": "clsx + tailwind-merge utility"
+        }
+      ],
+      "deliverables": [
+        "src/types/*.ts - All type definitions",
+        "src/lib/motion/config.ts - Animation config",
+        "src/lib/utils/cn.ts - Tailwind utility"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Data Provider Pattern",
+      "duration": "60 min",
+      "status": "pending",
+      "description": "Implement mock/real data provider switching pattern",
+      "dependencies": ["phase-1"],
+      "steps": [
+        {
+          "id": "2.1",
+          "name": "Create provider interface",
+          "file": "src/lib/providers/types.ts",
+          "interface": {
+            "DataProvider": {
+              "auth": "AuthProvider (login, logout, getCurrentUser, onAuthStateChange)",
+              "tasks": "TasksProvider (list, get, create, update, delete, reorder)",
+              "preferences": "PreferencesProvider (get, update)"
+            }
+          }
+        },
+        {
+          "id": "2.2",
+          "name": "Create mock provider",
+          "file": "src/lib/providers/mock-provider.ts",
+          "features": [
+            "localStorage persistence",
+            "Simulated delays (100-300ms)",
+            "Demo user authentication",
+            "Pre-populated demo tasks with moods"
+          ]
+        },
+        {
+          "id": "2.3",
+          "name": "Create YouBase provider skeleton",
+          "file": "src/lib/providers/youbase-provider.ts",
+          "note": "Skeleton that delegates to @edgespark/client, wire later"
+        },
+        {
+          "id": "2.4",
+          "name": "Create provider factory",
+          "file": "src/lib/providers/index.ts",
+          "code": "export const dataProvider = process.env.NEXT_PUBLIC_USE_MOCK === 'true' ? mockProvider : youbaseProvider;"
+        },
+        {
+          "id": "2.5",
+          "name": "Create .env.local",
+          "file": ".env.local",
+          "content": "NEXT_PUBLIC_USE_MOCK=true"
+        }
+      ],
+      "deliverables": [
+        "src/lib/providers/types.ts - Provider interfaces",
+        "src/lib/providers/mock-provider.ts - Full mock implementation",
+        "src/lib/providers/youbase-provider.ts - Skeleton",
+        "src/lib/providers/index.ts - Factory",
+        ".env.local - Mock mode enabled"
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Zustand Stores Migration",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "Migrate Zustand stores to use data provider",
+      "dependencies": ["phase-2"],
+      "sourceFiles": [
+        "source_code/src/store/authStore.ts",
+        "source_code/src/store/tasksStore.ts",
+        "source_code/src/store/preferencesStore.ts"
+      ],
+      "steps": [
+        {
+          "id": "3.1",
+          "name": "Create auth store",
+          "file": "src/lib/stores/auth-store.ts",
+          "changes": [
+            "Remove direct API calls",
+            "Use dataProvider.auth methods",
+            "Keep persist middleware for session"
+          ]
+        },
+        {
+          "id": "3.2",
+          "name": "Create tasks store",
+          "file": "src/lib/stores/tasks-store.ts",
+          "changes": [
+            "Use dataProvider.tasks methods",
+            "Keep optimistic updates pattern",
+            "Add mood-related selectors"
+          ]
+        },
+        {
+          "id": "3.3",
+          "name": "Create preferences store",
+          "file": "src/lib/stores/preferences-store.ts",
+          "changes": [
+            "Use dataProvider.preferences methods",
+            "Keep persist middleware"
+          ]
+        },
+        {
+          "id": "3.4",
+          "name": "Create store index",
+          "file": "src/lib/stores/index.ts",
+          "content": "Re-export all stores"
+        }
+      ],
+      "deliverables": [
+        "src/lib/stores/auth-store.ts",
+        "src/lib/stores/tasks-store.ts",
+        "src/lib/stores/preferences-store.ts",
+        "src/lib/stores/index.ts"
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "App Layout & Navigation",
+      "duration": "45 min",
+      "status": "pending",
+      "description": "Create Next.js App Router layout with navigation",
+      "dependencies": ["phase-3"],
+      "steps": [
+        {
+          "id": "4.1",
+          "name": "Create root layout",
+          "file": "src/app/layout.tsx",
+          "features": [
+            "Dark theme body styles",
+            "Font configuration",
+            "Metadata (title, description)"
+          ]
+        },
+        {
+          "id": "4.2",
+          "name": "Create dashboard layout",
+          "file": "src/app/(dashboard)/layout.tsx",
+          "features": [
+            "Auth check wrapper",
+            "BottomNav component",
+            "Aurora background"
+          ]
+        },
+        {
+          "id": "4.3",
+          "name": "Create dashboard template",
+          "file": "src/app/(dashboard)/template.tsx",
+          "features": [
+            "Camera-pan page transitions using motion/react",
+            "AnimatePresence for exit animations"
+          ]
+        },
+        {
+          "id": "4.4",
+          "name": "Port Aurora component",
+          "file": "src/components/ui/aurora.tsx",
+          "source": "source_code/src/components/Aurora.tsx",
+          "changes": ["Keep as-is, it's framework agnostic"]
+        },
+        {
+          "id": "4.5",
+          "name": "Port BottomNav component",
+          "file": "src/components/ui/bottom-nav.tsx",
+          "source": "source_code/src/components/BottomNav.tsx",
+          "changes": [
+            "Convert framer-motion → motion/react",
+            "Use Next.js Link for navigation",
+            "Active state from usePathname()"
+          ]
+        },
+        {
+          "id": "4.6",
+          "name": "Create GlassCard component",
+          "file": "src/components/ui/glass-card.tsx",
+          "source": "source_code/src/components/GlassCard.tsx"
+        }
+      ],
+      "deliverables": [
+        "src/app/layout.tsx",
+        "src/app/(dashboard)/layout.tsx",
+        "src/app/(dashboard)/template.tsx",
+        "src/components/ui/aurora.tsx",
+        "src/components/ui/bottom-nav.tsx",
+        "src/components/ui/glass-card.tsx"
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Mood System Components",
+      "duration": "60 min",
+      "status": "pending",
+      "description": "Create mood picker and completion celebration",
+      "dependencies": ["phase-4"],
+      "steps": [
+        {
+          "id": "5.1",
+          "name": "Create MoodPicker component",
+          "file": "src/components/mood/mood-picker.tsx",
+          "features": [
+            "Horizontal row of 5 mood options",
+            "Subtle bounce on hover (motion/react)",
+            "Pulse animation on select",
+            "Support for anticipated and completed moods"
+          ],
+          "props": {
+            "type": "'anticipated' | 'completed'",
+            "value": "string | null",
+            "onChange": "(mood: string) => void"
+          }
+        },
+        {
+          "id": "5.2",
+          "name": "Create MoodBadge component",
+          "file": "src/components/mood/mood-badge.tsx",
+          "source": "source_code/src/components/MoodBadge.tsx",
+          "features": [
+            "Small emoji badge for cards",
+            "Colored background from MOOD_CONFIG"
+          ]
+        },
+        {
+          "id": "5.3",
+          "name": "Create CompletionCelebration modal",
+          "file": "src/components/mood/completion-celebration.tsx",
+          "features": [
+            "Gentle confetti animation",
+            "Warm message: 'You did it!'",
+            "Fade in completed mood picker",
+            "Optional reflection note input",
+            "Save and close"
+          ],
+          "animations": "spring { stiffness: 350, damping: 30 }"
+        },
+        {
+          "id": "5.4",
+          "name": "Create mood utilities",
+          "file": "src/lib/utils/mood.ts",
+          "functions": [
+            "getMoodConfig(mood: string)",
+            "getMoodEmoji(mood: string)",
+            "getMoodColor(mood: string)",
+            "getMoodBorderClass(mood: string)"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/mood/mood-picker.tsx",
+        "src/components/mood/mood-badge.tsx",
+        "src/components/mood/completion-celebration.tsx",
+        "src/lib/utils/mood.ts"
+      ]
+    },
+    {
+      "id": "phase-6",
+      "name": "Calendar View",
+      "duration": "60 min",
+      "status": "pending",
+      "description": "Implement Schedule-X calendar with mood integration",
+      "dependencies": ["phase-5"],
+      "steps": [
+        {
+          "id": "6.1",
+          "name": "Create calendar page",
+          "file": "src/app/(dashboard)/calendar/page.tsx",
+          "features": [
+            "WelcomeHeader",
+            "Energy forecast header",
+            "ScheduleCalendar component"
+          ]
+        },
+        {
+          "id": "6.2",
+          "name": "Create ScheduleCalendar component",
+          "file": "src/components/calendar/schedule-calendar.tsx",
+          "features": [
+            "Schedule-X integration",
+            "Day/Week/Month view switcher",
+            "Tasks rendered as events",
+            "3px left border colored by anticipated_mood",
+            "Drag to reschedule",
+            "Click to edit"
+          ]
+        },
+        {
+          "id": "6.3",
+          "name": "Create ViewSwitcher component",
+          "file": "src/components/calendar/view-switcher.tsx",
+          "features": [
+            "Day | Week | Month toggle",
+            "Spring animation on active indicator"
+          ]
+        },
+        {
+          "id": "6.4",
+          "name": "Create EnergyForecast component",
+          "file": "src/components/calendar/energy-forecast.tsx",
+          "features": [
+            "Shows mood dots for upcoming tasks",
+            "Smart tip generation",
+            "Example: '🔥🔥😌😰 — Morning looks energizing!'"
+          ]
+        },
+        {
+          "id": "6.5",
+          "name": "Create WelcomeHeader component",
+          "file": "src/components/ui/welcome-header.tsx",
+          "source": "source_code/src/components/WelcomeHeader.tsx"
+        }
+      ],
+      "deliverables": [
+        "src/app/(dashboard)/calendar/page.tsx",
+        "src/components/calendar/schedule-calendar.tsx",
+        "src/components/calendar/view-switcher.tsx",
+        "src/components/calendar/energy-forecast.tsx",
+        "src/components/ui/welcome-header.tsx"
+      ]
+    },
+    {
+      "id": "phase-7",
+      "name": "Kanban Board",
+      "duration": "60 min",
+      "status": "pending",
+      "description": "Implement dnd-kit kanban with mood badges",
+      "dependencies": ["phase-5"],
+      "steps": [
+        {
+          "id": "7.1",
+          "name": "Create board page",
+          "file": "src/app/(dashboard)/board/page.tsx",
+          "features": [
+            "WelcomeHeader with board subtitle",
+            "KanbanBoard component"
+          ]
+        },
+        {
+          "id": "7.2",
+          "name": "Create KanbanBoard component",
+          "file": "src/components/board/kanban-board.tsx",
+          "source": "source_code/src/components/KanbanBoard.tsx",
+          "features": [
+            "dnd-kit DndContext",
+            "4 columns: Backlog, Todo, In Progress, Done",
+            "Spring physics on drag",
+            "Trigger CompletionCelebration on drop to Done"
+          ]
+        },
+        {
+          "id": "7.3",
+          "name": "Create Column component",
+          "file": "src/components/board/column.tsx",
+          "features": [
+            "SortableContext wrapper",
+            "Column header with count",
+            "Glassmorphic styling"
+          ]
+        },
+        {
+          "id": "7.4",
+          "name": "Create TaskCard component",
+          "file": "src/components/board/task-card.tsx",
+          "features": [
+            "useSortable hook",
+            "Glassmorphic card styling",
+            "MoodBadge in corner",
+            "Priority indicator",
+            "Due date display"
+          ]
+        },
+        {
+          "id": "7.5",
+          "name": "Create DragOverlay component",
+          "file": "src/components/board/drag-overlay.tsx",
+          "features": [
+            "Lifted card appearance during drag",
+            "Matches TaskCard styling"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/app/(dashboard)/board/page.tsx",
+        "src/components/board/kanban-board.tsx",
+        "src/components/board/column.tsx",
+        "src/components/board/task-card.tsx",
+        "src/components/board/drag-overlay.tsx"
+      ]
+    },
+    {
+      "id": "phase-8",
+      "name": "Task Creation Modal",
+      "duration": "45 min",
+      "status": "pending",
+      "description": "Create task capture modal with mood picker",
+      "dependencies": ["phase-5"],
+      "steps": [
+        {
+          "id": "8.1",
+          "name": "Create CreateTaskModal component",
+          "file": "src/components/capture/create-task-modal.tsx",
+          "features": [
+            "Glassmorphic modal styling",
+            "Title input (required)",
+            "Description textarea (optional)",
+            "Due date/time pickers",
+            "Priority selector",
+            "Status selector",
+            "MoodPicker for anticipated mood",
+            "Save and Cancel buttons"
+          ]
+        },
+        {
+          "id": "8.2",
+          "name": "Create capture context",
+          "file": "src/lib/contexts/capture-context.tsx",
+          "features": [
+            "openCreateModal()",
+            "closeModal()",
+            "Modal state management"
+          ]
+        },
+        {
+          "id": "8.3",
+          "name": "Create FAB component",
+          "file": "src/components/ui/fab.tsx",
+          "features": [
+            "Floating action button",
+            "Plus icon",
+            "Opens CreateTaskModal"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/capture/create-task-modal.tsx",
+        "src/lib/contexts/capture-context.tsx",
+        "src/components/ui/fab.tsx"
+      ]
+    },
+    {
+      "id": "phase-9",
+      "name": "Settings Page",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "User preferences and customization",
+      "dependencies": ["phase-4"],
+      "steps": [
+        {
+          "id": "9.1",
+          "name": "Create settings page",
+          "file": "src/app/(dashboard)/settings/page.tsx",
+          "features": [
+            "Profile section (name, email, avatar)",
+            "Emoji set selector",
+            "Color palette selector",
+            "Visualization intensity selector",
+            "Logout button"
+          ]
+        },
+        {
+          "id": "9.2",
+          "name": "Port SettingsPage content",
+          "source": "source_code/src/components/SettingsPage.tsx",
+          "changes": [
+            "Convert to Next.js page",
+            "Use preferences store"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/app/(dashboard)/settings/page.tsx"
+      ]
+    },
+    {
+      "id": "phase-10",
+      "name": "Auth Flow",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "Login page with mock authentication",
+      "dependencies": ["phase-3"],
+      "steps": [
+        {
+          "id": "10.1",
+          "name": "Create auth layout",
+          "file": "src/app/(auth)/layout.tsx",
+          "features": [
+            "No BottomNav",
+            "Aurora background",
+            "Centered content"
+          ]
+        },
+        {
+          "id": "10.2",
+          "name": "Create login page",
+          "file": "src/app/(auth)/login/page.tsx",
+          "source": "source_code/src/pages/LoginPage.tsx",
+          "features": [
+            "YouSoul branding",
+            "Email/Password form (mock mode)",
+            "Demo user button"
+          ]
+        },
+        {
+          "id": "10.3",
+          "name": "Create auth middleware",
+          "file": "src/middleware.ts",
+          "features": [
+            "Redirect unauthenticated users to /login",
+            "Redirect authenticated users away from /login"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/app/(auth)/layout.tsx",
+        "src/app/(auth)/login/page.tsx",
+        "src/middleware.ts"
+      ]
+    },
+    {
+      "id": "phase-11",
+      "name": "Demo Data & Polish",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "Add demo data and final polish",
+      "dependencies": ["phase-6", "phase-7", "phase-8", "phase-9", "phase-10"],
+      "steps": [
+        {
+          "id": "11.1",
+          "name": "Create demo data",
+          "file": "src/lib/data/demo-tasks.ts",
+          "features": [
+            "10-15 realistic tasks across all statuses",
+            "Mix of anticipated moods",
+            "Some with completed moods and reflections",
+            "Varied priorities and due dates"
+          ]
+        },
+        {
+          "id": "11.2",
+          "name": "Create demo user",
+          "file": "src/lib/data/demo-user.ts",
+          "features": [
+            "Demo user profile",
+            "Default preferences"
+          ]
+        },
+        {
+          "id": "11.3",
+          "name": "Create root redirect",
+          "file": "src/app/page.tsx",
+          "content": "redirect('/calendar')"
+        },
+        {
+          "id": "11.4",
+          "name": "Final Tailwind config",
+          "file": "tailwind.config.ts",
+          "features": [
+            "Custom colors from yousoul-youware-context.json",
+            "Glassmorphic utilities",
+            "Animation utilities"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/lib/data/demo-tasks.ts",
+        "src/lib/data/demo-user.ts",
+        "src/app/page.tsx",
+        "tailwind.config.ts (updated)"
+      ]
+    },
+    {
+      "id": "phase-12",
+      "name": "YouBase Migration (Later)",
+      "duration": "4 hours",
+      "status": "blocked",
+      "blockedBy": "Complete mock implementation first",
+      "description": "Wire real YouBase backend after local dev complete",
+      "steps": [
+        {
+          "id": "12.1",
+          "name": "Complete youbase-provider.ts",
+          "features": [
+            "Wire @edgespark/client",
+            "Map API responses to types",
+            "Handle auth flow"
+          ]
+        },
+        {
+          "id": "12.2",
+          "name": "Set NEXT_PUBLIC_USE_MOCK=false",
+          "file": ".env.local"
+        },
+        {
+          "id": "12.3",
+          "name": "Test all CRUD operations",
+          "tests": ["Create task", "Update task", "Delete task", "Complete task", "Preferences"]
+        },
+        {
+          "id": "12.4",
+          "name": "Deploy to YouWare",
+          "command": "youware deploy"
+        }
+      ]
+    }
+  ],
+
+  "codebaseIndex": {
+    "outputPath": "oak-management/artifacts/codebase-index/youware-source-index.json",
+    "structure": {
+      "rootConfig": [
+        "package.json - Dependencies",
+        "tsconfig.json - TypeScript config",
+        "vite.config.ts - Vite bundler config",
+        "tailwind.config.js - Tailwind CSS config",
+        "postcss.config.js - PostCSS config",
+        "yw_manifest.json - YouWare manifest"
+      ],
+      "src": {
+        "entry": ["main.tsx", "App.tsx", "index.css"],
+        "api": ["client.ts - EdgeSpark API client"],
+        "components": [
+          "Aurora.tsx - Ambient background",
+          "BottomNav.tsx - Tab navigation",
+          "CalendarView.tsx - Calendar",
+          "KanbanBoard.tsx - Kanban board",
+          "GlassCard.tsx - Glassmorphic card",
+          "FadeContent.tsx - Fade animation wrapper",
+          "FocusTimer.tsx - Timer component",
+          "Header.tsx - Page header",
+          "MoodBadge.tsx - Mood indicator",
+          "SettingsPage.tsx - Preferences page",
+          "TodoItem.tsx - Task item",
+          "TodoList.tsx - Task list",
+          "WelcomeHeader.tsx - Welcome section"
+        ],
+        "pages": ["LoginPage.tsx - Auth page"],
+        "store": [
+          "authStore.ts - Auth state (Zustand)",
+          "tasksStore.ts - Tasks state (Zustand)",
+          "preferencesStore.ts - Preferences state (Zustand)"
+        ],
+        "types": ["task.ts - Task, Mood, Preference types"],
+        "data": ["mockData.ts - Mock data generators"]
+      },
+      "backend": {
+        "entry": ["src/index.ts - Hono API routes"],
+        "generated": [
+          "db_schema.ts - Drizzle schema",
+          "db_raw_schema.sql - Raw SQL schema",
+          "db_relations.ts - Table relations",
+          "storage_schema.ts - S3 bucket config",
+          "server-types.d.ts - Type definitions"
+        ]
+      }
+    },
+    "patterns": {
+      "stateManagement": "Zustand with persist middleware",
+      "dataFetching": "Direct API calls via @edgespark/client",
+      "styling": "Tailwind CSS + inline styles",
+      "animation": "framer-motion (⚠️ migrate to motion/react)"
+    },
+    "reuseScore": {
+      "high": ["types/task.ts", "store/*.ts", "Aurora.tsx", "GlassCard.tsx"],
+      "medium": ["KanbanBoard.tsx", "CalendarView.tsx", "BottomNav.tsx", "LoginPage.tsx"],
+      "low": ["App.tsx (Vite→Next.js)", "main.tsx (replace with layout)"]
+    }
+  },
+
+  "projectLocation": {
+    "path": "yousoul/",
+    "note": "Create at repository root, separate from oak-management"
+  },
+
+  "estimatedTotalTime": {
+    "phases0to11": "7.5 hours",
+    "phase12": "4 hours",
+    "buffer": "2 hours",
+    "total": "13.5 hours",
+    "deadline": "36 hours remaining"
+  },
+
+  "criticalConstraints": [
+    "⚠️ NEVER use framer-motion - use motion/react (Motion.dev)",
+    "⚠️ TypeScript strict mode - no 'any' types",
+    "⚠️ Mock-first development - don't block on YouBase",
+    "⚠️ Deadline Dec 24 08:00 UTC - prioritize shipping"
+  ],
+
+  "successCriteria": [
+    "Calendar view with mood-colored task borders",
+    "Kanban board with drag-drop and mood badges",
+    "Mood picker in task creation/editing",
+    "Completion celebration with reflection capture",
+    "Mock data provider working end-to-end",
+    "Glassmorphic dark UI with Aurora background"
+  ],
+
+  "memoryRouting": {
+    "serena": {
+      "save": "yousoul-foundation-progress",
+      "content": "Track phase completions and blockers"
+    },
+    "core": {
+      "save": "yousoul-architecture-decisions",
+      "content": "Data provider pattern, component structure, animation library choice"
+    }
+  }
+}
