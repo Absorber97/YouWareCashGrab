@@ -1,0 +1,2 @@
+"id","account_id","provider_id","user_id","access_token","refresh_token","id_token","access_token_expires_at","refresh_token_expires_at","scope","password","created_at","updated_at"
+"es-admin-account-00000000-0000-0001","_es_admin@edge-spark.local","credential","es-admin-00000000-0000-0000-0000-000000000001","","","","","","","$2a$10$UNUSED_PASSWORD_PLACEHOLDER_FOR_ADMIN_USER","1766430659859","1766430659859"

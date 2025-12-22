@@ -1,0 +1,2 @@
+"key","data","created_at","updated_at"
+"default","{""disableSignUp"":false,""enableAnonymous"":false,""providerEmailPassword"":{""enabled"":true,""config"":{""minPasswordLength"":8,""requireEmailVerification"":false,""requirePasswordResetEmailVerification"":false,""revokeSessionsOnPasswordReset"":false}},""providerGoogle"":{""enabled"":false,""config"":{}}}","1766430663219","1766430663187"
