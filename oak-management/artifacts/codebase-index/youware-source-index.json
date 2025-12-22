@@ -1,0 +1,373 @@
+{
+  "schema_version": "1.0",
+  "generated": "2025-12-22T20:30:00Z",
+  "source": "oak-management/resources/snapshots/v1/source_code",
+  
+  "structure": {
+    "root": {
+      "config": [
+        { "file": "package.json", "purpose": "Dependencies and scripts" },
+        { "file": "tsconfig.json", "purpose": "TypeScript config (extends tsconfig.app.json)" },
+        { "file": "tsconfig.app.json", "purpose": "App TypeScript config" },
+        { "file": "tsconfig.node.json", "purpose": "Node TypeScript config" },
+        { "file": "vite.config.ts", "purpose": "Vite bundler config" },
+        { "file": "tailwind.config.js", "purpose": "Tailwind CSS config" },
+        { "file": "postcss.config.js", "purpose": "PostCSS config" },
+        { "file": "index.html", "purpose": "HTML entry point" },
+        { "file": "yw_manifest.json", "purpose": "YouWare manifest" }
+      ],
+      "docs": [
+        { "file": "README.md", "purpose": "Project documentation" },
+        { "file": "YOUWARE.md", "purpose": "YouWare specific docs" },
+        { "file": "TO-DO.json", "purpose": "Task tracking" },
+        { "file": "todo.json", "purpose": "Additional tasks" }
+      ]
+    },
+    
+    "src": {
+      "entry": [
+        { "file": "main.tsx", "purpose": "React app entry point", "exports": ["createRoot"] },
+        { "file": "App.tsx", "purpose": "Main app component with routing", "exports": ["App", "MainApp"] },
+        { "file": "index.css", "purpose": "Global styles + Tailwind imports" },
+        { "file": "vite-env.d.ts", "purpose": "Vite type declarations" }
+      ],
+      
+      "api": [
+        {
+          "file": "client.ts",
+          "purpose": "EdgeSpark API client",
+          "exports": ["client", "Task", "UserPreferences", "tasksApi", "preferencesApi", "storageApi"],
+          "patterns": {
+            "auth": "client.auth.getSession(), client.auth.renderAuthUI()",
+            "fetch": "client.api.fetch('/api/...')"
+          }
+        }
+      ],
+      
+      "components": [
+        {
+          "file": "Aurora.tsx",
+          "purpose": "Ambient animated background",
+          "props": { "colorStops": "string[]", "amplitude": "number", "blend": "number", "speed": "number" },
+          "reuse": "HIGH - framework agnostic"
+        },
+        {
+          "file": "BottomNav.tsx",
+          "purpose": "Bottom tab navigation",
+          "props": { "activeItem": "NavItem", "onNavigate": "(item: NavItem) => void" },
+          "reuse": "MEDIUM - needs motion/react migration"
+        },
+        {
+          "file": "CalendarView.tsx",
+          "purpose": "Calendar display component",
+          "reuse": "LOW - needs Schedule-X integration"
+        },
+        {
+          "file": "KanbanBoard.tsx",
+          "purpose": "Kanban board with drag-drop",
+          "reuse": "MEDIUM - already uses patterns we need"
+        },
+        {
+          "file": "GlassCard.tsx",
+          "purpose": "Glassmorphic card component",
+          "reuse": "HIGH - pure CSS"
+        },
+        {
+          "file": "FadeContent.tsx",
+          "purpose": "Content fade-in wrapper",
+          "props": { "blur": "boolean", "duration": "number", "delay": "number" },
+          "reuse": "MEDIUM - needs motion/react migration"
+        },
+        {
+          "file": "FocusTimer.tsx",
+          "purpose": "Focus/Pomodoro timer",
+          "reuse": "LOW - optional feature"
+        },
+        {
+          "file": "Header.tsx",
+          "purpose": "Page header with greeting",
+          "props": { "greeting": "string", "subtitle": "string" },
+          "reuse": "HIGH - simple component"
+        },
+        {
+          "file": "MoodBadge.tsx",
+          "purpose": "Small mood indicator badge",
+          "reuse": "HIGH - uses MOOD_CONFIG"
+        },
+        {
+          "file": "SettingsPage.tsx",
+          "purpose": "User preferences page",
+          "reuse": "MEDIUM - convert to Next.js page"
+        },
+        {
+          "file": "TodoItem.tsx",
+          "purpose": "Single task item",
+          "reuse": "LOW - replaced by TaskCard"
+        },
+        {
+          "file": "TodoList.tsx",
+          "purpose": "Task list container",
+          "reuse": "LOW - replaced by Kanban/Calendar"
+        },
+        {
+          "file": "WelcomeHeader.tsx",
+          "purpose": "Welcome section with stats",
+          "reuse": "HIGH - simple component"
+        }
+      ],
+      
+      "pages": [
+        {
+          "file": "LoginPage.tsx",
+          "purpose": "Authentication page",
+          "features": ["EdgeSpark auth UI", "Aurora background", "YouSoul branding"],
+          "reuse": "MEDIUM - convert to Next.js page"
+        }
+      ],
+      
+      "store": [
+        {
+          "file": "authStore.ts",
+          "purpose": "User authentication state",
+          "library": "Zustand + persist",
+          "state": { "user": "User | null", "isChecking": "boolean" },
+          "reuse": "HIGH - adapt to dataProvider"
+        },
+        {
+          "file": "tasksStore.ts",
+          "purpose": "Task CRUD operations",
+          "library": "Zustand",
+          "state": { "tasks": "Task[]", "isLoading": "boolean", "error": "string | null" },
+          "methods": ["fetchTasks", "createTask", "updateTask", "deleteTask", "reorderTasks"],
+          "reuse": "HIGH - adapt to dataProvider"
+        },
+        {
+          "file": "preferencesStore.ts",
+          "purpose": "User preferences",
+          "library": "Zustand + persist",
+          "state": { "preferences": "UserPreferences | null", "isLoading": "boolean" },
+          "reuse": "HIGH - adapt to dataProvider"
+        }
+      ],
+      
+      "types": [
+        {
+          "file": "task.ts",
+          "purpose": "All type definitions",
+          "exports": [
+            "AnticipatedMood",
+            "CompletedMood", 
+            "TaskStatus",
+            "Priority",
+            "Task",
+            "MOOD_CONFIG",
+            "COMPLETED_MOOD_CONFIG",
+            "UserPreferences",
+            "DEFAULT_PREFERENCES"
+          ],
+          "reuse": "HIGH - split into mood.ts, task.ts, user.ts"
+        }
+      ],
+      
+      "data": [
+        {
+          "file": "mockData.ts",
+          "purpose": "Mock data generators",
+          "exports": ["getGreeting"],
+          "reuse": "LOW - create new demo data"
+        }
+      ]
+    },
+    
+    "backend": {
+      "entry": [
+        {
+          "file": "src/index.ts",
+          "purpose": "Hono API routes",
+          "framework": "Hono on EdgeSpark",
+          "endpoints": {
+            "public": ["GET /api/public/health"],
+            "authenticated": [
+              "GET /api/me",
+              "GET /api/tasks",
+              "GET /api/tasks/:id",
+              "POST /api/tasks",
+              "PATCH /api/tasks/:id",
+              "DELETE /api/tasks/:id",
+              "POST /api/tasks/reorder",
+              "GET /api/preferences",
+              "PUT /api/preferences",
+              "POST /api/reflections/upload-url",
+              "GET /api/reflections/download-url"
+            ]
+          }
+        }
+      ],
+      
+      "generated": [
+        { "file": "db_schema.ts", "purpose": "Drizzle ORM schema" },
+        { "file": "db_raw_schema.sql", "purpose": "Raw SQL schema definitions" },
+        { "file": "db_relations.ts", "purpose": "Table relationships" },
+        { "file": "storage_schema.ts", "purpose": "S3 bucket configuration" },
+        { "file": "server-types.d.ts", "purpose": "Server type definitions" },
+        { "file": "index.ts", "purpose": "Generated exports" }
+      ],
+      
+      "config": [
+        { "file": "package.json", "purpose": "Backend dependencies" },
+        { "file": "tsconfig.json", "purpose": "Backend TypeScript config" },
+        { "file": "AGENTS.md", "purpose": "Agent instructions" }
+      ]
+    }
+  },
+  
+  "database": {
+    "tables": [
+      {
+        "name": "tasks",
+        "fields": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY AUTOINCREMENT" },
+          { "name": "user_id", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "title", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "description", "type": "TEXT" },
+          { "name": "status", "type": "TEXT", "default": "backlog", "enum": ["backlog", "todo", "in-progress", "done"] },
+          { "name": "priority", "type": "TEXT", "default": "medium", "enum": ["high", "medium", "low"] },
+          { "name": "due_date", "type": "TEXT", "format": "YYYY-MM-DD" },
+          { "name": "due_time", "type": "TEXT", "format": "HH:mm" },
+          { "name": "anticipated_mood", "type": "TEXT", "enum": ["energized", "calm", "tense", "drained", "curious"] },
+          { "name": "completed_mood", "type": "TEXT", "enum": ["proud", "relieved", "satisfied", "meh", "exhausted"] },
+          { "name": "reflection_note", "type": "TEXT" },
+          { "name": "reflection_photo_s3_uri", "type": "TEXT" },
+          { "name": "order_index", "type": "INTEGER", "default": 0 },
+          { "name": "completed_at", "type": "INTEGER" },
+          { "name": "created_at", "type": "INTEGER", "default": "unixepoch()" },
+          { "name": "updated_at", "type": "INTEGER", "default": "unixepoch()" }
+        ],
+        "indexes": [
+          "tasks_due_date_idx ON tasks(due_date)",
+          "tasks_status_idx ON tasks(status)",
+          "tasks_user_id_idx ON tasks(user_id)",
+          "tasks_user_status_idx ON tasks(user_id, status)"
+        ]
+      },
+      {
+        "name": "user_preferences",
+        "fields": [
+          { "name": "user_id", "type": "TEXT", "constraints": "PRIMARY KEY" },
+          { "name": "emoji_set", "type": "TEXT", "default": "default" },
+          { "name": "color_palette", "type": "TEXT", "default": "vibrant" },
+          { "name": "visualization_intensity", "type": "TEXT", "default": "balanced" },
+          { "name": "created_at", "type": "INTEGER", "default": "unixepoch()" },
+          { "name": "updated_at", "type": "INTEGER", "default": "unixepoch()" }
+        ]
+      },
+      {
+        "name": "es_system__auth_user",
+        "note": "EdgeSpark managed auth table",
+        "fields": [
+          { "name": "id", "type": "TEXT", "constraints": "PRIMARY KEY" },
+          { "name": "name", "type": "TEXT" },
+          { "name": "email", "type": "TEXT", "constraints": "UNIQUE" },
+          { "name": "email_verified", "type": "INTEGER", "default": false },
+          { "name": "image", "type": "TEXT" }
+        ]
+      }
+    ]
+  },
+  
+  "patterns": {
+    "stateManagement": {
+      "library": "Zustand",
+      "middlewares": ["persist (for auth, preferences)"],
+      "pattern": "Create stores that call API functions, optimistic updates for reorder"
+    },
+    "dataFetching": {
+      "client": "@edgespark/client",
+      "pattern": "client.api.fetch('/api/...') with JSON body",
+      "auth": "Automatic via EdgeSpark session"
+    },
+    "styling": {
+      "framework": "Tailwind CSS",
+      "theme": "Dark mode, glassmorphic cards",
+      "colors": {
+        "surface": "#0a0a0f, #1a1a2e",
+        "accent": "#ffca7f",
+        "moods": "See MOOD_CONFIG"
+      }
+    },
+    "animation": {
+      "library": "framer-motion (⚠️ MUST MIGRATE to motion/react)",
+      "patterns": [
+        "AnimatePresence for page transitions",
+        "motion.div for animated elements",
+        "Variants for complex animations"
+      ]
+    }
+  },
+  
+  "dependencies": {
+    "production": {
+      "@edgespark/client": "^1.0.2",
+      "framer-motion": "^11.0.8 (⚠️ REPLACE with motion)",
+      "zustand": "^4.5.7",
+      "clsx": "^2.1.0",
+      "lucide-react": "^0.533.0",
+      "zod": "^3.25.67",
+      "react": "^18.3.1",
+      "react-dom": "^18.3.1"
+    },
+    "dev": {
+      "vite": "^7.0.0",
+      "typescript": "~5.8.3",
+      "tailwindcss": "^3.4.17",
+      "@vitejs/plugin-react": "^4.5.2",
+      "@youware/vite-plugin-react": "^1.0.2"
+    }
+  },
+  
+  "reuseMatrix": {
+    "high": {
+      "files": [
+        "src/types/task.ts",
+        "src/store/authStore.ts",
+        "src/store/tasksStore.ts",
+        "src/store/preferencesStore.ts",
+        "src/components/Aurora.tsx",
+        "src/components/GlassCard.tsx",
+        "src/components/Header.tsx",
+        "src/components/MoodBadge.tsx",
+        "src/components/WelcomeHeader.tsx"
+      ],
+      "changes": "Minor adaptations, type imports"
+    },
+    "medium": {
+      "files": [
+        "src/components/BottomNav.tsx",
+        "src/components/FadeContent.tsx",
+        "src/components/KanbanBoard.tsx",
+        "src/components/SettingsPage.tsx",
+        "src/pages/LoginPage.tsx"
+      ],
+      "changes": "framer-motion → motion/react, Next.js patterns"
+    },
+    "low": {
+      "files": [
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/components/CalendarView.tsx",
+        "src/components/TodoItem.tsx",
+        "src/components/TodoList.tsx"
+      ],
+      "changes": "Replace with new implementations"
+    }
+  },
+  
+  "migrationNotes": [
+    "Replace framer-motion with motion/react throughout",
+    "Convert Vite SPA to Next.js App Router",
+    "Add data provider abstraction layer",
+    "Replace CalendarView with Schedule-X integration",
+    "Add CompletionCelebration modal",
+    "Create auth middleware for route protection"
+  ]
+}
