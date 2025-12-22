@@ -1,0 +1,859 @@
+{
+  "meta": {
+    "version": "1.0.0",
+    "title": "Unified YouSoul Architecture for YouWare Challenge",
+    "purpose": "Complete reference for AI agents to perform accurate 1:1 Clarity → YouWare migration with YouSoul mood features",
+    "generated": "2025-12-22T22:00:00Z",
+    "sources": [
+      "clarity-architecture-for-migration.json",
+      "youware-source-index.json",
+      "youware-challenge-guidelines.json",
+      "clarity-youware-mapping.json",
+      "yousoul-implementation-strategy-2025-12-22.json",
+      "yousoul-youware-mission-2025-12-22.json"
+    ],
+    "paths": {
+      "claritySource": "/Users/oak/Downloads/Core/Dev/Craft/craftie/app/clarity",
+      "youwareTarget": "/Users/oak/Downloads/Core/Competition/YouWare/yousoul",
+      "oakManagement": "/Users/oak/Downloads/Core/Competition/YouWare/oak-management"
+    }
+  },
+
+  "challenge": {
+    "name": "YouWare Challenge",
+    "platform": "Contra",
+    "prizePool": "$10,000",
+    "prizes": {
+      "grandPrize": { "cash": "$5,000", "credits": 100000 },
+      "secondPlace": { "cash": "$2,500", "credits": 75000 },
+      "thirdPlace": { "cash": "$1,500", "credits": 50000 },
+      "communityWinners": { "count": 2, "cashEach": "$500", "creditsEach": 12500 }
+    },
+    "timeline": {
+      "submissionsOpen": "2025-12-16T16:30:00Z",
+      "deadline": "2025-12-24T08:00:00Z",
+      "buildPeriod": "December 16-23, 2025"
+    },
+    "scoring": {
+      "maxPoints": 35,
+      "base": {
+        "targetAudienceFit": { "points": 5, "strategy": "Non-developers, emotional appeal, universal audience" },
+        "designQuality": { "points": 5, "strategy": "Apple + Chibi aesthetic, glassmorphic UI, Motion.dev springs" },
+        "functionality": { "points": 5, "strategy": "Zero bugs, proven YouSoul base, smooth UX" },
+        "uniqueIdea": { "points": 5, "strategy": "FIRST app connecting mood to productivity tasks" }
+      },
+      "bonus": {
+        "socialPost": { "points": 5, "requirements": ["Share on X", "Tag @YouWareAI", "Include #YouWareChallenge"] },
+        "tagFriends": { "points": 5, "requirements": "Tag 2-3 friends in post" },
+        "youbaseExpert": { "points": 5, "requirements": "Demonstrate Auth + Database + Storage usage" }
+      }
+    },
+    "judges": [
+      { "name": "Leon Ming", "title": "Founder & CEO at YouWare" },
+      { "name": "Ben Huffman", "title": "Co-founder & CEO at Contra" },
+      { "name": "Robert Scoble", "title": "Host of Unaligned" },
+      { "name": "Victoria B.", "title": "Digital Marketing Manager at YouWare" },
+      { "name": "Marvin Ma", "title": "AI at YouWare" }
+    ],
+    "projectedScore": "33-35/35"
+  },
+
+  "appDefinition": {
+    "name": "YouSoul",
+    "tagline": "Feel your productivity",
+    "elevatorPitch": "The first productivity app that remembers not just what you did, but how it made you feel. Calendar and Kanban views enhanced with emotional intelligence.",
+    "uniqueValueProposition": "Task-tied mood logging with at-moment reflection capture",
+    "targetAudiences": [
+      { "segment": "Busy Professionals", "need": "Efficiency", "hook": "2 seconds extra per task" },
+      { "segment": "Students", "need": "YouSoul", "hook": "Know what to tackle first" },
+      { "segment": "Wellness-focused", "need": "Insights", "hook": "See what affects you" },
+      { "segment": "Self-improvers", "need": "Growth", "hook": "Track emotional progress" },
+      { "segment": "Casual users", "need": "Zero effort", "hook": "Works if you never tap" }
+    ],
+    "designPhilosophy": "Apple + Chibi (aspirational simplicity + warm humble persona)"
+  },
+
+  "strategy": {
+    "name": "Hybrid Port",
+    "formula": "YouWare Foundation + Clarity UX + YouSoul Mood = Final App",
+    "description": "Keep YouWare Vite SPA structure, port Clarity's UI patterns, add YouSoul mood features",
+    "rationale": [
+      "YouWare Foundation is Vite SPA, not Next.js - keep this for platform compatibility",
+      "Clarity's UI/UX is the gold standard - port exact patterns",
+      "YouSoul adds mood system as unique differentiator"
+    ],
+    "frameworkMapping": {
+      "from": "Next.js 16 (App Router)",
+      "to": "Vite + React SPA",
+      "decision": "KEEP Vite SPA (YouWare native)"
+    }
+  },
+
+  "source_architecture": {
+    "clarity": {
+      "description": "Complete Clarity file structure with migration annotations",
+      "app_clarity": [
+        {
+          "path": "app/clarity/layout.tsx",
+          "type": "layout",
+          "purpose": "Root layout with providers, video background, BottomNav",
+          "exports": ["ClarityLayout"],
+          "migration_notes": "Convert to App.tsx wrapper. Keep provider nesting order. Video background and BottomNav stay OUTSIDE animated content."
+        },
+        {
+          "path": "app/clarity/template.tsx",
+          "type": "template",
+          "purpose": "Camera-pan page transitions (re-mounts on navigation)",
+          "exports": ["ClarityTemplate"],
+          "migration_notes": "Replace with AnimatePresence + motion.div in App.tsx. Use state-based view switching instead of file-based routing."
+        },
+        {
+          "path": "app/clarity/page.tsx",
+          "type": "page",
+          "purpose": "Redirects to /clarity/calendar",
+          "migration_notes": "Not needed in SPA - default to calendar view"
+        },
+        {
+          "path": "app/clarity/calendar/page.tsx",
+          "type": "page",
+          "purpose": "Calendar view page",
+          "migration_notes": "Becomes CalendarView component, rendered when activeNav === 'calendar'"
+        },
+        {
+          "path": "app/clarity/board/page.tsx",
+          "type": "page",
+          "purpose": "Kanban board page",
+          "migration_notes": "Becomes BoardView component, rendered when activeNav === 'board'"
+        },
+        {
+          "path": "app/clarity/settings/page.tsx",
+          "type": "page",
+          "purpose": "Settings page",
+          "migration_notes": "Becomes SettingsView component"
+        },
+        {
+          "path": "app/clarity/globals-clarity.css",
+          "type": "style",
+          "purpose": "CSS variables, Schedule-X theme, glassmorphic classes",
+          "migration_notes": "CRITICAL: Copy all CSS variables and Schedule-X styles to src/styles/schedule-x-theme.css"
+        }
+      ],
+      "components_clarity": [
+        {
+          "path": "components/clarity/ui/bottom-nav.tsx",
+          "type": "component",
+          "purpose": "Fixed bottom navigation with tab indicator",
+          "exports": ["BottomNav"],
+          "dependencies": ["motion/react", "@hugeicons/react", "next/link", "next/navigation"],
+          "migration_notes": "Replace next/link with state setter, usePathname with activeNav state, keep layoutId animation"
+        },
+        {
+          "path": "components/clarity/calendar/schedule-calendar.tsx",
+          "type": "component",
+          "purpose": "Full Schedule-X calendar (1046 lines)",
+          "exports": ["ScheduleCalendar"],
+          "dependencies": ["temporal-polyfill/global", "@schedule-x/*", "motion/react"],
+          "migration_notes": "CRITICAL: Import temporal-polyfill FIRST. Replace CraftEvent with Task type. Replace ItemEditModal with CaptureContext."
+        },
+        {
+          "path": "components/clarity/calendar/view-switcher.tsx",
+          "type": "component",
+          "purpose": "Day/Week/Month toggle",
+          "exports": ["ViewSwitcher"],
+          "migration_notes": "Direct port, replace next/navigation with props"
+        },
+        {
+          "path": "components/clarity/board/kanban-board.tsx",
+          "type": "component",
+          "purpose": "Full dnd-kit Kanban board (465 lines)",
+          "exports": ["KanbanBoard"],
+          "dependencies": ["@dnd-kit/core", "@dnd-kit/sortable", "motion/react"],
+          "migration_notes": "Replace BoardItem/BoardColumn types with Task. Keep DndContext, DragOverlay, fractional ordering."
+        },
+        {
+          "path": "components/clarity/board/column.tsx",
+          "type": "component",
+          "purpose": "Sortable column with SortableContext",
+          "exports": ["Column"],
+          "dependencies": ["@dnd-kit/core", "@dnd-kit/sortable", "motion/react", "@hugeicons/react"],
+          "migration_notes": "Replace HugeIcons with Lucide. Keep useDroppable, collapsible state."
+        },
+        {
+          "path": "components/clarity/board/task-card.tsx",
+          "type": "component",
+          "purpose": "Sortable task card with useSortable",
+          "exports": ["TaskCard"],
+          "dependencies": ["@dnd-kit/sortable", "@dnd-kit/utilities", "motion/react"],
+          "migration_notes": "Key file. Keep useSortable, CSS.Transform, drag placeholder pattern."
+        },
+        {
+          "path": "components/clarity/capture/create-item-modal.tsx",
+          "type": "component",
+          "purpose": "Task creation/edit modal",
+          "exports": ["CreateItemModal"],
+          "migration_notes": "Port glassmorphic styling, integrate MoodPicker for YouSoul"
+        },
+        {
+          "path": "components/clarity/ui/clarity-card.tsx",
+          "type": "component",
+          "purpose": "Glassmorphic card wrapper",
+          "exports": ["ClarityCard"],
+          "migration_notes": "Direct port - just Tailwind classes"
+        }
+      ],
+      "lib_clarity": [
+        {
+          "path": "lib/clarity/tab-transition-context.tsx",
+          "type": "context",
+          "purpose": "Track navigation direction for camera-pan",
+          "exports": ["TabTransitionProvider", "useTabTransition"],
+          "state": {
+            "direction": "'left' | 'right' | 'none'",
+            "setDirectionFromNavigation": "(from, to) => void",
+            "resetDirection": "() => void"
+          },
+          "migration_notes": "Remove 'use client'. Replace TAB_INDEX paths with view names."
+        },
+        {
+          "path": "lib/clarity/capture-context.tsx",
+          "type": "context",
+          "purpose": "Control capture modal visibility",
+          "exports": ["CaptureProvider", "useCapture"],
+          "state": {
+            "showCapture": "boolean",
+            "openCapture": "() => void",
+            "closeCapture": "() => void"
+          },
+          "migration_notes": "Direct port. Add editingTask state for edit mode."
+        }
+      ]
+    },
+    "youware_foundation": {
+      "description": "YouWare Foundation project structure",
+      "root_config": [
+        { "file": "package.json", "purpose": "Dependencies and scripts" },
+        { "file": "tsconfig.json", "purpose": "TypeScript config" },
+        { "file": "vite.config.ts", "purpose": "Vite bundler config" },
+        { "file": "tailwind.config.js", "purpose": "Tailwind CSS config" },
+        { "file": "yw_manifest.json", "purpose": "YouWare manifest" }
+      ],
+      "src_structure": {
+        "entry": ["main.tsx", "App.tsx", "index.css", "vite-env.d.ts"],
+        "api": {
+          "file": "client.ts",
+          "purpose": "EdgeSpark API client",
+          "exports": ["client", "Task", "UserPreferences", "tasksApi", "preferencesApi"],
+          "patterns": {
+            "auth": "client.auth.getSession(), client.auth.renderAuthUI()",
+            "fetch": "client.api.fetch('/api/...')"
+          }
+        },
+        "components": [
+          { "file": "Aurora.tsx", "reuse": "HIGH", "purpose": "Ambient animated background" },
+          { "file": "BottomNav.tsx", "reuse": "MEDIUM", "purpose": "Bottom tab navigation" },
+          { "file": "GlassCard.tsx", "reuse": "HIGH", "purpose": "Glassmorphic card component" },
+          { "file": "MoodBadge.tsx", "reuse": "HIGH", "purpose": "Small mood indicator badge" },
+          { "file": "Header.tsx", "reuse": "HIGH", "purpose": "Page header with greeting" }
+        ],
+        "store": [
+          { "file": "authStore.ts", "library": "Zustand + persist", "state": ["user", "isChecking"] },
+          { "file": "tasksStore.ts", "library": "Zustand", "state": ["tasks", "isLoading", "error"], "methods": ["fetchTasks", "createTask", "updateTask", "deleteTask", "reorderTasks"] },
+          { "file": "preferencesStore.ts", "library": "Zustand + persist", "state": ["preferences", "isLoading"] }
+        ],
+        "types": {
+          "file": "task.ts",
+          "exports": ["AnticipatedMood", "CompletedMood", "TaskStatus", "Priority", "Task", "MOOD_CONFIG", "COMPLETED_MOOD_CONFIG"]
+        }
+      }
+    }
+  },
+
+  "design_system": {
+    "colors": {
+      "accent": { "value": "#ffca7f", "variable": "--clarity-accent", "usage": "Primary action color, tab indicator, event borders" },
+      "accent_hover": { "value": "#ffd699", "variable": "--clarity-accent-hover" },
+      "accent_foreground": { "value": "#141425", "variable": "--clarity-accent-foreground" },
+      "background": { "value": "transparent", "variable": "--clarity-bg", "note": "Video plays behind" },
+      "surface": { "value": "rgba(255, 255, 255, 0.05)", "variable": "--clarity-surface" },
+      "surface_elevated": { "value": "rgba(255, 255, 255, 0.08)", "variable": "--clarity-surface-elevated" },
+      "text": {
+        "primary": { "value": "#ffffff", "variable": "--clarity-text" },
+        "secondary": { "value": "rgba(255, 255, 255, 0.8)", "variable": "--clarity-text-secondary" },
+        "muted": { "value": "rgba(255, 255, 255, 0.6)", "variable": "--clarity-text-muted" }
+      },
+      "border": {
+        "default": { "value": "rgba(255, 255, 255, 0.10)", "variable": "--clarity-border" },
+        "hover": { "value": "rgba(255, 255, 255, 0.20)", "variable": "--clarity-border-hover" }
+      },
+      "status": {
+        "backlog": "#6B7280",
+        "todo": "#3B82F6",
+        "in_progress": "#F59E0B",
+        "done": "#10B981"
+      },
+      "priority": {
+        "high": "#ef4444",
+        "medium": "#f59e0b",
+        "low": "#10b981"
+      }
+    },
+    "effects": {
+      "glassmorphism": {
+        "modal": {
+          "background": "bg-[#1a1a2e]/70",
+          "blur": "backdrop-blur-2xl",
+          "border": "border border-white/20",
+          "radius": "rounded-2xl",
+          "shadow": "shadow-2xl"
+        },
+        "card": {
+          "background": "bg-white/[0.03]",
+          "blur": "backdrop-blur-xl",
+          "border": "border border-white/8",
+          "radius": "rounded-xl"
+        },
+        "nav": {
+          "background": "bg-[var(--clarity-surface)]/90",
+          "blur": "backdrop-blur-xl",
+          "border": "border border-white/10"
+        }
+      }
+    },
+    "border_radius": {
+      "small": "rounded-lg (8px)",
+      "medium": "rounded-xl (12px)",
+      "large": "rounded-2xl (16px)"
+    }
+  },
+
+  "dependencies": {
+    "critical": [
+      { "package": "@schedule-x/react", "version": "^3.5.0", "purpose": "React bindings for Schedule-X calendar" },
+      { "package": "@schedule-x/calendar", "version": "^3.5.1", "purpose": "Core calendar with day/week/month views" },
+      { "package": "@schedule-x/drag-and-drop", "version": "^3.5.1", "purpose": "Event drag-drop plugin" },
+      { "package": "@schedule-x/resize", "version": "^3.5.1", "purpose": "Event resize plugin" },
+      { "package": "@schedule-x/events-service", "version": "^3.5.1", "purpose": "Programmatic event updates" },
+      { "package": "@schedule-x/calendar-controls", "version": "^3.5.1", "purpose": "Programmatic view/date changes" },
+      { "package": "@dnd-kit/core", "version": "^6.3.1", "purpose": "Core drag-drop context" },
+      { "package": "@dnd-kit/sortable", "version": "^10.0.0", "purpose": "Sortable lists for Kanban" },
+      { "package": "@dnd-kit/utilities", "version": "^3.2.2", "purpose": "CSS transform utilities" },
+      { "package": "motion", "version": "^12.23.26", "purpose": "Animation library (import from 'motion/react')" },
+      { "package": "temporal-polyfill", "version": "^0.3.0", "purpose": "Temporal API for Schedule-X dates" }
+    ],
+    "existing_youware": [
+      "@edgespark/client",
+      "framer-motion",
+      "zustand",
+      "clsx",
+      "lucide-react",
+      "zod",
+      "react",
+      "react-dom"
+    ],
+    "install_command": "pnpm add @schedule-x/react @schedule-x/calendar @schedule-x/drag-and-drop @schedule-x/resize @schedule-x/events-service @schedule-x/calendar-controls @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities motion temporal-polyfill"
+  },
+
+  "database_schema": {
+    "tables": {
+      "tasks": {
+        "sql": "CREATE TABLE tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT DEFAULT 'backlog', priority TEXT DEFAULT 'medium', due_date TEXT, due_time TEXT, anticipated_mood TEXT, completed_mood TEXT, reflection_note TEXT, reflection_photo_s3_uri TEXT, order_index INTEGER DEFAULT 0, completed_at INTEGER, created_at INTEGER DEFAULT (unixepoch()), updated_at INTEGER DEFAULT (unixepoch()));",
+        "fields": [
+          { "name": "id", "type": "INTEGER", "constraints": "PRIMARY KEY AUTOINCREMENT" },
+          { "name": "user_id", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "title", "type": "TEXT", "constraints": "NOT NULL" },
+          { "name": "description", "type": "TEXT" },
+          { "name": "status", "type": "TEXT", "default": "backlog", "enum": ["backlog", "todo", "in-progress", "done"] },
+          { "name": "priority", "type": "TEXT", "default": "medium", "enum": ["high", "medium", "low"] },
+          { "name": "due_date", "type": "TEXT", "format": "YYYY-MM-DD" },
+          { "name": "due_time", "type": "TEXT", "format": "HH:mm" },
+          { "name": "anticipated_mood", "type": "TEXT", "enum": ["energized", "calm", "tense", "drained", "curious"] },
+          { "name": "completed_mood", "type": "TEXT", "enum": ["proud", "relieved", "satisfied", "meh", "exhausted"] },
+          { "name": "reflection_note", "type": "TEXT" },
+          { "name": "reflection_photo_s3_uri", "type": "TEXT" },
+          { "name": "order_index", "type": "INTEGER", "default": 0 },
+          { "name": "completed_at", "type": "INTEGER" },
+          { "name": "created_at", "type": "INTEGER", "default": "unixepoch()" },
+          { "name": "updated_at", "type": "INTEGER", "default": "unixepoch()" }
+        ],
+        "indexes": [
+          "tasks_due_date_idx ON tasks(due_date)",
+          "tasks_status_idx ON tasks(status)",
+          "tasks_user_id_idx ON tasks(user_id)"
+        ]
+      },
+      "user_preferences": {
+        "sql": "CREATE TABLE user_preferences (user_id TEXT PRIMARY KEY, emoji_set TEXT DEFAULT 'default', color_palette TEXT DEFAULT 'vibrant', visualization_intensity TEXT DEFAULT 'balanced', created_at INTEGER DEFAULT (unixepoch()), updated_at INTEGER DEFAULT (unixepoch()));",
+        "fields": [
+          { "name": "user_id", "type": "TEXT", "constraints": "PRIMARY KEY" },
+          { "name": "emoji_set", "type": "TEXT", "default": "default" },
+          { "name": "color_palette", "type": "TEXT", "default": "vibrant" },
+          { "name": "visualization_intensity", "type": "TEXT", "default": "balanced" },
+          { "name": "created_at", "type": "INTEGER", "default": "unixepoch()" },
+          { "name": "updated_at", "type": "INTEGER", "default": "unixepoch()" }
+        ]
+      }
+    },
+    "existing_youbase_tables": [
+      "es_system__auth_user",
+      "es_system__auth_account",
+      "es_system__auth_session"
+    ]
+  },
+
+  "component_registry": {
+    "BottomNav": {
+      "file": "src/components/BottomNav.tsx",
+      "props": { "activeNav": "string", "onNavigate": "(nav: string) => void", "onCaptureClick": "() => void" },
+      "styling": {
+        "classes": [
+          "fixed bottom-6 left-1/2 -translate-x-1/2",
+          "bg-[var(--clarity-surface)]/90 backdrop-blur-xl",
+          "rounded-2xl border border-white/10",
+          "shadow-2xl shadow-black/20"
+        ]
+      },
+      "animations": [
+        { "name": "entry", "config": "initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}" },
+        { "name": "tab-indicator", "config": "layoutId='bottomNavActive' spring stiffness=400 damping=30" },
+        { "name": "button-tap", "config": "whileTap={{ scale: 0.95 }}" }
+      ]
+    },
+    "ScheduleCalendar": {
+      "file": "src/components/ScheduleCalendar.tsx",
+      "props": { "tasks": "Task[]", "onTaskUpdate": "(task) => void", "onTaskDelete": "(id) => void" },
+      "critical_imports": [
+        "import 'temporal-polyfill/global'; // MUST BE FIRST",
+        "import { useCalendarApp, ScheduleXCalendar } from '@schedule-x/react';",
+        "import { viewWeek, viewDay, viewMonthGrid } from '@schedule-x/calendar';",
+        "import { createDragAndDropPlugin } from '@schedule-x/drag-and-drop';",
+        "import { createResizePlugin } from '@schedule-x/resize';",
+        "import { createEventsServicePlugin } from '@schedule-x/events-service';",
+        "import { createCalendarControlsPlugin } from '@schedule-x/calendar-controls';"
+      ],
+      "key_patterns": [
+        "toTemporalDateTime() - Convert string to PlainDate or ZonedDateTime",
+        "formatDateTime() - Convert Temporal back to string",
+        "hasTimeComponent() - Detect timed vs all-day",
+        "Click vs drag detection with movement threshold"
+      ]
+    },
+    "KanbanBoard": {
+      "file": "src/components/KanbanBoardDndKit.tsx",
+      "props": { "tasks": "Task[]", "onTaskUpdate": "(task) => void", "onCardClick": "(task) => void" },
+      "dnd_kit_setup": {
+        "sensors": "useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }), useSensor(KeyboardSensor))",
+        "collision": "closestCorners",
+        "drop_animation": "{ duration: 150, easing: 'ease-out' }"
+      },
+      "key_patterns": [
+        "calculateFractionalOrder() for position persistence",
+        "DragOverlay for ghost card during drag",
+        "Placeholder with dashed border when dragging"
+      ]
+    },
+    "Column": {
+      "file": "src/components/Column.tsx",
+      "props": { "id": "string", "title": "string", "tasks": "Task[]", "accentColor": "string", "activeId": "string | null" },
+      "features": [
+        "SortableContext with verticalListSortingStrategy",
+        "useDroppable hook",
+        "Collapsible with AnimatePresence",
+        "Task count badge"
+      ]
+    },
+    "TaskCard": {
+      "file": "src/components/TaskCard.tsx",
+      "props": { "task": "Task", "onClick": "() => void" },
+      "dnd_kit_usage": {
+        "hook": "useSortable({ id: task.id })",
+        "transform": "CSS.Transform.toString(transform)",
+        "placeholder": "Show dashed border when isDragging"
+      },
+      "styling": {
+        "base": "rounded-xl border p-4 bg-white/12 border-white/10",
+        "dragging": "shadow-2xl z-50 bg-white/18 border-accent/50 scale-[1.02]",
+        "hover": "whileHover={{ y: -4, scale: 1.01 }}"
+      }
+    },
+    "MoodPicker": {
+      "file": "src/components/MoodPicker.tsx",
+      "props": { "selectedMood": "AnticipatedMood | null", "onChange": "(mood) => void" },
+      "features": ["Horizontal row of 5 moods", "Bounce on hover", "Pulse on select"]
+    },
+    "CompletionCelebration": {
+      "file": "src/components/CompletionCelebration.tsx",
+      "props": { "task": "Task", "onClose": "() => void", "onSave": "(mood, note) => void" },
+      "features": ["Confetti animation", "Completion mood picker", "Reflection note input"]
+    },
+    "MoodBadge": {
+      "file": "src/components/MoodBadge.tsx",
+      "props": { "mood": "AnticipatedMood | CompletedMood", "size": "'sm' | 'md'" },
+      "features": ["Uses MOOD_CONFIG for emoji/color", "Hover tooltip"]
+    }
+  },
+
+  "context_mapping": {
+    "TabTransitionContext": {
+      "file": "src/contexts/tab-transition-context.tsx",
+      "state": {
+        "direction": "'left' | 'right' | 'none'"
+      },
+      "actions": {
+        "setDirectionFromNavigation": "(from: string, to: string) => void",
+        "resetDirection": "() => void"
+      },
+      "tab_indices": { "calendar": 0, "board": 1, "settings": 2 },
+      "usage": "Wrap app, consume in AnimatePresence for camera-pan direction"
+    },
+    "CaptureContext": {
+      "file": "src/contexts/capture-context.tsx",
+      "state": {
+        "showCapture": "boolean",
+        "editingTask": "Task | null"
+      },
+      "actions": {
+        "openCapture": "(task?: Task) => void",
+        "closeCapture": "() => void"
+      },
+      "usage": "Control create/edit modal visibility from anywhere"
+    }
+  },
+
+  "state_management": {
+    "stores": {
+      "tasksStore": {
+        "file": "src/store/tasksStore.ts",
+        "library": "Zustand",
+        "state": ["tasks: Task[]", "isLoading: boolean", "error: string | null"],
+        "actions": ["fetchTasks()", "createTask(task)", "updateTask(id, updates)", "deleteTask(id)", "reorderTasks(updates)"]
+      },
+      "authStore": {
+        "file": "src/store/authStore.ts",
+        "library": "Zustand + persist",
+        "state": ["user: User | null", "isChecking: boolean"],
+        "actions": ["setUser(user)", "setChecking(checking)"]
+      },
+      "preferencesStore": {
+        "file": "src/store/preferencesStore.ts",
+        "library": "Zustand + persist",
+        "state": ["preferences: UserPreferences | null", "isLoading: boolean"],
+        "actions": ["fetchPreferences()", "updatePreferences(prefs)"]
+      }
+    },
+    "hooks": {
+      "useCalendarEvents": {
+        "file": "src/hooks/use-calendar-events.ts",
+        "purpose": "Transform tasks to Schedule-X event format",
+        "transform": {
+          "id": "task.id",
+          "title": "task.title",
+          "start": "task.dueDate + task.dueTime",
+          "end": "task.dueDate + task.dueTime + 1h",
+          "allDay": "!task.dueTime",
+          "_mood": "task.anticipated_mood"
+        }
+      }
+    }
+  },
+
+  "mood_system": {
+    "philosophy": {
+      "concept": "Emotional Productivity Intelligence",
+      "principle": "Label it to understand it, track it to change it",
+      "keyInsight": "Your calendar and kanban are already emotional - we just make it visible"
+    },
+    "threePillars": [
+      { "name": "ANTICIPATE", "when": "Task creation", "question": "How do I feel about this?" },
+      { "name": "EXPERIENCE", "when": "During task", "method": "Visual feedback (borders, badges)" },
+      { "name": "REFLECT", "when": "Task completion", "question": "How did that feel?" }
+    ],
+    "tier1Moods": [
+      { "id": "energized", "emoji": "🔥", "label": "Energized", "color": "#FFB347" },
+      { "id": "calm", "emoji": "😌", "label": "Calm", "color": "#98D8AA" },
+      { "id": "tense", "emoji": "😰", "label": "Tense", "color": "#FF6B6B" },
+      { "id": "drained", "emoji": "😴", "label": "Drained", "color": "#9CA3AF" },
+      { "id": "curious", "emoji": "🤔", "label": "Curious", "color": "#A78BFA" }
+    ],
+    "completionMoods": [
+      { "id": "proud", "emoji": "🎉", "label": "Proud" },
+      { "id": "relieved", "emoji": "😮‍💨", "label": "Relieved" },
+      { "id": "satisfied", "emoji": "😊", "label": "Satisfied" },
+      { "id": "meh", "emoji": "😐", "label": "Meh" },
+      { "id": "exhausted", "emoji": "😫", "label": "Exhausted" }
+    ],
+    "viewIntegration": {
+      "calendar": "Color-coded 4px left border based on anticipated_mood",
+      "kanban": "Mood emoji badge on each card",
+      "completion": "Celebration modal with completion mood picker"
+    }
+  },
+
+  "special_features": {
+    "video_background": {
+      "implementation": "Fixed div with video element, dark overlay on top",
+      "structure": "<div class='fixed inset-0 -z-10'><video autoPlay loop muted playsInline /><div class='absolute inset-0 bg-black/60' /></div>",
+      "z_index": "Video at -z-10, content at z-10, nav at z-50"
+    },
+    "camera_pan_transitions": {
+      "library": "motion/react (or framer-motion)",
+      "mechanism": "AnimatePresence + motion.div with key={activeNav}",
+      "directions": {
+        "left": "Going to higher tab (Calendar→Board), x: 100vw → 0",
+        "right": "Going to lower tab (Board→Calendar), x: -100vw → 0",
+        "none": "No animation"
+      },
+      "config": {
+        "duration": 0.5,
+        "ease": [0.32, 0.72, 0, 1]
+      }
+    },
+    "schedule_x_calendar": {
+      "theme": "Custom CSS in schedule-x-theme.css",
+      "plugins": ["drag-and-drop", "resize", "events-service", "calendar-controls"],
+      "key_features": [
+        "All-day vs timed events (PlainDate vs ZonedDateTime)",
+        "Drag to reschedule",
+        "Resize to change duration",
+        "Mood-colored 4px left border"
+      ],
+      "gotchas": [
+        "MUST import temporal-polyfill/global BEFORE @schedule-x/*",
+        "Use UTC timezone for ZonedDateTime",
+        "Sync events via eventsService.set() in useEffect"
+      ]
+    },
+    "dnd_kit_kanban": {
+      "sensors": "PointerSensor (8px distance) + KeyboardSensor",
+      "collision": "closestCorners",
+      "patterns": [
+        "DragOverlay for ghost card",
+        "Fractional ordering for position persistence",
+        "Placeholder with dashed border when dragging"
+      ],
+      "column_colors": {
+        "backlog": "#6B7280",
+        "todo": "#3B82F6",
+        "in-progress": "#F59E0B",
+        "done": "#10B981"
+      }
+    }
+  },
+
+  "migration_checklist": [
+    {
+      "step": 1,
+      "task": "Install dependencies",
+      "commands": ["pnpm add @schedule-x/react @schedule-x/calendar @schedule-x/drag-and-drop @schedule-x/resize @schedule-x/events-service @schedule-x/calendar-controls @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities motion temporal-polyfill"],
+      "status": "DONE"
+    },
+    {
+      "step": 2,
+      "task": "Copy Schedule-X theme CSS",
+      "source": "app/clarity/globals-clarity.css",
+      "target": "src/styles/schedule-x-theme.css",
+      "status": "DONE"
+    },
+    {
+      "step": 3,
+      "task": "Create TabTransitionContext",
+      "target": "src/contexts/tab-transition-context.tsx",
+      "status": "DONE"
+    },
+    {
+      "step": 4,
+      "task": "Create CaptureContext",
+      "target": "src/contexts/capture-context.tsx",
+      "status": "DONE"
+    },
+    {
+      "step": 5,
+      "task": "Port BottomNav with spring indicator",
+      "target": "src/components/BottomNav.tsx",
+      "status": "IN PROGRESS"
+    },
+    {
+      "step": 6,
+      "task": "Port ScheduleCalendar",
+      "target": "src/components/ScheduleCalendar.tsx",
+      "status": "DONE"
+    },
+    {
+      "step": 7,
+      "task": "Port KanbanBoard + Column + TaskCard",
+      "target": "src/components/KanbanBoardDndKit.tsx, Column.tsx, TaskCard.tsx",
+      "status": "DONE"
+    },
+    {
+      "step": 8,
+      "task": "Refactor App.tsx with providers and transitions",
+      "target": "src/App.tsx",
+      "status": "IN PROGRESS"
+    },
+    {
+      "step": 9,
+      "task": "Test and verify",
+      "checks": ["Camera-pan transitions", "Calendar drag/resize", "Kanban drag-drop", "Mood coloring"],
+      "status": "PENDING"
+    }
+  ],
+
+  "priority_matrix": {
+    "P0_mustHave": [
+      "Data provider abstraction",
+      "Calendar with mood borders",
+      "Kanban with mood badges",
+      "Mood picker in task creation",
+      "Completion celebration modal",
+      "YouBase Auth (Email + Google)",
+      "YouBase Database CRUD"
+    ],
+    "P1_shouldHave": [
+      "Energy forecast header",
+      "Week soul card",
+      "Emoji/color customization",
+      "Camera-pan transitions"
+    ],
+    "P2_niceToHave": [
+      "Month heatmap grid",
+      "Stacked area chart"
+    ],
+    "P3_stretch": [
+      "Radar balance chart",
+      "Photo attachments",
+      "AI-generated insights"
+    ]
+  },
+
+  "implementation_phases": {
+    "phase1": {
+      "name": "Foundation",
+      "hours": 4,
+      "tasks": [
+        "Set up local project structure",
+        "Copy reusable components",
+        "Create contexts (TabTransition, Capture)",
+        "Adapt useUnifiedData hook"
+      ],
+      "outcome": "Calendar + Kanban work with existing data"
+    },
+    "phase2": {
+      "name": "Mood Features",
+      "hours": 6,
+      "tasks": [
+        "Build MoodPicker component",
+        "Build CompletionCelebration modal",
+        "Add mood border coloring to calendar",
+        "Add mood badges to kanban cards"
+      ],
+      "outcome": "Core differentiator complete"
+    },
+    "phase3": {
+      "name": "YouBase Migration",
+      "hours": 4,
+      "tasks": [
+        "Create tasks + preferences tables",
+        "Enable Google OAuth",
+        "Wire CRUD to YouBase",
+        "Test in deployed app"
+      ],
+      "outcome": "Real backend working"
+    },
+    "phase4": {
+      "name": "Polish",
+      "hours": 4,
+      "tasks": [
+        "Add demo data for judges",
+        "Camera-pan transitions",
+        "Bug fixes",
+        "Submit to Contra + social post"
+      ],
+      "outcome": "Submission complete"
+    }
+  },
+
+  "nextjs_to_vite_mappings": {
+    "routing": {
+      "from": "app/clarity/*/page.tsx (file-based)",
+      "to": "State-based: const [activeNav, setActiveNav] = useState('calendar')",
+      "pattern": "{ activeNav === 'calendar' && <CalendarView /> }"
+    },
+    "layouts": {
+      "from": "layout.tsx (persists, wraps children)",
+      "to": "App.tsx wrapper with providers",
+      "pattern": "Providers → Fixed elements (video, nav) → Animated content"
+    },
+    "templates": {
+      "from": "template.tsx (re-mounts on navigation)",
+      "to": "AnimatePresence with key={activeNav}",
+      "pattern": "<AnimatePresence mode='wait'><motion.div key={activeNav}>...</motion.div></AnimatePresence>"
+    },
+    "navigation": {
+      "from": "next/link + useRouter().push()",
+      "to": "onClick={() => setActiveNav('board')}",
+      "direction": "Calculate from tab indices before setting state"
+    },
+    "pathname": {
+      "from": "usePathname()",
+      "to": "activeNav state variable"
+    },
+    "use_client": {
+      "from": "'use client' directive required",
+      "to": "Not needed - everything is client-side in Vite"
+    }
+  },
+
+  "youware_prompts": {
+    "schema_creation": "Add these database tables to my YouBase:\n\nCREATE TABLE tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, user_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT DEFAULT 'backlog', priority TEXT DEFAULT 'medium', due_date TEXT, due_time TEXT, anticipated_mood TEXT, completed_mood TEXT, reflection_note TEXT, order_index INTEGER DEFAULT 0, completed_at INTEGER, created_at INTEGER, updated_at INTEGER);\n\nCREATE TABLE user_preferences (user_id TEXT PRIMARY KEY, emoji_set TEXT DEFAULT 'default', color_palette TEXT DEFAULT 'vibrant', visualization_intensity TEXT DEFAULT 'balanced');\n\nAlso enable Google OAuth in the auth config.",
+    "code_upload": "I'm uploading my YouSoul app code. Please:\n1. Wire the auth components to YouBase Auth\n2. Wire the data provider to YouBase Database\n3. Ensure all CRUD operations work with the tasks table\n4. Add proper error handling for auth flows"
+  },
+
+  "risk_mitigation": {
+    "youbaseIssues": "Mock provider as fallback - app still works locally",
+    "timePressure": "P0 only on Day 1; P1+ if time permits",
+    "oauthComplexity": "Test early; email auth as fallback",
+    "integrationBugs": "4 hours buffer in Phase 4 for testing and fixes"
+  },
+
+  "success_criteria": {
+    "minimumViable": [
+      "Calendar + Kanban working",
+      "Mood picker on tasks",
+      "Completion celebration",
+      "YouBase Auth (email)",
+      "YouBase Database CRUD"
+    ],
+    "fullVision": [
+      "Google OAuth",
+      "Camera-pan transitions",
+      "Energy forecast",
+      "Week soul card",
+      "Customization options",
+      "Demo data",
+      "Social post for bonus points"
+    ]
+  },
+
+  "current_status": {
+    "completed": [
+      "Schedule-X calendar with mood-colored borders",
+      "dnd-kit Kanban with spring physics",
+      "Custom Schedule-X dark theme (350+ lines CSS)",
+      "TabTransitionContext + CaptureContext",
+      "MoodPicker, CompletionCelebration, MoodBadge",
+      "YouBase API integration (tasks CRUD)",
+      "Dependencies installed"
+    ],
+    "in_progress": [
+      "App.tsx refactor with camera-pan transitions",
+      "BottomNav spring indicator"
+    ],
+    "pending": [
+      "Manual testing via browser",
+      "Polish UI issues",
+      "Deploy to YouWare platform",
+      "Submit to #YouWareChallenge"
+    ],
+    "build_status": "PASSING",
+    "bundle_size": "895KB"
+  }
+}
