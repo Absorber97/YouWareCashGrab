@@ -1,0 +1,424 @@
+{
+  "meta": {
+    "project": "Clarity - Feel Your Productivity",
+    "generatedAt": "2025-12-22",
+    "purpose": "Chart types and mood logging system design"
+  },
+
+  "chartLibrary": {
+    "source": "shadcn/ui + Recharts",
+    "documentation": "https://ui.shadcn.com/charts",
+    "installation": "pnpm dlx shadcn@latest add chart",
+    "components": [
+      "ChartContainer",
+      "ChartTooltip",
+      "ChartTooltipContent",
+      "ChartLegend",
+      "ChartLegendContent"
+    ]
+  },
+
+  "availableChartTypes": {
+    "areaCharts": {
+      "variants": [
+        "Area Chart - Default",
+        "Area Chart - Interactive",
+        "Area Chart - Linear",
+        "Area Chart - Step",
+        "Area Chart - Legend",
+        "Area Chart - Stacked",
+        "Area Chart - Stacked Expanded",
+        "Area Chart - Icons",
+        "Area Chart - Gradient",
+        "Area Chart - Axes"
+      ],
+      "bestFor": "Continuous data over time, showing composition changes",
+      "moodUseCase": "Emotional flow over week/month - stacked moods"
+    },
+    "barCharts": {
+      "variants": [
+        "Bar Chart - Default",
+        "Bar Chart - Interactive",
+        "Bar Chart - Horizontal",
+        "Bar Chart - Multiple",
+        "Bar Chart - Stacked",
+        "Bar Chart - Mixed",
+        "Bar Chart - Negative"
+      ],
+      "bestFor": "Categorical comparisons, discrete values",
+      "moodUseCase": "Task completion by mood, daily mood counts"
+    },
+    "lineCharts": {
+      "variants": [
+        "Line Chart - Default",
+        "Line Chart - Interactive",
+        "Line Chart - Linear",
+        "Line Chart - Step",
+        "Line Chart - Multiple",
+        "Line Chart - Dots"
+      ],
+      "bestFor": "Trends over time, single metric tracking",
+      "moodUseCase": "Average valence trend, productivity over time"
+    },
+    "pieCharts": {
+      "variants": [
+        "Pie Chart - Default",
+        "Pie Chart - Label",
+        "Pie Chart - Label List",
+        "Pie Chart - Donut",
+        "Pie Chart - Donut Active",
+        "Pie Chart - Interactive"
+      ],
+      "bestFor": "Proportions, parts of a whole",
+      "moodUseCase": "Weekly mood breakdown, task distribution"
+    },
+    "radarCharts": {
+      "variants": [
+        "Radar Chart - Default",
+        "Radar Chart - Grid",
+        "Radar Chart - Lines Only",
+        "Radar Chart - Legend"
+      ],
+      "bestFor": "Multi-dimensional comparison, balance visualization",
+      "moodUseCase": "Emotional balance across all 5 moods"
+    },
+    "radialCharts": {
+      "variants": [
+        "Radial Chart - Default",
+        "Radial Chart - Grid",
+        "Radial Chart - Text",
+        "Radial Chart - Shape",
+        "Radial Chart - Stacked"
+      ],
+      "bestFor": "Progress indicators, gauges",
+      "moodUseCase": "Daily energy level, completion rate"
+    }
+  },
+
+  "moodVisualizationDesign": {
+    "dailyView": {
+      "primary": {
+        "name": "Energy Timeline",
+        "type": "custom-horizontal-bar",
+        "description": "Horizontal timeline showing mood blocks across the day",
+        "implementation": "Custom component with colored segments",
+        "priority": "P0"
+      },
+      "secondary": {
+        "name": "Today's Mood Pie",
+        "type": "pie-donut",
+        "description": "Simple breakdown of today's task moods",
+        "priority": "P2"
+      }
+    },
+    "weeklyView": {
+      "primary": {
+        "name": "Week Emotion Flow",
+        "type": "area-stacked",
+        "description": "Stacked area showing mood distribution Mon-Sun",
+        "dataShape": {
+          "day": "string (Mon-Sun)",
+          "energized": "number",
+          "calm": "number",
+          "tense": "number",
+          "drained": "number",
+          "curious": "number"
+        },
+        "priority": "P1"
+      },
+      "secondary": {
+        "name": "Mood Donut",
+        "type": "pie-donut-active",
+        "description": "Proportional breakdown with center total",
+        "priority": "P1"
+      },
+      "tertiary": {
+        "name": "Day Comparison Bars",
+        "type": "bar-grouped",
+        "description": "Side-by-side mood bars for each day",
+        "priority": "P2"
+      }
+    },
+    "monthlyView": {
+      "primary": {
+        "name": "Month Heatmap",
+        "type": "custom-grid",
+        "description": "GitHub-style contribution grid colored by dominant mood",
+        "inspiration": "Year in Pixels, GitHub contributions",
+        "implementation": "CSS Grid with mood-colored cells",
+        "priority": "P1"
+      },
+      "secondary": {
+        "name": "Monthly Trend Line",
+        "type": "line-multiple",
+        "description": "Track mood intensity or productivity over month",
+        "priority": "P2"
+      },
+      "tertiary": {
+        "name": "Productivity × Mood",
+        "type": "bar-horizontal",
+        "description": "Which moods correlate with task completion",
+        "insight": "You complete 40% more tasks when energized",
+        "priority": "P2"
+      }
+    },
+    "insightsView": {
+      "primary": {
+        "name": "Emotional Balance Radar",
+        "type": "radar-grid",
+        "description": "5-axis radar showing mood distribution balance",
+        "priority": "P3"
+      },
+      "secondary": {
+        "name": "Anticipation vs Reality",
+        "type": "bar-grouped",
+        "description": "Compare anticipated mood to actual outcome",
+        "insight": "Tasks you dread often turn out better than expected",
+        "priority": "P3"
+      }
+    }
+  },
+
+  "moodSystem": {
+    "philosophy": {
+      "concept": "Emotional Productivity Intelligence",
+      "tagline": "Label it to understand it, track it to change it",
+      "pillars": [
+        {
+          "name": "Anticipate",
+          "when": "Before task",
+          "question": "How do I feel about this?",
+          "purpose": "Emotional forecasting, energy management"
+        },
+        {
+          "name": "Experience",
+          "when": "During task",
+          "method": "Visual feedback (skyscape, colors)",
+          "purpose": "Ambient awareness of emotional load"
+        },
+        {
+          "name": "Reflect",
+          "when": "After task",
+          "question": "How did that feel?",
+          "purpose": "Capture outcome, compare to anticipation"
+        }
+      ],
+      "insightLoop": "Anticipate → Experience → Reflect → Learn → Anticipate (better)"
+    },
+    
+    "psychologyBasis": {
+      "emotionalGranularity": {
+        "source": "Lisa Feldman Barrett research",
+        "finding": "Higher granularity = better emotional regulation",
+        "application": "Offer nuanced options, not just good/bad"
+      },
+      "affectLabeling": {
+        "source": "Matthew Lieberman 'Name it to tame it'",
+        "finding": "Labeling emotions reduces amygdala activity",
+        "application": "Even 1-tap mood selection provides benefit"
+      },
+      "plutchiksWheel": {
+        "source": "Robert Plutchik emotion theory",
+        "finding": "8 primary emotions combine to create complex feelings",
+        "application": "Expandable wheel for power users"
+      }
+    },
+
+    "tier1Moods": {
+      "description": "Quick 1-tap moods for daily use",
+      "count": 5,
+      "moods": [
+        {
+          "id": "energized",
+          "emoji": "🔥",
+          "label": "Energized",
+          "color": "#FFB347",
+          "colorName": "Gold/Orange",
+          "meaning": "Excited, motivated, ready to go",
+          "valence": "positive",
+          "arousal": "high"
+        },
+        {
+          "id": "calm",
+          "emoji": "😌",
+          "label": "Calm",
+          "color": "#98D8AA",
+          "colorName": "Green",
+          "meaning": "Peaceful, focused, in flow",
+          "valence": "positive",
+          "arousal": "low"
+        },
+        {
+          "id": "tense",
+          "emoji": "😰",
+          "label": "Tense",
+          "color": "#FF6B6B",
+          "colorName": "Red/Coral",
+          "meaning": "Anxious, nervous, pressured",
+          "valence": "negative",
+          "arousal": "high"
+        },
+        {
+          "id": "drained",
+          "emoji": "😴",
+          "label": "Drained",
+          "color": "#9CA3AF",
+          "colorName": "Gray",
+          "meaning": "Tired, unmotivated, low energy",
+          "valence": "negative",
+          "arousal": "low"
+        },
+        {
+          "id": "curious",
+          "emoji": "🤔",
+          "label": "Curious",
+          "color": "#A78BFA",
+          "colorName": "Purple",
+          "meaning": "Interested, exploring, uncertain",
+          "valence": "neutral",
+          "arousal": "medium"
+        }
+      ]
+    },
+
+    "tier2Moods": {
+      "description": "Nuanced moods for optional granularity",
+      "count": 15,
+      "expandsFrom": "tier1Moods",
+      "moods": {
+        "energized": [
+          { "emoji": "⚡", "label": "Excited", "meaning": "High arousal positive" },
+          { "emoji": "💪", "label": "Motivated", "meaning": "Goal-directed energy" },
+          { "emoji": "🎉", "label": "Celebratory", "meaning": "After achievement" }
+        ],
+        "calm": [
+          { "emoji": "🧘", "label": "Focused", "meaning": "Deep work mode" },
+          { "emoji": "🌿", "label": "Content", "meaning": "Satisfied, at peace" },
+          { "emoji": "✨", "label": "Inspired", "meaning": "Creative flow" }
+        ],
+        "tense": [
+          { "emoji": "😬", "label": "Anxious", "meaning": "Worried about outcome" },
+          { "emoji": "😤", "label": "Frustrated", "meaning": "Blocked, stuck" },
+          { "emoji": "🫣", "label": "Overwhelmed", "meaning": "Too much at once" }
+        ],
+        "drained": [
+          { "emoji": "😫", "label": "Exhausted", "meaning": "Energy depleted" },
+          { "emoji": "😐", "label": "Bored", "meaning": "Understimulated" },
+          { "emoji": "🥱", "label": "Tired", "meaning": "Physical fatigue" }
+        ],
+        "curious": [
+          { "emoji": "🧐", "label": "Investigating", "meaning": "Problem-solving" },
+          { "emoji": "🤷", "label": "Uncertain", "meaning": "Unclear path" },
+          { "emoji": "💭", "label": "Contemplative", "meaning": "Deep thinking" }
+        ]
+      }
+    },
+
+    "completionMoods": {
+      "description": "Special moods for after task completion",
+      "count": 5,
+      "moods": [
+        { "emoji": "🎉", "label": "Proud", "meaning": "Accomplished something meaningful" },
+        { "emoji": "😮‍💨", "label": "Relieved", "meaning": "Glad it's done, weight lifted" },
+        { "emoji": "😊", "label": "Satisfied", "meaning": "Good work, content" },
+        { "emoji": "😐", "label": "Meh", "meaning": "Done, but not exciting" },
+        { "emoji": "😫", "label": "Exhausted", "meaning": "Took a lot out of me" }
+      ]
+    }
+  },
+
+  "customizationOptions": {
+    "emojiSets": {
+      "default": ["🔥", "😌", "😰", "😴", "🤔"],
+      "nature": ["⚡", "🌿", "🌧️", "💤", "✨"],
+      "expressive": ["💪", "😎", "😬", "😩", "🧐"],
+      "minimal": ["●", "◐", "◑", "○", "◉"],
+      "custom": "User picks any 5 emoji"
+    },
+    "colorPalettes": {
+      "vibrant": {
+        "energized": "#FFB347",
+        "calm": "#98D8AA",
+        "tense": "#FF6B6B",
+        "drained": "#9CA3AF",
+        "curious": "#A78BFA"
+      },
+      "pastel": {
+        "energized": "#FFEAA7",
+        "calm": "#C8E6C9",
+        "tense": "#FFCDD2",
+        "drained": "#E0E0E0",
+        "curious": "#E1BEE7"
+      },
+      "mono": {
+        "energized": "#FFFFFF",
+        "calm": "#D1D5DB",
+        "tense": "#9CA3AF",
+        "drained": "#6B7280",
+        "curious": "#FFB347"
+      }
+    },
+    "visualizationIntensity": {
+      "full": "Skyscape + borders + badges + charts",
+      "balanced": "Borders + badges",
+      "subtle": "Badges only",
+      "off": "Traditional view"
+    }
+  },
+
+  "insightTypes": {
+    "gapAnalysis": {
+      "example": "Tasks you dread often turn out better than expected",
+      "data": "Compare anticipated_mood to completed_mood",
+      "frequency": "Weekly"
+    },
+    "productivityCorrelation": {
+      "example": "You complete 40% more tasks when energized",
+      "data": "Task completion rate by mood",
+      "frequency": "Weekly"
+    },
+    "energyManagement": {
+      "example": "Tackling anxious tasks first frees up energy",
+      "data": "Mood sequence analysis",
+      "frequency": "Daily tips"
+    },
+    "patternRecognition": {
+      "example": "Mondays are your most anxious days",
+      "data": "Mood distribution by day of week",
+      "frequency": "Monthly"
+    },
+    "streaks": {
+      "example": "3-day energized streak! Your longest this month",
+      "data": "Consecutive mood tracking",
+      "frequency": "Real-time"
+    }
+  },
+
+  "implementationPriority": {
+    "P0_mustHave": [
+      "Tier 1 mood picker (5 moods)",
+      "Completion celebration + mood capture",
+      "Calendar mood border coloring",
+      "Kanban mood badges"
+    ],
+    "P1_shouldHave": [
+      "Energy forecast header (daily)",
+      "Week soul card with emotion flow",
+      "Mood donut chart (weekly)",
+      "Emoji/color customization",
+      "Skyscape gradient overlay"
+    ],
+    "P2_niceToHave": [
+      "Month heatmap grid",
+      "Stacked area chart (weekly)",
+      "Productivity × mood bar chart",
+      "Tier 2 mood expansion"
+    ],
+    "P3_stretch": [
+      "Radar chart (emotional balance)",
+      "Anticipation vs reality chart",
+      "AI-generated insights",
+      "Photo attachments for completions"
+    ]
+  }
+}
