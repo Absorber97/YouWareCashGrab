@@ -6,6 +6,34 @@
 
 ---
 
+## ATTACHMENT CHECKLIST
+
+**Before prompting, attach these files in YouWare:**
+
+| Priority | File | Purpose | Path |
+|----------|------|---------|------|
+| **REQUIRED** | `yousoul-youware-context.json` | Complete app spec for YouWare AI | `oak-management/resources/attachments/yousoul-youware-context.json` |
+| Optional | `clarity-context.json` | Original Clarity architecture patterns | `/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json` |
+| Optional | `charts-and-mood-system.json` | Chart types and visualization specs | `oak-management/resources/charts-and-mood-system.json` |
+
+### Quick Start with Attachments
+
+**If YouWare supports file attachments**, use this shorter prompt after attaching `yousoul-youware-context.json`:
+
+```
+Build YouSoul based on the attached context file. It's an emotional productivity app with:
+- Calendar view (Schedule-X) with mood-colored task borders
+- Kanban board (dnd-kit) with mood badges on cards
+- Completion celebration when tasks are done
+- YouBase Auth (Email + Google) and Database
+
+The attached JSON has all the specs - stack, schema, UI design, and features. Make it beautiful with glassmorphic dark UI and smooth Motion.dev animations.
+```
+
+**If YouWare doesn't support attachments**, use the full prompts below.
+
+---
+
 ## PROMPT 1: THE FEELING
 
 ```

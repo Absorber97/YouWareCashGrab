@@ -1,0 +1,176 @@
+{
+  "app": {
+    "name": "YouSoul",
+    "tagline": "The soul of your schedule",
+    "concept": "Emotional productivity app - first to connect mood directly to tasks",
+    "uniqueValue": "Task-tied mood logging with at-moment reflection capture"
+  },
+
+  "stack": {
+    "framework": "Next.js 15 (App Router)",
+    "language": "TypeScript (strict)",
+    "styling": "Tailwind CSS 4",
+    "animation": "Motion.dev (NEVER framer-motion)",
+    "calendar": "Schedule-X",
+    "kanban": "dnd-kit",
+    "charts": "shadcn/ui + Recharts",
+    "icons": "@hugeicons-pro/core-solid-rounded",
+    "backend": "YouBase"
+  },
+
+  "architecture": {
+    "routes": {
+      "/": "Redirect to /calendar",
+      "/calendar": "Schedule-X calendar view (day/week/month)",
+      "/board": "Kanban board view",
+      "/settings": "Preferences and customization"
+    },
+    "components": {
+      "calendar/": ["schedule-calendar.tsx", "view-switcher.tsx"],
+      "board/": ["kanban-board.tsx", "column.tsx", "task-card.tsx"],
+      "mood/": ["mood-picker.tsx", "completion-celebration.tsx", "mood-badge.tsx"],
+      "capture/": ["create-task-modal.tsx"],
+      "ui/": ["bottom-nav.tsx", "glassmorphic-card.tsx"]
+    },
+    "lib": {
+      "data/": ["types.ts", "provider.ts", "youbase-provider.ts"],
+      "hooks/": ["use-tasks.ts", "use-auth.ts"],
+      "mood/": ["constants.ts", "utils.ts"],
+      "contexts/": ["auth-context.tsx", "capture-context.tsx"]
+    },
+    "patterns": {
+      "layoutVsTemplate": "Layout persists (BottomNav), Template re-mounts (page transitions)",
+      "cameraPan": "Horizontal slide transitions between tabs using Motion.dev"
+    }
+  },
+
+  "youbase": {
+    "auth": {
+      "providers": ["email", "google"],
+      "features": ["signup", "login", "logout", "session management"]
+    },
+    "database": {
+      "tasks": {
+        "fields": {
+          "id": "TEXT PRIMARY KEY",
+          "user_id": "TEXT NOT NULL (FK to auth user)",
+          "title": "TEXT NOT NULL",
+          "description": "TEXT",
+          "status": "TEXT DEFAULT 'todo' (backlog|todo|in-progress|done)",
+          "priority": "TEXT DEFAULT 'medium' (high|medium|low)",
+          "due_date": "TEXT (YYYY-MM-DD)",
+          "due_time": "TEXT (HH:mm)",
+          "anticipated_mood": "TEXT (energized|calm|tense|drained|curious|null)",
+          "completed_mood": "TEXT (proud|relieved|satisfied|meh|exhausted|null)",
+          "reflection_note": "TEXT",
+          "order_index": "REAL (fractional ordering)",
+          "completed_at": "INTEGER (unix ms)",
+          "created_at": "INTEGER (unix ms)",
+          "updated_at": "INTEGER (unix ms)"
+        }
+      },
+      "user_preferences": {
+        "fields": {
+          "user_id": "TEXT PRIMARY KEY",
+          "emoji_set": "TEXT DEFAULT 'default'",
+          "color_palette": "TEXT DEFAULT 'vibrant'",
+          "visualization_intensity": "TEXT DEFAULT 'balanced'"
+        }
+      }
+    },
+    "storage": {
+      "use": "Reflection photos (optional/stretch goal)"
+    }
+  },
+
+  "ui": {
+    "theme": "Dark mode default",
+    "glassmorphic": {
+      "card": "bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl",
+      "modal": "bg-[#1a1a2e]/80 backdrop-blur-2xl border border-white/20 rounded-2xl",
+      "input": "bg-white/5 border-white/10 text-white placeholder:text-white/30"
+    },
+    "colors": {
+      "accent": "#ffca7f (gold/amber)",
+      "surface": "#1a1a2e (dark blue/purple)",
+      "moodColors": {
+        "energized": "#FFB347",
+        "calm": "#98D8AA",
+        "tense": "#FF6B6B",
+        "drained": "#9CA3AF",
+        "curious": "#A78BFA"
+      }
+    },
+    "bottomNav": {
+      "items": ["Calendar", "Board", "Settings"],
+      "style": "Fixed bottom, glassmorphic, active indicator with spring animation"
+    }
+  },
+
+  "features": {
+    "calendar": {
+      "library": "Schedule-X",
+      "views": ["day", "week", "month"],
+      "dragDrop": true,
+      "resize": true,
+      "moodIntegration": "3px left border colored by anticipated_mood"
+    },
+    "kanban": {
+      "library": "dnd-kit",
+      "columns": ["Backlog", "Todo", "In Progress", "Done"],
+      "springPhysics": true,
+      "moodIntegration": "Small emoji badge in card corner"
+    },
+    "moodPicker": {
+      "trigger": "Task creation and editing",
+      "options": [
+        { "id": "energized", "emoji": "🔥", "color": "#FFB347" },
+        { "id": "calm", "emoji": "😌", "color": "#98D8AA" },
+        { "id": "tense", "emoji": "😰", "color": "#FF6B6B" },
+        { "id": "drained", "emoji": "😴", "color": "#9CA3AF" },
+        { "id": "curious", "emoji": "🤔", "color": "#A78BFA" }
+      ],
+      "style": "Horizontal row, subtle bounce on hover, pulse on select"
+    },
+    "completionCelebration": {
+      "trigger": "When task dragged to Done or marked complete",
+      "flow": [
+        "1. Pause with gentle confetti",
+        "2. Show warm message: 'You did it!'",
+        "3. Fade in mood picker: 'How did that feel?'",
+        "4. Optional reflection note input",
+        "5. Save and close"
+      ],
+      "completionMoods": [
+        { "id": "proud", "emoji": "🎉" },
+        { "id": "relieved", "emoji": "😮‍💨" },
+        { "id": "satisfied", "emoji": "😊" },
+        { "id": "meh", "emoji": "😐" },
+        { "id": "exhausted", "emoji": "😫" }
+      ]
+    },
+    "energyForecast": {
+      "location": "Calendar page header",
+      "display": "Colored dots showing mood composition + smart tip",
+      "example": "🔥🔥😌😰 — Morning looks energizing!"
+    }
+  },
+
+  "animations": {
+    "library": "Motion.dev (motion/react)",
+    "pageTransitions": {
+      "type": "Camera-pan horizontal slide",
+      "config": { "duration": 0.5, "ease": [0.32, 0.72, 0, 1] }
+    },
+    "springs": {
+      "tabIndicator": { "stiffness": 400, "damping": 30 },
+      "cardDrag": { "stiffness": 300, "damping": 30 },
+      "modal": { "type": "spring", "stiffness": 350, "damping": 30 }
+    },
+    "patterns": [
+      "Shared element transitions (layoutId)",
+      "Staggered list animations",
+      "Drag overlay with drop animation"
+    ]
+  }
+}
