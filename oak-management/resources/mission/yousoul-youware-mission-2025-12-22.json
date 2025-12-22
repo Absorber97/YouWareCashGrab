@@ -1,11 +1,11 @@
 {
   "meta": {
-    "sessionId": "clarity-youware-brainstorm-2025-12-22",
+    "sessionId": "yousoul-youware-brainstorm-2025-12-22",
     "generatedAt": "2025-12-22T19:15:00Z",
-    "purpose": "LLM-friendly comprehensive context for YouWare Challenge - Clarity App",
+    "purpose": "LLM-friendly comprehensive context for YouWare Challenge - YouSoul App",
     "version": "2.0",
     "previousSession": "SESSION_MEMORY_2025-12-19.json",
-    "contextLoadingPrompt": "Load this JSON to continue Clarity development for YouWare Challenge. Contains all research, decisions, and implementation plans."
+    "contextLoadingPrompt": "Load this JSON to continue YouSoul development for YouWare Challenge. Contains all research, decisions, and implementation plans."
   },
 
   "challenge": {
@@ -25,7 +25,7 @@
       "base": {
         "targetAudienceFit": { "points": 5, "ourStrategy": "Non-developers, emotional appeal, universal audience (5 segments)" },
         "designQuality": { "points": 5, "ourStrategy": "Apple + Chibi aesthetic, glassmorphic UI, Motion.dev springs" },
-        "functionality": { "points": 5, "ourStrategy": "Zero bugs, proven Clarity base, smooth UX" },
+        "functionality": { "points": 5, "ourStrategy": "Zero bugs, proven YouSoul base, smooth UX" },
         "uniqueIdea": { "points": 5, "ourStrategy": "FIRST app connecting mood to productivity tasks" }
       },
       "bonus": {
@@ -39,13 +39,13 @@
   },
 
   "appDefinition": {
-    "name": "Clarity",
+    "name": "YouSoul",
     "tagline": "Feel your productivity",
     "elevatorPitch": "The first productivity app that remembers not just what you did, but how it made you feel. Calendar and Kanban views enhanced with emotional intelligence.",
     "uniqueValueProposition": "Task-tied mood logging with at-moment reflection capture and beautiful visualizations",
     "targetAudiences": [
       { "segment": "Busy Professionals", "need": "Efficiency", "hook": "2 seconds extra per task" },
-      { "segment": "Students", "need": "Clarity", "hook": "Know what to tackle first" },
+      { "segment": "Students", "need": "YouSoul", "hook": "Know what to tackle first" },
       { "segment": "Wellness-focused", "need": "Insights", "hook": "See what affects you" },
       { "segment": "Self-improvers", "need": "Growth", "hook": "Track emotional progress" },
       { "segment": "Casual users", "need": "Zero effort", "hook": "Works if you never tap" }
@@ -53,7 +53,7 @@
   },
 
   "coreConceptDecision": {
-    "chosenStrategy": "Clarity with Soul (Mood + Reflection hybrid)",
+    "chosenStrategy": "YouSoul with Soul (Mood + Reflection hybrid)",
     "rejectedAlternatives": [
       { "name": "Semantic Search", "reason": "YouBase lacks vector storage, high complexity, doesn't demonstrate YouBase expertise" },
       { "name": "Time Capsule", "reason": "Good but less emotionally compelling" },
@@ -64,7 +64,7 @@
       "timeCapsule": { "unique": 9, "feasible": 8, "youbaseFit": 7, "total": 24 },
       "moodBoards": { "unique": 10, "feasible": 8, "youbaseFit": 7, "total": 25 },
       "memoryLane": { "unique": 8, "feasible": 9, "youbaseFit": 9, "total": 26 },
-      "clarityWithSoul": { "unique": 10, "feasible": 8, "youbaseFit": 9, "total": 27 }
+      "yousoulWithSoul": { "unique": 10, "feasible": 8, "youbaseFit": 9, "total": 27 }
     }
   },
 
@@ -222,8 +222,8 @@
     }
   },
 
-  "clarityBase": {
-    "source": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
+  "yousoulBase": {
+    "source": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/yousoul-documentation/yousoul-context.json",
     "reusableComponents": [
       "Schedule-X calendar with drag-drop",
       "dnd-kit Kanban with spring physics",
@@ -241,7 +241,7 @@
   },
 
   "technicalStack": {
-    "frontend": "Next.js (from Clarity)",
+    "frontend": "Next.js (from YouSoul)",
     "styling": "Tailwind CSS + glassmorphic design tokens",
     "animation": "Motion.dev (NEVER framer-motion)",
     "calendar": "Schedule-X",
@@ -297,7 +297,7 @@
 
   "demoScript": {
     "steps": [
-      "1. Welcome to Clarity - feel your productivity",
+      "1. Welcome to YouSoul - feel your productivity",
       "2. Login with Google (YouBase Auth demo)",
       "3. Show calendar with energy forecast header",
       "4. Create task with anticipated mood (1 tap)",
@@ -327,7 +327,7 @@
   "relatedResources": {
     "guidelinesJson": "oak-management/resources/youware-challenge-guidelines.json",
     "chartsJson": "oak-management/resources/charts-and-mood-system.json",
-    "clarityContext": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
+    "yousoulContext": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/yousoul-documentation/yousoul-context.json",
     "previousSession": "oak-management/SESSION_MEMORY_2025-12-19.json",
     "researchArtifacts": "oak-management/artifacts/research/"
   },
@@ -338,7 +338,7 @@
       "rationale": "YouBase lacks vector storage; doesn't demonstrate YouBase expertise; high complexity for 2-day timeline"
     },
     {
-      "decision": "Choose 'Clarity with Soul' hybrid",
+      "decision": "Choose 'YouSoul with Soul' hybrid",
       "rationale": "Highest uniqueness + feasibility + YouBase fit score (27); emotional productivity is untapped market"
     },
     {

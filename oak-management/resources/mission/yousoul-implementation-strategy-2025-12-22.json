@@ -1,15 +1,15 @@
 {
   "meta": {
-    "sessionId": "clarity-implementation-strategy-2025-12-22",
+    "sessionId": "yousoul-implementation-strategy-2025-12-22",
     "generatedAt": "2025-12-22T20:30:00Z",
-    "purpose": "LLM-friendly implementation strategy for Clarity YouWare Challenge",
+    "purpose": "LLM-friendly implementation strategy for YouSoul YouWare Challenge",
     "version": "1.0",
-    "loadCommand": "Load this JSON to continue Clarity YouWare implementation with full context",
+    "loadCommand": "Load this JSON to continue YouSoul YouWare implementation with full context",
     "relatedFiles": {
       "missionBrief": "oak-management/resources/mission/CLARITY-MISSION-BRIEF.md",
-      "missionJson": "oak-management/resources/mission/clarity-youware-mission-2025-12-22.json",
+      "missionJson": "oak-management/resources/mission/yousoul-youware-mission-2025-12-22.json",
       "guidelines": "oak-management/resources/youware-challenge-guidelines.json",
-      "originalClarity": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
+      "originalYouSoul": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/yousoul-documentation/yousoul-context.json",
       "youbaseExport": "oak-management/resources/database_export_20251222_191130/"
     }
   },
@@ -25,7 +25,7 @@
   },
 
   "appDefinition": {
-    "name": "Clarity",
+    "name": "YouSoul",
     "tagline": "Feel your productivity",
     "concept": "First productivity app connecting mood directly to tasks",
     "uniqueValue": "Task-tied mood logging with at-moment reflection capture"
@@ -54,7 +54,7 @@
       "hours": 4,
       "tasks": [
         "Set up local project structure",
-        "Copy reusable components from original Clarity",
+        "Copy reusable components from original YouSoul",
         "Create DataProvider interface (abstraction layer)",
         "Implement MockProvider (localStorage)",
         "Adapt useUnifiedData hook to use provider"
@@ -161,18 +161,18 @@
   "codeReuse": {
     "estimatedReuse": "60%",
     "keepAsIs": [
-      { "component": "Schedule-X calendar", "file": "components/clarity/calendar/schedule-calendar.tsx" },
-      { "component": "dnd-kit kanban", "file": "components/clarity/board/kanban-board.tsx" },
-      { "component": "Camera-pan transitions", "file": "app/clarity/template.tsx" },
+      { "component": "Schedule-X calendar", "file": "components/yousoul/calendar/schedule-calendar.tsx" },
+      { "component": "dnd-kit kanban", "file": "components/yousoul/board/kanban-board.tsx" },
+      { "component": "Camera-pan transitions", "file": "app/yousoul/template.tsx" },
       { "component": "Glassmorphic UI", "file": "design tokens and styles" },
       { "component": "Motion animations", "file": "spring configs" },
-      { "component": "BottomNav", "file": "components/clarity/ui/bottom-nav.tsx" }
+      { "component": "BottomNav", "file": "components/yousoul/ui/bottom-nav.tsx" }
     ],
     "adapt": [
-      { "component": "useUnifiedData hook", "change": "Replace API calls with provider", "file": "lib/clarity/hooks/use-unified-data.ts" },
-      { "component": "CaptureModal", "change": "Add mood picker", "file": "components/clarity/capture/create-item-modal.tsx" },
-      { "component": "TaskCard", "change": "Add mood badge", "file": "components/clarity/board/task-card.tsx" },
-      { "component": "Storage helpers", "change": "Adapt for new schema", "file": "lib/clarity/storage.ts" }
+      { "component": "useUnifiedData hook", "change": "Replace API calls with provider", "file": "lib/yousoul/hooks/use-unified-data.ts" },
+      { "component": "CaptureModal", "change": "Add mood picker", "file": "components/yousoul/capture/create-item-modal.tsx" },
+      { "component": "TaskCard", "change": "Add mood badge", "file": "components/yousoul/board/task-card.tsx" },
+      { "component": "Storage helpers", "change": "Adapt for new schema", "file": "lib/yousoul/storage.ts" }
     ],
     "replace": [
       { "component": "Craft API client", "replaceWith": "DataProvider abstraction" }
@@ -268,7 +268,7 @@
 
   "youwareMigrationPrompts": {
     "createSchema": "Add these database tables to my YouBase:\n\nCREATE TABLE tasks (id TEXT PRIMARY KEY, user_id TEXT NOT NULL, title TEXT NOT NULL, description TEXT, status TEXT DEFAULT 'todo', priority TEXT DEFAULT 'medium', due_date TEXT, due_time TEXT, anticipated_mood TEXT, completed_mood TEXT, reflection_note TEXT, order_index REAL, completed_at INTEGER, created_at INTEGER, updated_at INTEGER);\n\nCREATE TABLE user_preferences (user_id TEXT PRIMARY KEY, emoji_set TEXT DEFAULT 'default', color_palette TEXT DEFAULT 'vibrant', visualization_intensity TEXT DEFAULT 'balanced');\n\nAlso enable Google OAuth in the auth config.",
-    "uploadCode": "I'm uploading my Clarity app code. Please:\n1. Wire the auth components to YouBase Auth\n2. Wire the data provider to YouBase Database\n3. Ensure all CRUD operations work with the tasks table\n4. Add proper error handling for auth flows"
+    "uploadCode": "I'm uploading my YouSoul app code. Please:\n1. Wire the auth components to YouBase Auth\n2. Wire the data provider to YouBase Database\n3. Ensure all CRUD operations work with the tasks table\n4. Add proper error handling for auth flows"
   },
 
   "riskMitigation": {
@@ -298,14 +298,14 @@
   },
 
   "serenaMemories": [
-    "clarity-youware-mission-2025-12-22",
-    "clarity-youbase-migration-strategy",
-    "clarity-implementation-strategy-2025-12-22"
+    "yousoul-youware-mission-2025-12-22",
+    "yousoul-youbase-migration-strategy",
+    "yousoul-implementation-strategy-2025-12-22"
   ],
 
   "nextSteps": [
     "1. Create local project structure",
-    "2. Copy reusable components from original Clarity",
+    "2. Copy reusable components from original YouSoul",
     "3. Implement data provider abstraction (types.ts, provider.ts)",
     "4. Build mock provider (mock-provider.ts)",
     "5. Adapt useUnifiedData hook",

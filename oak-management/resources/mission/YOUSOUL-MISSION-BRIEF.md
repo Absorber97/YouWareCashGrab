@@ -1,4 +1,4 @@
-# Clarity: Feel Your Productivity
+# YouSoul: Feel Your Productivity
 
 > **Mission Brief for YouWare Challenge 2025**
 > 
@@ -37,7 +37,7 @@
 |-----------|--------|--------------|
 | Target Audience Fit | 5 | Non-developers, emotional appeal, 5 audience segments |
 | Design Quality | 5 | Apple + Chibi aesthetic, glassmorphic UI, Motion.dev |
-| Functionality | 5 | Zero bugs, proven Clarity base from Craft challenge |
+| Functionality | 5 | Zero bugs, proven YouSoul base from Craft challenge |
 | Unique Idea | 5 | **FIRST app tying mood to productivity** |
 
 ### Bonus Points (15 pts)
@@ -310,7 +310,7 @@ The app background subtly shifts based on your day's emotional composition:
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Next.js (from Clarity base) |
+| Frontend | Next.js (from YouSoul base) |
 | Styling | Tailwind CSS + glassmorphic tokens |
 | Animation | Motion.dev (NEVER framer-motion) |
 | Calendar | Schedule-X |
@@ -414,7 +414,7 @@ visualization_intensity, reflection_depth
 
 ## Demo Script for Judges
 
-1. **"Welcome to Clarity - feel your productivity"**
+1. **"Welcome to YouSoul - feel your productivity"**
 2. Login with Google *(YouBase Auth demo)*
 3. Show calendar with energy forecast header
 4. Create task with anticipated mood *(1 tap)*
@@ -430,7 +430,7 @@ visualization_intensity, reflection_depth
 | Decision | Rationale |
 |----------|-----------|
 | **Reject semantic search** | YouBase lacks vectors; doesn't show expertise; too complex for 2 days |
-| **Choose "Clarity with Soul"** | Highest score (27) for uniqueness + feasibility + YouBase fit |
+| **Choose "YouSoul with Soul"** | Highest score (27) for uniqueness + feasibility + YouBase fit |
 | **Mood as data layer** | No separate view = less cognitive load, natural integration |
 | **5 tier-1 moods** | Accessible for casual users; tier-2 expansion for power users |
 | **shadcn/ui + Recharts** | Production-ready, themeable, matches design system |
@@ -468,10 +468,10 @@ Calendar + Kanban + Auth + basic mood badges
 
 | Resource | Location |
 |----------|----------|
-| Mission JSON | `oak-management/resources/mission/clarity-youware-mission-2025-12-22.json` |
+| Mission JSON | `oak-management/resources/mission/yousoul-youware-mission-2025-12-22.json` |
 | Charts System | `oak-management/resources/charts-and-mood-system.json` |
 | Challenge Guidelines | `oak-management/resources/youware-challenge-guidelines.json` |
-| Clarity Base (Craft) | `/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json` |
+| YouSoul Base (Craft) | `/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/yousoul-documentation/yousoul-context.json` |
 | Previous Session | `oak-management/SESSION_MEMORY_2025-12-19.json` |
 
 ---

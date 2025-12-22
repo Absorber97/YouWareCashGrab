@@ -1,6 +1,6 @@
-# Clarity YouWare Scaffold Prompt
+# YouSoul YouWare Scaffold Prompt
 
-> **Purpose**: Use this prompt in YouWare to generate the initial scaffold for Clarity
+> **Purpose**: Use this prompt in YouWare to generate the initial scaffold for YouSoul
 > **Strategy**: Following YouWare's "Three Golden Rules" - Feeling → Story → Sculpt
 > **After**: Download the code and develop locally with Claude Code
 
@@ -9,7 +9,7 @@
 ## PROMPT 1: THE FEELING
 
 ```
-I want to create Clarity, an emotional productivity app. The feeling should be calm, focused, and self-aware. Imagine a peaceful morning where you know exactly what to do and how you feel about it. The design should feel warm and supportive - like a gentle friend who helps you understand yourself - not cold and corporate like typical productivity tools.
+I want to create YouSoul, an emotional productivity app. The feeling should be calm, focused, and self-aware. Imagine a peaceful morning where you know exactly what to do and how you feel about it. The design should feel warm and supportive - like a gentle friend who helps you understand yourself - not cold and corporate like typical productivity tools.
 
 The vibe is "Apple meets emotional intelligence" - minimalist, beautiful, but with a soul. Think soft gradients, glassmorphic cards, and smooth animations. Dark mode by default with a subtle ambient background.
 ```

@@ -134,9 +134,9 @@
     ]
   },
 
-  "clarityPromptExamples": {
+  "yousoulPromptExamples": {
     "initialPrompt": {
-      "vibe": "I want to create Clarity, an emotional productivity app. The feeling should be calm, focused, and self-aware. Imagine a peaceful morning where you know exactly what to do and how you feel about it. The design should feel warm and supportive, not cold and corporate.",
+      "vibe": "I want to create YouSoul, an emotional productivity app. The feeling should be calm, focused, and self-aware. Imagine a peaceful morning where you know exactly what to do and how you feel about it. The design should feel warm and supportive, not cold and corporate.",
       "story": "Let's build this app like a story. **First,** welcome users with their daily energy forecast - a beautiful header showing today's emotional composition. **Next,** show them their calendar with tasks color-coded by anticipated mood. **After that,** let them complete tasks with a celebration that captures how they actually felt. **Finally,** reveal insights about their emotional patterns over time."
     },
     "refinements": [
