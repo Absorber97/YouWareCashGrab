@@ -1,0 +1,372 @@
+{
+  "meta": {
+    "title": "Clarity → YouWare Architecture Mapping",
+    "version": "1.0.0",
+    "created": "2025-12-22T21:00:00Z",
+    "purpose": "1:1 mapping of Craftie Clarity UI/UX to YouWare Foundation platform"
+  },
+
+  "strategy": {
+    "approach": "Hybrid Port",
+    "description": "Keep YouWare Vite SPA structure, port Clarity's UI patterns, add YouSoul features",
+    "rationale": [
+      "YouWare Foundation is Vite SPA, not Next.js - keep this for platform compatibility",
+      "Clarity's UI/UX is the gold standard - port exact patterns",
+      "YouSoul adds mood system as unique differentiator"
+    ],
+    "formula": "YouWare Foundation + Clarity UX + YouSoul Mood = Final App"
+  },
+
+  "architectureDifferences": {
+    "framework": {
+      "clarity": "Next.js 16 (App Router)",
+      "youware": "Vite + React SPA",
+      "decision": "KEEP Vite SPA (YouWare native)",
+      "adaptation": "Replace App Router patterns with React Router or state-based routing"
+    },
+    "routing": {
+      "clarity": {
+        "layout.tsx": "Persists during navigation (providers, BottomNav, backgrounds)",
+        "template.tsx": "Re-mounts for camera-pan transitions"
+      },
+      "youware": {
+        "App.tsx": "Single component with state-based view switching",
+        "pattern": "Use AnimatePresence + view state for same effect"
+      }
+    },
+    "stateManagement": {
+      "clarity": "React Context + localStorage",
+      "youware": "Zustand + persist middleware",
+      "decision": "KEEP Zustand (already works well)",
+      "adaptation": "Add contexts for transitions and capture modal"
+    },
+    "api": {
+      "clarity": "Craft Collections API (external)",
+      "youware": "EdgeSpark/YouBase (built-in)",
+      "decision": "USE EdgeSpark (YouWare native)",
+      "note": "Already has auth, database, storage"
+    },
+    "animation": {
+      "clarity": "Motion (framer-motion successor)",
+      "youware": "framer-motion",
+      "decision": "KEEP framer-motion for now",
+      "note": "Same API, can migrate to motion/react later if needed"
+    }
+  },
+
+  "componentMapping": {
+    "layout": [
+      {
+        "clarity": "app/clarity/layout.tsx",
+        "youware": "src/App.tsx",
+        "action": "ADAPT",
+        "changes": [
+          "Move providers to App.tsx wrapper",
+          "Keep Aurora background (already exists)",
+          "Keep BottomNav outside animated content",
+          "Add TabTransitionContext, CaptureContext"
+        ]
+      },
+      {
+        "clarity": "app/clarity/template.tsx",
+        "youware": "src/layouts/AnimatedRoutes.tsx",
+        "action": "CREATE",
+        "changes": [
+          "Wrap view content with AnimatePresence",
+          "Track direction for camera-pan",
+          "Animate x: ±100vw based on direction"
+        ]
+      }
+    ],
+    "calendar": [
+      {
+        "clarity": "components/clarity/calendar/schedule-calendar.tsx",
+        "youware": "src/components/ScheduleCalendar.tsx",
+        "action": "CREATE (replace CalendarView.tsx)",
+        "features": [
+          "Schedule-X with custom theme",
+          "Day/Week/Month views",
+          "Drag-drop to reschedule",
+          "Resize to change duration",
+          "All-day vs timed events",
+          "Click vs drag detection"
+        ]
+      },
+      {
+        "clarity": "components/clarity/calendar/view-switcher.tsx",
+        "youware": "src/components/ViewSwitcher.tsx",
+        "action": "CREATE",
+        "features": [
+          "Day | Week | Month toggle",
+          "Spring animation on indicator"
+        ]
+      }
+    ],
+    "board": [
+      {
+        "clarity": "components/clarity/board/kanban-board.tsx",
+        "youware": "src/components/KanbanBoard.tsx",
+        "action": "ENHANCE",
+        "changes": [
+          "Add swimlane grouping",
+          "Add view options panel",
+          "Add field visibility toggles",
+          "Keep fractional ordering"
+        ]
+      },
+      {
+        "clarity": "components/clarity/board/column.tsx",
+        "youware": "src/components/Column.tsx",
+        "action": "CREATE",
+        "features": [
+          "SortableContext wrapper",
+          "Column header with count",
+          "Colored border based on status"
+        ]
+      },
+      {
+        "clarity": "components/clarity/board/task-card.tsx",
+        "youware": "src/components/TaskCard.tsx",
+        "action": "CREATE",
+        "features": [
+          "useSortable hook",
+          "Glassmorphic styling",
+          "Priority indicator",
+          "Due date display",
+          "MoodBadge integration"
+        ]
+      },
+      {
+        "clarity": "components/clarity/board/swimlane.tsx",
+        "youware": "src/components/Swimlane.tsx",
+        "action": "CREATE",
+        "features": [
+          "Group by priority/project/date",
+          "Collapsible sections"
+        ]
+      }
+    ],
+    "capture": [
+      {
+        "clarity": "components/clarity/capture/create-item-modal.tsx",
+        "youware": "src/components/CreateItemModal.tsx",
+        "action": "CREATE",
+        "features": [
+          "Glassmorphic modal design",
+          "Title input (required)",
+          "Due date/time pickers",
+          "Status, Priority selectors",
+          "MoodPicker (YouSoul addition)",
+          "Save and Cancel"
+        ]
+      }
+    ],
+    "ui": [
+      {
+        "clarity": "components/clarity/ui/bottom-nav.tsx",
+        "youware": "src/components/BottomNav.tsx",
+        "action": "ENHANCE",
+        "changes": [
+          "Add spring indicator animation",
+          "Add layoutId for shared element transition",
+          "Wire to tab direction tracking"
+        ]
+      },
+      {
+        "clarity": "components/clarity/ui/clarity-card.tsx",
+        "youware": "src/components/GlassCard.tsx",
+        "action": "EXISTS",
+        "note": "Already has glassmorphic styling"
+      }
+    ],
+    "moodSystem": [
+      {
+        "clarity": "N/A",
+        "youware": "src/components/MoodBadge.tsx",
+        "action": "EXISTS",
+        "note": "YouSoul unique - keep as-is"
+      },
+      {
+        "clarity": "N/A",
+        "youware": "src/components/MoodPicker.tsx",
+        "action": "CREATE",
+        "features": [
+          "Horizontal row of 5 moods",
+          "Bounce on hover",
+          "Pulse on select"
+        ]
+      },
+      {
+        "clarity": "N/A",
+        "youware": "src/components/CompletionCelebration.tsx",
+        "action": "CREATE",
+        "features": [
+          "Confetti animation",
+          "Completion mood picker",
+          "Reflection note input"
+        ]
+      }
+    ]
+  },
+
+  "contextMapping": [
+    {
+      "clarity": "lib/clarity/tab-transition-context.tsx",
+      "youware": "src/contexts/tab-transition-context.tsx",
+      "action": "CREATE",
+      "state": {
+        "direction": "'left' | 'right' | 'none'",
+        "tabIndices": { "calendar": 0, "board": 1, "settings": 2 }
+      }
+    },
+    {
+      "clarity": "lib/clarity/capture-context.tsx",
+      "youware": "src/contexts/capture-context.tsx",
+      "action": "CREATE",
+      "state": {
+        "showCapture": "boolean",
+        "editingTask": "Task | null"
+      }
+    },
+    {
+      "clarity": "lib/clarity/mode-context.tsx",
+      "youware": "N/A",
+      "action": "SKIP",
+      "reason": "YouWare has single mode, no collection switching"
+    },
+    {
+      "clarity": "lib/clarity/theme-provider.tsx",
+      "youware": "src/contexts/theme-provider.tsx",
+      "action": "CREATE (optional)",
+      "note": "Dark mode only for now"
+    }
+  ],
+
+  "dataFlowMapping": {
+    "clarity": {
+      "hook": "useUnifiedData",
+      "source": "Craft Collections API + Tasks API",
+      "transforms": ["toCalendarEvents", "toBoardColumns"]
+    },
+    "youware": {
+      "hook": "useTasksStore + adapters",
+      "source": "EdgeSpark API (already exists)",
+      "transforms": [
+        "tasks → calendarEvents (add start/end from dueDate/dueTime)",
+        "tasks → boardColumns (group by status)"
+      ]
+    },
+    "adaptation": {
+      "create": "src/hooks/use-calendar-events.ts",
+      "purpose": "Transform tasks to Schedule-X event format",
+      "fields": {
+        "id": "task.id",
+        "title": "task.title",
+        "start": "task.dueDate + task.dueTime",
+        "end": "task.dueDate + task.dueTime + 1h",
+        "allDay": "!task.dueTime"
+      }
+    }
+  },
+
+  "dependenciesRequired": {
+    "add": [
+      "@schedule-x/react",
+      "@schedule-x/calendar",
+      "@schedule-x/drag-and-drop",
+      "@schedule-x/event-recurrence",
+      "@schedule-x/resize",
+      "@schedule-x/calendar-controls",
+      "@schedule-x/events-service",
+      "@schedule-x/theme-default",
+      "temporal-polyfill"
+    ],
+    "keep": [
+      "@edgespark/client",
+      "framer-motion",
+      "@dnd-kit/core",
+      "@dnd-kit/sortable",
+      "@dnd-kit/utilities",
+      "zustand",
+      "clsx",
+      "lucide-react"
+    ],
+    "remove": []
+  },
+
+  "criticalPatterns": {
+    "cameraPanTransition": {
+      "description": "Horizontal slide between tabs based on navigation direction",
+      "implementation": {
+        "step1": "Track current and previous tab index",
+        "step2": "Calculate direction: next > prev = 'left', else 'right'",
+        "step3": "Animate content: direction=left → x: 100vw→0, direction=right → x: -100vw→0",
+        "step4": "Reset direction after animation completes"
+      },
+      "config": {
+        "duration": 0.5,
+        "ease": [0.32, 0.72, 0, 1]
+      }
+    },
+    "scheduleXIntegration": {
+      "description": "Full Schedule-X calendar with Clarity's customizations",
+      "critical": [
+        "Import temporal-polyfill/global BEFORE @schedule-x/*",
+        "Use ZonedDateTime for timed, PlainDate for all-day",
+        "Custom gold accent theme",
+        "Wire to tasksStore for CRUD"
+      ]
+    },
+    "glassmorphicModal": {
+      "classes": {
+        "modal": "bg-[#1a1a2e]/70 backdrop-blur-2xl border border-white/20 rounded-2xl shadow-2xl",
+        "sectionCard": "rounded-xl bg-white/[0.03] p-4 border border-white/8",
+        "input": "bg-white/5 border-white/10 text-white placeholder:text-white/30"
+      }
+    }
+  },
+
+  "fileStructureTarget": {
+    "src": {
+      "App.tsx": "Main app with providers, routing, layout",
+      "main.tsx": "Entry point (keep as-is)",
+      "index.css": "Global styles (keep as-is)",
+      "components": {
+        "Aurora.tsx": "Keep",
+        "BottomNav.tsx": "Enhance with spring indicator",
+        "ScheduleCalendar.tsx": "Create from Clarity",
+        "ViewSwitcher.tsx": "Create from Clarity",
+        "KanbanBoard.tsx": "Enhance with Clarity patterns",
+        "Column.tsx": "Create from Clarity",
+        "TaskCard.tsx": "Create from Clarity",
+        "Swimlane.tsx": "Create from Clarity",
+        "CreateItemModal.tsx": "Create from Clarity + mood",
+        "GlassCard.tsx": "Keep",
+        "MoodPicker.tsx": "Create (YouSoul)",
+        "MoodBadge.tsx": "Keep",
+        "CompletionCelebration.tsx": "Create (YouSoul)",
+        "Header.tsx": "Keep",
+        "WelcomeHeader.tsx": "Keep",
+        "SettingsPage.tsx": "Keep"
+      },
+      "contexts": {
+        "tab-transition-context.tsx": "Create",
+        "capture-context.tsx": "Create"
+      },
+      "hooks": {
+        "use-calendar-events.ts": "Create"
+      },
+      "store": {
+        "authStore.ts": "Keep",
+        "tasksStore.ts": "Keep",
+        "preferencesStore.ts": "Keep"
+      },
+      "types": {
+        "task.ts": "Keep (has mood types)"
+      },
+      "api": {
+        "client.ts": "Keep"
+      }
+    }
+  }
+}

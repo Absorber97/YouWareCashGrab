@@ -1,8 +1,10 @@
-# YouSoul Implementation Steps
+# YouSoul Implementation Steps (v2 - Clarity-First)
 
-> **Strategy**: Scaffold → Mock → Migrate  
-> **Deadline**: Dec 24, 2025 @ 08:00 UTC (~36 hours)  
-> **Source**: `oak-management/resources/snapshots/v1/source_code`
+> **Strategy**: YouWare Foundation + Clarity UX + YouSoul Mood  
+> **Deadline**: Dec 24, 2025 @ 08:00 UTC (~35 hours)  
+> **Sources**: 
+> - YouWare: `oak-management/resources/snapshots/v1/source_code`
+> - Clarity: `/Users/oak/Downloads/Core/Dev/Craft` (reference for UX patterns)
 
 ---
 
@@ -10,57 +12,183 @@
 
 | Phase | Duration | Dependencies | Status |
 |-------|----------|--------------|--------|
-| 0. Project Init | 30 min | - | ⬜ |
-| 1. Types & Core | 45 min | Phase 0 | ⬜ |
-| 2. Data Provider | 60 min | Phase 1 | ⬜ |
-| 3. Zustand Stores | 30 min | Phase 2 | ⬜ |
-| 4. Layout & Nav | 45 min | Phase 3 | ⬜ |
-| 5. Mood Components | 60 min | Phase 4 | ⬜ |
-| 6. Calendar View | 60 min | Phase 5 | ⬜ |
-| 7. Kanban Board | 60 min | Phase 5 | ⬜ |
-| 8. Task Modal | 45 min | Phase 5 | ⬜ |
-| 9. Settings | 30 min | Phase 4 | ⬜ |
-| 10. Auth Flow | 30 min | Phase 3 | ⬜ |
-| 11. Demo & Polish | 30 min | All above | ⬜ |
-| **Total** | **7.5 hours** | | |
+| 0. Clarity Shell Port | 2h | - | ⬜ |
+| 1. Schedule-X Calendar | 2h | Phase 0 | ⬜ |
+| 2. Enhanced Kanban | 1.5h | Phase 0 | ⬜ |
+| 3. Capture Modal | 1h | Phase 0 | ⬜ |
+| 4. Mood System | 1.5h | Phase 3 | ⬜ |
+| 5. Polish & Demo | 1h | All above | ⬜ |
+| 6. Deployment | 0.5h | Phase 5 | ⬜ |
+| **Total** | **9.5 hours** | | |
+
+**Parallelization**: Phases 1, 2, 3 can run in parallel after Phase 0
 
 ---
 
-## Phase 0: Project Initialization (30 min)
+## Key Insight: Clarity-First Approach
 
-### Commands
+**Goal**: Port Clarity's exact UI/UX to YouWare's existing Vite SPA structure.
 
-```bash
-# 1. Create Next.js project
-npx create-next-app@latest yousoul --typescript --tailwind --eslint --app --src-dir --import-alias '@/*'
+- **Keep**: YouWare's Vite + React SPA, EdgeSpark API, Zustand stores, framer-motion
+- **Port**: Clarity's Schedule-X calendar, camera-pan transitions, glassmorphic modals
+- **Add**: YouSoul's mood system (unique differentiator)
 
-# 2. Navigate to project
-cd yousoul
+**Source of Truth**:
+- UX Patterns: Craftie Clarity (`/Users/oak/Downloads/Core/Dev/Craft`)
+- Platform: YouWare Foundation (`oak-management/resources/snapshots/v1/source_code`)
 
-# 3. Install core dependencies (motion NOT framer-motion!)
-pnpm add motion zustand @edgespark/client zod clsx tailwind-merge
+---
 
-# 4. Install UI dependencies
-pnpm add @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities
-pnpm add @schedule-x/react @schedule-x/calendar @schedule-x/theme-default
-pnpm add lucide-react
+## Phase 0: Clarity Shell Port (2 hours)
 
-# 5. Setup shadcn/ui
-npx shadcn@latest init -y
-npx shadcn@latest add button card dialog input textarea
+### Goal
+Refactor YouWare's App.tsx to match Clarity's layout/transition patterns.
 
-# 6. Install dev dependencies
-pnpm add -D @types/node
+### Step 0.1: Create Contexts
+
+**File: `src/contexts/tab-transition-context.tsx`**
+```typescript
+import { createContext, useContext, useState, ReactNode } from 'react';
+
+type Direction = 'left' | 'right' | 'none';
+
+interface TabTransitionContextType {
+  direction: Direction;
+  setDirection: (dir: Direction) => void;
+  getDirection: (from: number, to: number) => Direction;
+}
+
+const TabTransitionContext = createContext<TabTransitionContextType | null>(null);
+
+const TAB_INDICES: Record<string, number> = {
+  calendar: 0,
+  board: 1,
+  settings: 2,
+};
+
+export function TabTransitionProvider({ children }: { children: ReactNode }) {
+  const [direction, setDirection] = useState<Direction>('none');
+
+  const getDirection = (fromIndex: number, toIndex: number): Direction => {
+    if (toIndex > fromIndex) return 'left';
+    if (toIndex < fromIndex) return 'right';
+    return 'none';
+  };
+
+  return (
+    <TabTransitionContext.Provider value={{ direction, setDirection, getDirection }}>
+      {children}
+    </TabTransitionContext.Provider>
+  );
+}
+
+export const useTabTransition = () => {
+  const context = useContext(TabTransitionContext);
+  if (!context) throw new Error('useTabTransition must be used within TabTransitionProvider');
+  return context;
+};
+
+export { TAB_INDICES };
 ```
 
-### Files to Create
+**File: `src/contexts/capture-context.tsx`**
+```typescript
+import { createContext, useContext, useState, ReactNode } from 'react';
+import type { Task } from '../types/task';
 
+interface CaptureContextType {
+  showCapture: boolean;
+  editingTask: Task | null;
+  openCapture: (task?: Task) => void;
+  closeCapture: () => void;
+}
+
+const CaptureContext = createContext<CaptureContextType | null>(null);
+
+export function CaptureProvider({ children }: { children: ReactNode }) {
+  const [showCapture, setShowCapture] = useState(false);
+  const [editingTask, setEditingTask] = useState<Task | null>(null);
+
+  const openCapture = (task?: Task) => {
+    setEditingTask(task || null);
+    setShowCapture(true);
+  };
+
+  const closeCapture = () => {
+    setShowCapture(false);
+    setEditingTask(null);
+  };
+
+  return (
+    <CaptureContext.Provider value={{ showCapture, editingTask, openCapture, closeCapture }}>
+      {children}
+    </CaptureContext.Provider>
+  );
+}
+
+export const useCapture = () => {
+  const context = useContext(CaptureContext);
+  if (!context) throw new Error('useCapture must be used within CaptureProvider');
+  return context;
+};
 ```
-yousoul/
-├── .env.local                 # NEXT_PUBLIC_USE_MOCK=true
-├── tsconfig.json              # Enable strict mode
-└── tailwind.config.ts         # Custom colors
+
+### Step 0.2: Refactor App.tsx
+
+```typescript
+// Key changes to App.tsx:
+// 1. Wrap with providers
+// 2. Separate layout (Aurora, BottomNav) from animated content
+// 3. Add AnimatePresence for view transitions
+
+function App() {
+  const { user, isChecking } = useAuthStore();
+  const [activeNav, setActiveNav] = useState<NavItem>('calendar');
+  const { direction, setDirection, getDirection } = useTabTransition();
+
+  // Handle navigation with direction tracking
+  const handleNavigate = (newNav: NavItem) => {
+    const fromIndex = TAB_INDICES[activeNav];
+    const toIndex = TAB_INDICES[newNav];
+    setDirection(getDirection(fromIndex, toIndex));
+    setActiveNav(newNav);
+  };
+
+  // Page transition variants (camera-pan)
+  const pageVariants = {
+    enter: (direction: string) => ({
+      x: direction === 'left' ? '100vw' : direction === 'right' ? '-100vw' : 0,
+      opacity: 0,
+    }),
+    center: { x: 0, opacity: 1 },
+    exit: (direction: string) => ({
+      x: direction === 'left' ? '-100vw' : direction === 'right' ? '100vw' : 0,
+      opacity: 0,
+    }),
+  };
+
+  // ... rest of component with AnimatePresence
+}
 ```
+
+### Step 0.3: Enhance BottomNav
+
+Add spring indicator with layoutId for shared element transition:
+
+```typescript
+// In BottomNav.tsx
+<motion.div
+  layoutId="bottomNavActive"
+  className="absolute inset-0 bg-white/10 rounded-xl"
+  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+/>
+```
+
+### Deliverables
+- `src/contexts/tab-transition-context.tsx`
+- `src/contexts/capture-context.tsx`
+- `src/App.tsx` (refactored with camera-pan)
+- `src/components/BottomNav.tsx` (enhanced)
 
 ---
 

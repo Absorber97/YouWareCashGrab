@@ -1,0 +1,441 @@
+{
+  "$schema": "workflow-plan-v2",
+  "metadata": {
+    "name": "YouSoul Implementation - Clarity-First Approach",
+    "version": "2.0.0",
+    "created": "2025-12-22T21:00:00Z",
+    "updated": "2025-12-22T21:00:00Z",
+    "deadline": "2025-12-24T08:00:00Z",
+    "hoursRemaining": 35,
+    "author": "Factory Droid",
+    "strategy": "YouWare Foundation + Clarity UX + YouSoul Mood"
+  },
+
+  "approach": {
+    "insight": "Don't rewrite from scratch. Port Clarity's exact UI/UX to YouWare's existing Vite SPA structure.",
+    "formula": {
+      "base": "YouWare Foundation (Vite SPA, EdgeSpark, Zustand)",
+      "ux": "Craftie Clarity (Schedule-X, camera-pan, glassmorphic)",
+      "unique": "YouSoul (mood system, completion celebration)"
+    },
+    "benefits": [
+      "Leverage existing YouWare codebase (auth, API, stores)",
+      "Get Clarity's proven UX patterns",
+      "Add YouSoul's unique emotional features"
+    ]
+  },
+
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Clarity Shell Port",
+      "duration": "2 hours",
+      "status": "pending",
+      "description": "Port Clarity's layout/transition patterns to YouWare App.tsx",
+      "steps": [
+        {
+          "id": "0.1",
+          "name": "Create contexts",
+          "files": [
+            "src/contexts/tab-transition-context.tsx",
+            "src/contexts/capture-context.tsx"
+          ],
+          "source": "lib/clarity/tab-transition-context.tsx, capture-context.tsx"
+        },
+        {
+          "id": "0.2",
+          "name": "Refactor App.tsx structure",
+          "changes": [
+            "Wrap with context providers",
+            "Separate layout (Aurora, BottomNav) from animated content",
+            "Add AnimatePresence for view transitions"
+          ]
+        },
+        {
+          "id": "0.3",
+          "name": "Enhance BottomNav",
+          "file": "src/components/BottomNav.tsx",
+          "changes": [
+            "Add layoutId='bottomNavActive' for spring indicator",
+            "Wire to TabTransitionContext for direction tracking",
+            "Use Clarity's exact spring config"
+          ]
+        },
+        {
+          "id": "0.4",
+          "name": "Add camera-pan transitions",
+          "pattern": {
+            "direction_left": "x: 100vw → 0 (tab index increasing)",
+            "direction_right": "x: -100vw → 0 (tab index decreasing)",
+            "config": { "duration": 0.5, "ease": [0.32, 0.72, 0, 1] }
+          }
+        }
+      ],
+      "deliverables": [
+        "src/contexts/tab-transition-context.tsx",
+        "src/contexts/capture-context.tsx",
+        "src/App.tsx (refactored)",
+        "src/components/BottomNav.tsx (enhanced)"
+      ]
+    },
+    {
+      "id": "phase-1",
+      "name": "Schedule-X Calendar Integration",
+      "duration": "2 hours",
+      "status": "pending",
+      "description": "Replace basic CalendarView with full Schedule-X from Clarity",
+      "dependencies": ["phase-0"],
+      "steps": [
+        {
+          "id": "1.1",
+          "name": "Install Schedule-X dependencies",
+          "command": "pnpm add @schedule-x/react @schedule-x/calendar @schedule-x/drag-and-drop @schedule-x/resize @schedule-x/calendar-controls @schedule-x/events-service @schedule-x/theme-default temporal-polyfill"
+        },
+        {
+          "id": "1.2",
+          "name": "Create ScheduleCalendar component",
+          "file": "src/components/ScheduleCalendar.tsx",
+          "source": "components/clarity/calendar/schedule-calendar.tsx",
+          "features": [
+            "temporal-polyfill import FIRST",
+            "Day/Week/Month views",
+            "Drag-drop reschedule",
+            "Resize duration",
+            "All-day vs timed events",
+            "Click vs drag detection",
+            "Custom gold accent theme"
+          ]
+        },
+        {
+          "id": "1.3",
+          "name": "Create ViewSwitcher component",
+          "file": "src/components/ViewSwitcher.tsx",
+          "source": "components/clarity/calendar/view-switcher.tsx"
+        },
+        {
+          "id": "1.4",
+          "name": "Create calendar events hook",
+          "file": "src/hooks/use-calendar-events.ts",
+          "purpose": "Transform tasks to Schedule-X event format"
+        },
+        {
+          "id": "1.5",
+          "name": "Wire to tasksStore",
+          "changes": [
+            "Create event → createTask",
+            "Move event → updateTask (dueDate/dueTime)",
+            "Resize event → updateTask (dueTime)",
+            "Delete event → deleteTask"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/ScheduleCalendar.tsx",
+        "src/components/ViewSwitcher.tsx",
+        "src/hooks/use-calendar-events.ts"
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "Enhanced Kanban Board",
+      "duration": "1.5 hours",
+      "status": "pending",
+      "description": "Enhance KanbanBoard with Clarity's patterns",
+      "dependencies": ["phase-0"],
+      "steps": [
+        {
+          "id": "2.1",
+          "name": "Create Column component",
+          "file": "src/components/Column.tsx",
+          "source": "components/clarity/board/column.tsx",
+          "features": [
+            "SortableContext wrapper",
+            "Column header with task count",
+            "Colored top border based on status"
+          ]
+        },
+        {
+          "id": "2.2",
+          "name": "Create TaskCard component",
+          "file": "src/components/TaskCard.tsx",
+          "source": "components/clarity/board/task-card.tsx",
+          "features": [
+            "useSortable hook",
+            "Glassmorphic styling",
+            "Priority indicator",
+            "Due date/time display",
+            "MoodBadge integration"
+          ]
+        },
+        {
+          "id": "2.3",
+          "name": "Enhance KanbanBoard",
+          "file": "src/components/KanbanBoard.tsx",
+          "changes": [
+            "Use new Column and TaskCard",
+            "Add swimlane grouping (optional)",
+            "Keep fractional ordering",
+            "Trigger CompletionCelebration on drop to Done"
+          ]
+        },
+        {
+          "id": "2.4",
+          "name": "Create Swimlane component",
+          "file": "src/components/Swimlane.tsx",
+          "optional": true,
+          "features": [
+            "Group by priority/date",
+            "Collapsible sections"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/Column.tsx",
+        "src/components/TaskCard.tsx",
+        "src/components/KanbanBoard.tsx (enhanced)",
+        "src/components/Swimlane.tsx (optional)"
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Capture Modal",
+      "duration": "1 hour",
+      "status": "pending",
+      "description": "Port Clarity's CreateItemModal with YouSoul mood picker",
+      "dependencies": ["phase-0"],
+      "steps": [
+        {
+          "id": "3.1",
+          "name": "Create CreateItemModal",
+          "file": "src/components/CreateItemModal.tsx",
+          "source": "components/clarity/capture/create-item-modal.tsx",
+          "features": [
+            "Glassmorphic modal design",
+            "Title input (required)",
+            "Due date picker",
+            "Time toggle + time picker",
+            "Status selector",
+            "Priority selector",
+            "MoodPicker (YouSoul addition)"
+          ]
+        },
+        {
+          "id": "3.2",
+          "name": "Wire to CaptureContext",
+          "changes": [
+            "Open via + button in BottomNav",
+            "Close on save or cancel",
+            "Create task via tasksStore"
+          ]
+        },
+        {
+          "id": "3.3",
+          "name": "Add edit mode",
+          "changes": [
+            "CaptureContext tracks editingTask",
+            "Pre-fill form when editing",
+            "Update task via tasksStore"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/CreateItemModal.tsx"
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Mood System (YouSoul Unique)",
+      "duration": "1.5 hours",
+      "status": "pending",
+      "description": "Add YouSoul's unique mood tracking features",
+      "dependencies": ["phase-3"],
+      "steps": [
+        {
+          "id": "4.1",
+          "name": "Create MoodPicker component",
+          "file": "src/components/MoodPicker.tsx",
+          "features": [
+            "Horizontal row of 5 moods",
+            "Bounce animation on hover",
+            "Pulse animation on select",
+            "Support for anticipated and completed moods"
+          ]
+        },
+        {
+          "id": "4.2",
+          "name": "Verify MoodBadge",
+          "file": "src/components/MoodBadge.tsx",
+          "status": "EXISTS",
+          "check": "Ensure it uses MOOD_CONFIG correctly"
+        },
+        {
+          "id": "4.3",
+          "name": "Create CompletionCelebration modal",
+          "file": "src/components/CompletionCelebration.tsx",
+          "features": [
+            "Trigger when task moves to Done",
+            "Gentle confetti animation",
+            "Warm message: 'You did it!'",
+            "Completed mood picker",
+            "Optional reflection note",
+            "Save and close"
+          ]
+        },
+        {
+          "id": "4.4",
+          "name": "Add mood coloring",
+          "changes": [
+            "Calendar: 3px left border from anticipated_mood",
+            "Kanban: MoodBadge in TaskCard corner"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/components/MoodPicker.tsx",
+        "src/components/CompletionCelebration.tsx",
+        "Mood coloring on calendar events and kanban cards"
+      ]
+    },
+    {
+      "id": "phase-5",
+      "name": "Polish & Demo Data",
+      "duration": "1 hour",
+      "status": "pending",
+      "description": "Final polish and demo data for submission",
+      "dependencies": ["phase-1", "phase-2", "phase-3", "phase-4"],
+      "steps": [
+        {
+          "id": "5.1",
+          "name": "Create demo tasks",
+          "file": "src/data/demo-tasks.ts",
+          "features": [
+            "10-15 realistic tasks",
+            "Mix of statuses and priorities",
+            "Various anticipated moods",
+            "Some completed with moods/reflections"
+          ]
+        },
+        {
+          "id": "5.2",
+          "name": "Add demo user",
+          "file": "src/data/demo-user.ts"
+        },
+        {
+          "id": "5.3",
+          "name": "Final styling polish",
+          "checks": [
+            "Glassmorphic consistency",
+            "Animation smoothness",
+            "Responsive layout",
+            "Dark mode consistency"
+          ]
+        },
+        {
+          "id": "5.4",
+          "name": "Test full flow",
+          "tests": [
+            "Create task with mood",
+            "Drag task to Done → celebration",
+            "Calendar drag/resize",
+            "Kanban reorder"
+          ]
+        }
+      ],
+      "deliverables": [
+        "src/data/demo-tasks.ts",
+        "src/data/demo-user.ts",
+        "Polished, tested app"
+      ]
+    },
+    {
+      "id": "phase-6",
+      "name": "YouWare Deployment",
+      "duration": "30 min",
+      "status": "pending",
+      "description": "Deploy to YouWare platform",
+      "dependencies": ["phase-5"],
+      "steps": [
+        {
+          "id": "6.1",
+          "name": "Build for production",
+          "command": "pnpm build"
+        },
+        {
+          "id": "6.2",
+          "name": "Deploy to YouWare",
+          "method": "Upload via YouWare platform"
+        },
+        {
+          "id": "6.3",
+          "name": "Test deployed app",
+          "checks": [
+            "Auth works",
+            "CRUD works",
+            "Animations smooth"
+          ]
+        },
+        {
+          "id": "6.4",
+          "name": "Submit to challenge",
+          "platform": "Contra #YouWareChallenge"
+        }
+      ],
+      "deliverables": [
+        "Deployed YouSoul app",
+        "Submission to challenge"
+      ]
+    }
+  ],
+
+  "totalEstimatedTime": {
+    "phase0": "2 hours",
+    "phase1": "2 hours",
+    "phase2": "1.5 hours",
+    "phase3": "1 hour",
+    "phase4": "1.5 hours",
+    "phase5": "1 hour",
+    "phase6": "0.5 hours",
+    "total": "9.5 hours",
+    "buffer": "2.5 hours",
+    "deadline": "35 hours remaining"
+  },
+
+  "parallelization": {
+    "canRunInParallel": [
+      ["phase-1", "phase-2", "phase-3"],
+      ["phase-4 (after phase-3)"]
+    ],
+    "notes": "After phase-0, calendar/kanban/capture can be built in parallel"
+  },
+
+  "criticalPath": [
+    "phase-0 (required for all)",
+    "phase-3 (MoodPicker needed for phase-4)",
+    "phase-4 (unique differentiator)",
+    "phase-5 (polish)",
+    "phase-6 (deploy)"
+  ],
+
+  "riskMitigation": {
+    "scheduleXComplexity": "If Schedule-X takes longer, keep basic calendar and enhance later",
+    "animationBugs": "Fallback to simpler transitions if camera-pan has issues",
+    "timeOverrun": "Prioritize core features (calendar + kanban + mood), skip swimlanes if needed"
+  },
+
+  "successCriteria": [
+    "Camera-pan page transitions (Clarity feel)",
+    "Schedule-X calendar with drag-drop",
+    "Kanban board with spring physics",
+    "Mood picker in task creation",
+    "Completion celebration on task done",
+    "Mood-colored borders/badges",
+    "Glassmorphic dark UI",
+    "Working auth and data persistence"
+  ],
+
+  "references": {
+    "clarityContext": "/Users/oak/Downloads/Core/Dev/Craft/oak-management/artifacts/clarity-documentation/clarity-context.json",
+    "youwareIndex": "oak-management/artifacts/codebase-index/youware-source-index.json",
+    "mapping": "oak-management/phases/clarity-youware-mapping.json"
+  }
+}
